@@ -74,4 +74,53 @@ class RouterTests: XCTestCase {
         XCTAssertEqual(namedRoutes.count, 2)
         XCTAssertEqual(fakeRoutes.count, 0)
     }
+    
+    func testEvaluateURLAgainstSingleRouteComponent() {
+        let router = Router()
+        let handlerExpectation = expectationWithDescription("route handler should run")
+        
+        router.register(Route("walmart.com", type: .Other) { variable in
+            handlerExpectation.fulfill()
+            return nil
+        })
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/foo/bar")!)
+        
+        waitForExpectationsWithTimeout(2.0, handler: nil)
+    }
+    
+    // TODO: make this test pass
+    func testEvaluateURLAgainstSingleVariableComponent() {
+        let router = Router()
+        let handlerExpectation = expectationWithDescription("route handler should run")
+        
+        router.register(Route("walmart.com", type: .Other).variable() { variable in
+            XCTAssertNotNil(variable)
+            XCTAssertEqual(variable!, "12345")
+            
+            handlerExpectation.fulfill()
+            return nil
+        })
+        
+        
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/12345")!)
+        
+        waitForExpectationsWithTimeout(2.0, handler: nil)
+    }
+    
+    // TODO: make this test pass
+    func testEvaluateURLAgainstMultipleRouteComponents() {
+        let router = Router()
+        let handlerExpectation = expectationWithDescription("route handler should run")
+        
+        router.register(Route("walmart.com", type: .Other).route("item", type: .Other).variable() { variable in
+            XCTAssertNotNil(variable)
+            XCTAssertEqual(variable!, "12345")
+            handlerExpectation.fulfill()
+            return nil
+        })
+        
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345")!)
+        
+        waitForExpectationsWithTimeout(2.0, handler: nil)
+    }
 }
