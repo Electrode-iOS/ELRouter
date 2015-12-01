@@ -20,6 +20,23 @@ public class Router: NSObject {
         if route.name != nil {
             routes.append(route)
         }
+        
+        // if it's a .Tab route, we need to refresh the tabBarController.
+        if route.type == .Tab {
+            if let tabBarController = self.tabBarController {
+                let tabRoutes = routesByType(.Tab)
+                
+                var controllers = [UIViewController]()
+                for route in tabRoutes {
+                    let vc = route.execute(false)
+                    if let vc = vc {
+                        controllers.append(vc)
+                    }
+                }
+                
+                tabBarController.setViewControllers(controllers, animated: false)
+            }
+        }
     }
     
     public func translate(from: String, to: String) {
