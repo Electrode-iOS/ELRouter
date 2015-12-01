@@ -78,7 +78,7 @@ extension Router {
     
     public func routesByType(type: RoutingType) -> [Route] {
         let result = routes.filter { (item) -> Bool in
-            if item.type == .Tab {
+            if item.type == type {
                 return true
             } else {
                 return false
