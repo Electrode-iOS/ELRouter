@@ -29,6 +29,8 @@ public extension NSURL {
             }
             
             components.appendContentsOf(filtered)
+            
+            return components
         }
         
         return nil
