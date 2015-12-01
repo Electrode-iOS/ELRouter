@@ -54,8 +54,6 @@ class TabBarControllerTests: XCTestCase {
             return UINavigationController(rootViewController: vc)
         })
         
-        
-        router.staticNavigator?.viewControllers = findTabBarViewControllers()
         router.evaluate(["tabTwo"])
         
         waitForExpectationsWithTimeout(2.0) { error in
