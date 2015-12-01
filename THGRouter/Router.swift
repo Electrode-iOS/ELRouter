@@ -12,7 +12,9 @@ import THGFoundation
 /// 
 @objc
 public class Router: NSObject {
-    public let sharedInstance = Router()
+    static public let sharedInstance = Router()
+    
+    public var tabBarController: UITabBarController? = nil
     
     public func register(route: Route) {
         if route.name != nil {
@@ -30,19 +32,59 @@ public class Router: NSObject {
     }
     
     public func evaluateURL(url: NSURL) {
-        if let components = url.pathComponents {
+        if let components = url.deepLinkComponents {
             evaluate(components)
         }
     }
     
     public func evaluate(components: [String]) {
+        var route: Route? = nil
         for i in 0..<components.count {
             let item = components[i]
-            print(item)
+            if i == 0 {
+                let routes = routesByName(item)
+                // TODO: Handle multiple routes coming back.
+                if routes.count > 0 {
+                    route = routes[0]
+                    route?.execute(false)
+                } else {
+                    break
+                }
+            } else {
+                // TODO: Fill this in.
+            }
         }
     }
     
-    private var routes = [Route]()
+    public private(set) var routes = [Route]()
     
     private var translation = [String : String]()
+}
+
+
+extension Router {
+    
+    public func routesByName(name: String) -> [Route] {
+        let result = routes.filter { (item) -> Bool in
+            if item.name == name {
+                return true
+            } else {
+                return false
+            }
+        }
+        
+        return result
+    }
+    
+    public func routesByType(type: RoutingType) -> [Route] {
+        let result = routes.filter { (item) -> Bool in
+            if item.type == .Tab {
+                return true
+            } else {
+                return false
+            }
+        }
+        return result
+    }
+    
 }

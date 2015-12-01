@@ -1,5 +1,5 @@
 //
-//  UINavigationController+Route.swift
+//  UINavigationController+Router.swift
 //  THGRouter
 //
 //  Created by Brandon Sneed on 10/15/15.
@@ -10,5 +10,4 @@ import Foundation
 import UIKit
 
 extension UINavigationController {
-    
 }

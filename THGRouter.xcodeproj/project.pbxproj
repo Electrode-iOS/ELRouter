@@ -10,7 +10,7 @@
 		177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */; };
 		CA3930DF1BD011E90021CD95 /* THGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* THGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
-		CA39312C1BD015830021CD95 /* UINavigationController+Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* UINavigationController+Route.swift */; };
+		CA39312C1BD015830021CD95 /* UINavigationController+Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* UINavigationController+Router.swift */; };
 		CA39312E1BD054EE0021CD95 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312D1BD054EE0021CD95 /* Router.swift */; };
 		CA39313F1BD59A370021CD95 /* THGRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39313E1BD59A370021CD95 /* THGRouterTests.swift */; };
 		CA3931411BD59A370021CD95 /* THGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3930DB1BD011E90021CD95 /* THGRouter.framework */; };
@@ -61,7 +61,7 @@
 		CA3930DE1BD011E90021CD95 /* THGRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THGRouter.h; sourceTree = "<group>"; };
 		CA3930E01BD011E90021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA3931261BD014A60021CD95 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
-		CA39312B1BD015830021CD95 /* UINavigationController+Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Route.swift"; sourceTree = "<group>"; };
+		CA39312B1BD015830021CD95 /* UINavigationController+Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Router.swift"; sourceTree = "<group>"; };
 		CA39312D1BD054EE0021CD95 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		CA39313C1BD59A370021CD95 /* THGRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = THGRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA39313E1BD59A370021CD95 /* THGRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = THGRouterTests.swift; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 				CA3931261BD014A60021CD95 /* Route.swift */,
 				CA39312D1BD054EE0021CD95 /* Router.swift */,
 				CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */,
-				CA39312B1BD015830021CD95 /* UINavigationController+Route.swift */,
+				CA39312B1BD015830021CD95 /* UINavigationController+Router.swift */,
 			);
 			path = THGRouter;
 			sourceTree = "<group>";
@@ -296,7 +296,7 @@
 				CA3931271BD014A60021CD95 /* Route.swift in Sources */,
 				CA39312E1BD054EE0021CD95 /* Router.swift in Sources */,
 				CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */,
-				CA39312C1BD015830021CD95 /* UINavigationController+Route.swift in Sources */,
+				CA39312C1BD015830021CD95 /* UINavigationController+Router.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

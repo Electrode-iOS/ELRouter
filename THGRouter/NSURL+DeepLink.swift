@@ -34,12 +34,12 @@ public extension NSURL {
         return nil
     }
     
-    public var queryAsPairsif : [String : String]? {
+    /*public var queryAsPairsif : [String : String]? {
         if let query = query {
             let components = query.componentsSeparatedByString("&")
             
         }
         
         return nil
-    }
+    }*/
 }
