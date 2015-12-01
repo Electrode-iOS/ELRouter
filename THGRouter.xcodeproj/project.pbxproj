@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */; };
+		1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F02D1C0E00AB0039ED7F /* RouterTests.swift */; };
 		177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */; };
 		CA3930DF1BD011E90021CD95 /* THGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* THGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
@@ -56,6 +58,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarControllerTests.swift; sourceTree = "<group>"; };
+		1714F02D1C0E00AB0039ED7F /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGFoundation.xcodeproj; path = ../Excalibur/THGFoundation.xcodeproj; sourceTree = "<group>"; };
 		CA3930DB1BD011E90021CD95 /* THGRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THGRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3930DE1BD011E90021CD95 /* THGRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THGRouter.h; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				CA39313E1BD59A370021CD95 /* THGRouterTests.swift */,
+				1714F02D1C0E00AB0039ED7F /* RouterTests.swift */,
+				1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */,
 				CA3931401BD59A370021CD95 /* Info.plist */,
 			);
 			path = THGRouterTests;
@@ -305,6 +311,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA39313F1BD59A370021CD95 /* THGRouterTests.swift in Sources */,
+				1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */,
+				1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
