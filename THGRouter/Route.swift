@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-public typealias RouteActionCompletion = () -> Void
+//public typealias RouteActionCompletion = () -> Void
 public typealias RouteActionClosure = (variable: String?) -> UIViewController?
 
 @objc
 public enum RoutingType: UInt {
-    case Tab
+    case Static
     case Screen
     case Modal
     case Variable
@@ -37,24 +37,12 @@ public class Route: NSObject {
         self.name = name
         self.type = type
         self.action = action
-        
-        if self.type == .Tab {
-            self.isStatic = true
-        } else {
-            self.isStatic = false
-        }
     }
     
     internal init(type: RoutingType, action: RouteActionClosure! = nil) {
         self.name = nil
         self.type = type
         self.action = action
-        
-        if self.type == .Tab {
-            self.isStatic = true
-        } else {
-            self.isStatic = false
-        }
     }
     
     public func variable(action: RouteActionClosure! = nil) -> Route {
@@ -75,14 +63,14 @@ public class Route: NSObject {
         if let action = self.action {
             if (staticValue != nil) {
                 result = staticValue
-                if let tabBarController = Router.sharedInstance.tabBarController {
-                    tabBarController.selectedViewController = staticValue
+                if let navigator = Router.sharedInstance.staticNavigator {
+                    navigator.selectedViewController = staticValue
                 }
             } else {
                 result = action(variable: variable)
                 
                 switch(type) {
-                case .Tab:
+                case .Static:
                     // do nothing.  tab's are handled slightly differently above.
                     // TODO: say some meaningful shit about why this works this way.
                     staticValue = result
@@ -105,6 +93,5 @@ public class Route: NSObject {
         return result
     }
     
-    private let isStatic: Bool
     private weak var staticValue: UIViewController? = nil
 }

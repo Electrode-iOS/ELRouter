@@ -14,17 +14,17 @@ import THGFoundation
 public class Router: NSObject {
     static public let sharedInstance = Router()
     
-    public var tabBarController: UITabBarController? = nil
+    public var staticNavigator: StaticNavigator? = nil
     
     public func register(route: Route) {
         if route.name != nil {
             routes.append(route)
         }
         
-        // if it's a .Tab route, we need to refresh the tabBarController.
-        if route.type == .Tab {
-            if let tabBarController = self.tabBarController {
-                let tabRoutes = routesByType(.Tab)
+        // if it's a .Static route, we need to refresh the StaticNavigator.
+        if route.type == .Static {
+            if let navigator = staticNavigator {
+                let tabRoutes = routesByType(.Static)
                 
                 var controllers = [UIViewController]()
                 for route in tabRoutes {
@@ -34,7 +34,7 @@ public class Router: NSObject {
                     }
                 }
                 
-                tabBarController.setViewControllers(controllers, animated: false)
+                navigator.setViewControllers(controllers, animated: false)
             }
         }
     }

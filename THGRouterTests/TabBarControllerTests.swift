@@ -17,7 +17,7 @@ class TabBarControllerTests: XCTestCase {
         super.setUp()
         
         tabBarController = UITabBarController(nibName: nil, bundle: nil)
-        Router.sharedInstance.tabBarController = tabBarController
+        Router.sharedInstance.staticNavigator = tabBarController
     }
     
     override func tearDown() {
@@ -25,7 +25,7 @@ class TabBarControllerTests: XCTestCase {
     }
     
     func findTabBarViewControllers() -> [UIViewController] {
-        let tabRoutes = Router.sharedInstance.routesByType(.Tab)
+        let tabRoutes = Router.sharedInstance.routesByType(.Static)
         
         var result = [UIViewController]()
         for route in tabRoutes {
@@ -42,25 +42,25 @@ class TabBarControllerTests: XCTestCase {
         let router = Router.sharedInstance
         let tabTwoExpectation = expectationWithDescription("route handler should run")
 
-        router.register(Route("tabOne", type: .Tab) { (variable) in
+        router.register(Route("tabOne", type: .Static) { (variable) in
             XCTAssertTrue(true, "Tab one handler should not be run when evaluating tab two")
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Tab) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { (variable) in
             tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
         
-        router.tabBarController?.viewControllers = findTabBarViewControllers()
+        router.staticNavigator?.viewControllers = findTabBarViewControllers()
         router.evaluate(["tabTwo"])
         
         waitForExpectationsWithTimeout(2.0) { error in
-            XCTAssertNotNil(router.tabBarController)
-            XCTAssertEqual(router.tabBarController!.selectedIndex, 1)
+            XCTAssertNotNil(router.staticNavigator)
+            XCTAssertEqual(router.staticNavigator!.selectedIndex, 1)
         }
     }
     

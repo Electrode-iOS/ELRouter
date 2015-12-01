@@ -69,7 +69,7 @@ class RouterTests: XCTestCase {
         })
         
         let namedRoutes = router.routesByType(.Other)
-        let fakeRoutes = router.routesByType(.Tab)
+        let fakeRoutes = router.routesByType(.Static)
         
         XCTAssertEqual(namedRoutes.count, 2)
         XCTAssertEqual(fakeRoutes.count, 0)
