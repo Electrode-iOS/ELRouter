@@ -124,3 +124,26 @@ class RouterTests: XCTestCase {
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
 }
+
+// MARK: - Evaluate Tests
+
+extension Router {
+    func test_evaluate_returnsTrueForHandledURL() {
+        let router = Router()
+        
+        router.register(Route("walmart.com", type: .Other) { variable in
+            return nil
+        })
+        
+        
+        let routeWasHandled = router.evaluate(["walmart.com"])
+        XCTAssertTrue(routeWasHandled)
+    }
+    
+    func test_evaluate_returnsFalseForUnhandledURL() {
+        let router = Router()
+        
+        let routeWasHandled = router.evaluate(["walmart.com"])
+        XCTAssertFalse(routeWasHandled)
+    }
+}
