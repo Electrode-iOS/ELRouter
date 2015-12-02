@@ -8,11 +8,35 @@ Maynard depends on [`THGFoundation.framework`](https://github.com/TheHolyGrail/E
 
 ## Installation
 
-TODO
+Install by adding `THGRouter.xcodeproj` to your project and configuring your target to link `THGRouter.framework`.
 
 ## Usage
 
-TODO
+
+### Static Routes
+
+Use static routes to manage URL routing with a `UITabBarController`.
+
+```
+// configure router to use UITabBarController for static navigation
+let router = Router.sharedInstance
+router.staticNavigator = UITabBarController(nibName: nil, bundle: nil)
+
+// register routes for opening tabs
+router.register(Route("home", type: .Static) { variable in
+    let vc = HomeTabViewController(nibName: nil, bundle: nil)
+    return UINavigationController(rootViewController: vc)
+})
+
+router.register(Route("more", type: .Static) { variable in
+    let vc = MoreTabViewController(nibName: nil, bundle: nil)
+    return UINavigationController(rootViewController: vc)
+})
+
+// evaluate a matching URL
+let url = NSURL(string: "myapp://more")
+router.evaluateURL(url)
+```
 
 ## Contributions
 
