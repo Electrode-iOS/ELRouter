@@ -24,20 +24,6 @@ class TabBarControllerTests: XCTestCase {
         super.tearDown()
     }
     
-    func findTabBarViewControllers() -> [UIViewController] {
-        let tabRoutes = Router.sharedInstance.routesByType(.Static)
-        
-        var result = [UIViewController]()
-        for route in tabRoutes {
-            let vc = route.execute(false)
-            if let vc = vc {
-                result.append(vc)
-            }
-        }
-        
-        return result
-    }
-    
     func testSelectedTabRoute() {
         let router = Router.sharedInstance
         let tabTwoExpectation = expectationWithDescription("route handler should run")
