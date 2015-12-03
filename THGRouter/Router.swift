@@ -53,23 +53,6 @@ extension Router {
         if route.name != nil {
             routes.append(route)
         }
-        
-        // if it's a .Static route, we need to refresh the StaticNavigator.
-        if route.type == .Static {
-            /*if let navigator = staticNavigator {
-                let tabRoutes = routesByType(.Static)
-                
-                var controllers = [UIViewController]()
-                for route in tabRoutes {
-                    let vc = route.execute(false)
-                    if let vc = vc {
-                        controllers.append(vc)
-                    }
-                }
-                
-                navigator.setViewControllers(controllers, animated: false)
-            }*/
-        }
     }
 }
 
