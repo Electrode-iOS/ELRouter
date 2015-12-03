@@ -60,34 +60,49 @@ public class Route: NSObject {
     public func execute(animated: Bool, variable: String? = nil) -> UIViewController? {
         var result: UIViewController? = nil
         
-        if let action = self.action {
-            if (staticValue != nil) {
-                result = staticValue
-                if let navigator = Router.sharedInstance.navigator {
+        if let navigator = Router.sharedInstance.navigator {
+            if let action = self.action {
+                if (staticValue != nil) {
+                    result = staticValue
                     navigator.selectedViewController = staticValue
+                } else {
+                    result = action(variable: variable)
+                    
+                    let navController = navigator.selectedViewController as? UINavigationController
+                    
+                    switch(type) {
+                    case .Static:
+                        // do nothing.  tab's are handled slightly differently above.
+                        // TODO: say some meaningful shit about why this works this way.
+                        staticValue = result
+                        break
+                        
+                    case .Screen:
+                        if let vc = result {
+                            navController?.pushViewController(vc, animated: animated)
+                        }
+                        break
+                        
+                    case .Modal:
+                        if let vc = result {
+                            if navController?.topViewController?.presentedViewController != nil {
+                                navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
+                                    // do something in the completion block?
+                                }
+                            } else {
+                                navController?.topViewController?.presentViewController(vc, animated: animated) {
+                                    // do something in the completion block?
+                                }
+                            }
+                        }
+                        break
+                        
+                    default:
+                        break
+                    }
+                    
                 }
-            } else {
-                result = action(variable: variable)
-                
-                switch(type) {
-                case .Static:
-                    // do nothing.  tab's are handled slightly differently above.
-                    // TODO: say some meaningful shit about why this works this way.
-                    staticValue = result
-                    break
-                    
-                case .Screen:
-                    break
-                    
-                case .Modal:
-                    break
-                    
-                default:
-                    break
-                }
-                
             }
-
         }
         
         return result
