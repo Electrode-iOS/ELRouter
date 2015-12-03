@@ -64,7 +64,9 @@ public class Route: NSObject {
             if let action = self.action {
                 if (staticValue != nil) {
                     result = staticValue
-                    navigator.selectedViewController = staticValue
+                    if let navigator = parentRouter?.navigator {
+                        navigator.selectedViewController = staticValue
+                    }
                 } else {
                     result = action(variable: variable)
                     
@@ -109,4 +111,5 @@ public class Route: NSObject {
     }
     
     private weak var staticValue: UIViewController? = nil
+    internal weak var parentRouter: Router?
 }
