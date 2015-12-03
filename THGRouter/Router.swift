@@ -43,6 +43,8 @@ extension Router {
             
             navigator.setViewControllers(controllers, animated: false)
         }
+        
+        
     }
 }
 
@@ -50,6 +52,8 @@ extension Router {
 
 extension Router {
     public func register(route: Route) {
+        route.parentRouter = self
+        
         if route.name != nil {
             routes.append(route)
         }
@@ -99,26 +103,10 @@ extension Router {
 
 extension Router {
     public func routesByName(name: String) -> [Route] {
-        let result = routes.filter { (item) -> Bool in
-            if item.name == name {
-                return true
-            } else {
-                return false
-            }
-        }
-        
-        return result
+        return routes.filter { $0.name == name }
     }
     
     public func routesByType(type: RoutingType) -> [Route] {
-        let result = routes.filter { (item) -> Bool in
-            if item.type == type {
-                return true
-            } else {
-                return false
-            }
-        }
-        return result
+        return routes.filter { $0.type == type }
     }
-    
 }

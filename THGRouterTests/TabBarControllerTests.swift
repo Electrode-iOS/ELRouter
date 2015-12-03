@@ -17,7 +17,7 @@ class TabBarControllerTests: XCTestCase {
         super.setUp()
         
         tabBarController = UITabBarController(nibName: nil, bundle: nil)
-        Router.sharedInstance.staticNavigator = tabBarController
+        Router.sharedInstance.navigator = tabBarController
     }
     
     override func tearDown() {
@@ -40,11 +40,13 @@ class TabBarControllerTests: XCTestCase {
             return UINavigationController(rootViewController: vc)
         })
         
+        router.updateNavigator()
+        
         router.evaluate(["tabTwo"])
         
         waitForExpectationsWithTimeout(2.0) { error in
-            XCTAssertNotNil(router.staticNavigator)
-            XCTAssertEqual(router.staticNavigator!.selectedIndex, 1)
+            XCTAssertNotNil(router.navigator)
+            XCTAssertEqual(router.navigator!.selectedIndex, 1)
         }
     }
     
