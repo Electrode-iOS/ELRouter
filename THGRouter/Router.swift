@@ -13,7 +13,7 @@ import THGFoundation
 @objc
 public class Router: NSObject {
     static public let sharedInstance = Router()
-    public var staticNavigator: StaticNavigator? = nil
+    public var navigator: Navigator? = nil
     public private(set) var routes = [Route]()
     
     private var translation = [String : String]()
@@ -28,6 +28,24 @@ public class Router: NSObject {
     }
 }
 
+extension Router {
+    public func updateNavigator() {
+        if let navigator = navigator {
+            let tabRoutes = routesByType(.Static)
+            
+            var controllers = [UIViewController]()
+            for route in tabRoutes {
+                let vc = route.execute(false)
+                if let vc = vc {
+                    controllers.append(vc)
+                }
+            }
+            
+            navigator.setViewControllers(controllers, animated: false)
+        }
+    }
+}
+
 // MARK: - Registering Routes
 
 extension Router {
@@ -38,7 +56,7 @@ extension Router {
         
         // if it's a .Static route, we need to refresh the StaticNavigator.
         if route.type == .Static {
-            if let navigator = staticNavigator {
+            /*if let navigator = staticNavigator {
                 let tabRoutes = routesByType(.Static)
                 
                 var controllers = [UIViewController]()
@@ -50,7 +68,7 @@ extension Router {
                 }
                 
                 navigator.setViewControllers(controllers, animated: false)
-            }
+            }*/
         }
     }
 }
@@ -67,24 +85,30 @@ extension Router {
         var route: Route? = nil
         var routeWasExecuted = false
         
-        for i in 0..<components.count {
-            let item = components[i]
-            if i == 0 {
-                let routes = routesByName(item)
-                // TODO: Handle multiple routes coming back.
-                if routes.count > 0 {
-                    route = routes[0]
-                    route?.execute(false)
-                    routeWasExecuted = true
+        if validate(components) {
+            for i in 0..<components.count {
+                let item = components[i]
+                if i == 0 {
+                    let routes = routesByName(item)
+                    // TODO: Handle multiple routes coming back.
+                    if routes.count > 0 {
+                        route = routes[0]
+                        route?.execute(false)
+                        routeWasExecuted = true
+                    } else {
+                        break
+                    }
                 } else {
-                    break
+                    // TODO: Fill this in.
                 }
-            } else {
-                // TODO: Fill this in.
             }
         }
         
         return routeWasExecuted
+    }
+    
+    private func validate(components: [String]) -> Bool {
+        return true
     }
 }
 

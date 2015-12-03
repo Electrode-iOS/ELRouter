@@ -1,5 +1,5 @@
 //
-//  StaticNavigator.swift
+//  Navigator.swift
 //  THGRouter
 //
 //  Created by Brandon Sneed on 12/1/15.
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 @objc
-public protocol StaticNavigator {
+public protocol Navigator {
     var selectedViewController: UIViewController? { get set }
     var selectedIndex: Int { get set }
     
@@ -18,6 +18,6 @@ public protocol StaticNavigator {
 }
 
 
-extension UITabBarController: StaticNavigator {
+extension UITabBarController: Navigator {
     // UITabBarController has the necessary stuff to conform to this already.
 }

@@ -18,7 +18,7 @@
 		CA39313F1BD59A370021CD95 /* THGRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39313E1BD59A370021CD95 /* THGRouterTests.swift */; };
 		CA3931411BD59A370021CD95 /* THGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3930DB1BD011E90021CD95 /* THGRouter.framework */; };
 		CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */; };
-		CAEFB34E1C0E16E200B94EE8 /* StaticNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEFB34D1C0E16E200B94EE8 /* StaticNavigator.swift */; };
+		CAEFB34E1C0E16E200B94EE8 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,7 +74,7 @@
 		CA39313E1BD59A370021CD95 /* THGRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = THGRouterTests.swift; sourceTree = "<group>"; };
 		CA3931401BD59A370021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+DeepLink.swift"; sourceTree = "<group>"; };
-		CAEFB34D1C0E16E200B94EE8 /* StaticNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StaticNavigator.swift; sourceTree = "<group>"; };
+		CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +134,7 @@
 				CA3930E01BD011E90021CD95 /* Info.plist */,
 				CA3931261BD014A60021CD95 /* Route.swift */,
 				CA39312D1BD054EE0021CD95 /* Router.swift */,
-				CAEFB34D1C0E16E200B94EE8 /* StaticNavigator.swift */,
+				CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */,
 				CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */,
 				CA39312B1BD015830021CD95 /* UINavigationController+Router.swift */,
 			);
@@ -308,7 +308,7 @@
 				CA3931271BD014A60021CD95 /* Route.swift in Sources */,
 				CA39312E1BD054EE0021CD95 /* Router.swift in Sources */,
 				CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */,
-				CAEFB34E1C0E16E200B94EE8 /* StaticNavigator.swift in Sources */,
+				CAEFB34E1C0E16E200B94EE8 /* Navigator.swift in Sources */,
 				CA39312C1BD015830021CD95 /* UINavigationController+Router.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

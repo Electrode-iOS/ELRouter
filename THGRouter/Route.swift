@@ -63,7 +63,7 @@ public class Route: NSObject {
         if let action = self.action {
             if (staticValue != nil) {
                 result = staticValue
-                if let navigator = Router.sharedInstance.staticNavigator {
+                if let navigator = Router.sharedInstance.navigator {
                     navigator.selectedViewController = staticValue
                 }
             } else {
