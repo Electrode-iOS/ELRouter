@@ -63,7 +63,7 @@ public class Route: NSObject {
         if let action = self.action {
             if (staticValue != nil) {
                 result = staticValue
-                if let navigator = Router.sharedInstance.navigator {
+                if let navigator = parentRouter?.navigator {
                     navigator.selectedViewController = staticValue
                 }
             } else {
@@ -94,4 +94,5 @@ public class Route: NSObject {
     }
     
     private weak var staticValue: UIViewController? = nil
+    internal weak var parentRouter: Router?
 }

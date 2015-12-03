@@ -52,6 +52,8 @@ extension Router {
 
 extension Router {
     public func register(route: Route) {
+        route.parentRouter = self
+        
         if route.name != nil {
             routes.append(route)
         }
