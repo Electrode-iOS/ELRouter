@@ -60,7 +60,7 @@ public class Route: NSObject {
     public func execute(animated: Bool, variable: String? = nil) -> UIViewController? {
         var result: UIViewController? = nil
         
-        if let navigator = Router.sharedInstance.navigator {
+        if let navigator = parentRouter?.navigator {
             if let action = self.action {
                 if (staticValue != nil) {
                     result = staticValue
