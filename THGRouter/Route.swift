@@ -64,9 +64,7 @@ public class Route: NSObject {
             if let action = self.action {
                 if (staticValue != nil) {
                     result = staticValue
-                    if let navigator = parentRouter?.navigator {
-                        navigator.selectedViewController = staticValue
-                    }
+                    parentRouter?.navigator?.selectedViewController = staticValue
                 } else {
                     result = action(variable: variable)
                     
