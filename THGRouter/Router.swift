@@ -30,21 +30,18 @@ public class Router: NSObject {
 
 extension Router {
     public func updateNavigator() {
-        if let navigator = navigator {
-            let tabRoutes = routesByType(.Static)
-            
-            var controllers = [UIViewController]()
-            for route in tabRoutes {
-                let vc = route.execute(false)
-                if let vc = vc {
-                    controllers.append(vc)
-                }
+        guard let navigator = navigator else { return }
+        
+        let tabRoutes = routesByType(.Static)
+        var controllers = [UIViewController]()
+        
+        for route in tabRoutes {
+            if let vc = route.execute(false) {
+                controllers.append(vc)
             }
-            
-            navigator.setViewControllers(controllers, animated: false)
         }
         
-        
+        navigator.setViewControllers(controllers, animated: false)
     }
 }
 
