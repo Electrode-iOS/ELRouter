@@ -93,6 +93,11 @@ public class Route: NSObject {
                 case .Static:
                     // do nothing.  tab's are handled slightly differently above.
                     // TODO: say some meaningful shit about why this works this way.
+                    if let vc = result {
+                        if !(vc is UINavigationController) {
+                            result = UINavigationController(rootViewController: vc)
+                        }
+                    }
                     staticValue = result
                     
                 case .Screen:
