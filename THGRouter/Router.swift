@@ -163,7 +163,7 @@ extension Router {
                 
                 // if there's only 1 variable specified here, just register it
                 // if there's no nextComponent.
-                if variables.count <= 1 && !found && nextComponent == nil {
+                if variables.count == 1 && !found && nextComponent == nil {
                     let item = variables[0]
                     result.append(item)
                     currentRoute = item
