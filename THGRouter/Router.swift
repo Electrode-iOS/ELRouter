@@ -85,9 +85,9 @@ extension Router {
      
      - parameter url: The URL to evaluate.
     */
-    public func evaluateURL(url: NSURL) -> Bool {
+    public func evaluateURL(url: NSURL, animated: Bool = false) -> Bool {
         guard let components = url.deepLinkComponents else { return false }
-        return evaluate(components)
+        return evaluate(components, animated: animated)
     }
     
     /**
@@ -95,7 +95,7 @@ extension Router {
      
      - parameter components: The array of components to evaluate.
     */
-    public func evaluate(components: [String]) -> Bool {
+    public func evaluate(components: [String], animated: Bool = false) -> Bool {
         var result = false
         
         let routes = routesToExecute(masterRoute, components: components)
@@ -116,7 +116,7 @@ extension Router {
                     }
                 }
                 
-                route.execute(false, variable: variable)
+                route.execute(animated, variable: variable)
             }
             
             result = true
