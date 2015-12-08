@@ -14,7 +14,13 @@ import THGFoundation
 public class Router: NSObject {
     static public let sharedInstance = Router()
     public var navigator: Navigator? = nil
-    public private(set) var routes = [Route]()
+    
+    public var routes: [Route] {
+        return masterRoute.subRoutes
+    }
+    
+    private let masterRoute: Route = Route("MASTER", type: .Other)
+    
     
     private var translation = [String : String]()
 
@@ -52,10 +58,18 @@ extension Router {
 
 extension Router {
     public func register(route: Route) {
-        route.parentRouter = self
+        var currentRoute = route
         
-        if route.name != nil {
-            routes.append(route)
+        // we may given the final link in a chain, walk back up to the top and
+        // get the primary route to register.
+        while currentRoute.parentRoute != nil {
+            currentRoute.parentRouter = self
+            currentRoute = currentRoute.parentRoute!
+        }
+        
+        if currentRoute.name != nil {
+            currentRoute.parentRouter = self
+            masterRoute.subRoutes.append(currentRoute)
         }
     }
 }
@@ -69,33 +83,82 @@ extension Router {
     }
     
     public func evaluate(components: [String]) -> Bool {
-        var route: Route? = nil
-        var routeWasExecuted = false
+        var result = false
         
-        if validate(components) {
+        let routes = routesToExecute(masterRoute, components: components)
+        let valid = routes.count == components.count
+        
+        if valid && routes.count > 0 {
             for i in 0..<components.count {
-                let item = components[i]
-                if i == 0 {
-                    let routes = routesByName(item)
-                    // TODO: Handle multiple routes coming back.
-                    if routes.count > 0 {
-                        route = routes[0]
-                        route?.execute(false)
-                        routeWasExecuted = true
-                    } else {
-                        break
+                let route = routes[i]
+                
+                var variable: String? = nil
+                if route.type == .Variable {
+                    variable = components[i]
+                }
+                
+                if route.parentRoute?.type == .Variable {
+                    if i > 0 {
+                        variable = components[i-1]
                     }
-                } else {
-                    // TODO: Fill this in.
+                }
+                
+                route.execute(false, variable: variable)
+            }
+            
+            result = true
+        }
+        
+        return result
+    }
+    
+    private func routesToExecute(startRoute: Route, components: [String]) -> [Route] {
+        var result = [Route]()
+        
+        var currentRoute: Route = startRoute
+        
+        for i in 0..<components.count {
+            let component = components[i]
+            
+            if let route = currentRoute.routeByName(component) {
+                // oh, it's a route.  add that shit.
+                result.append(route)
+                currentRoute = route
+            } else {
+                // is it a variable?
+                
+                // we're more likely to have multiple variables, so check them against the
+                // next component in the set.
+                let variables = currentRoute.routesByType(.Variable)
+                var nextComponent: String? = nil
+                
+                if i < components.count - 1 {
+                    nextComponent = components[i+1]
+                }
+                
+                // if there are multiple variables specified, dig in to see if any match the next component.
+                var found = false
+                for item in variables {
+                    if let nextComponent = nextComponent {
+                        if item.routeByName(nextComponent) != nil || i == components.count - 1 {
+                            result.append(item)
+                            currentRoute = item
+                            found = true
+                        }
+                    }
+                }
+                
+                // if there's only 1 variable specified here, just register it
+                // if there's no nextComponent.
+                if variables.count <= 1 && !found && nextComponent == nil {
+                    let item = variables[0]
+                    result.append(item)
+                    currentRoute = item
                 }
             }
         }
         
-        return routeWasExecuted
-    }
-    
-    private func validate(components: [String]) -> Bool {
-        return true
+        return result
     }
 }
 
@@ -103,10 +166,10 @@ extension Router {
 
 extension Router {
     public func routesByName(name: String) -> [Route] {
-        return routes.filter { $0.name == name }
+        return routes.filter { return $0.name == name }
     }
     
     public func routesByType(type: RoutingType) -> [Route] {
-        return routes.filter { $0.type == type }
+        return routes.filter { return $0.type == type }
     }
 }

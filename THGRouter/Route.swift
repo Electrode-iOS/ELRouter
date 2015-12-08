@@ -26,9 +26,10 @@ public class Route: NSObject {
     /// The name of the route, ie: "reviews"
     public let name: String?
     public let type: RoutingType
+    public private(set) var parentRoute: Route?
     public var userInfo = [String: AnyObject]()
     
-    public var subRoutes = [Route]()
+    public internal(set) var subRoutes = [Route]()
 
     /// Action block
     public let action: RouteActionClosure?
@@ -37,22 +38,31 @@ public class Route: NSObject {
         self.name = name
         self.type = type
         self.action = action
+        self.parentRoute = nil
     }
     
-    internal init(type: RoutingType, action: RouteActionClosure! = nil) {
+    internal init(_ name: String, type: RoutingType, parentRoute: Route, action: RouteActionClosure! = nil) {
+        self.name = name
+        self.type = type
+        self.action = action
+        self.parentRoute = parentRoute
+    }
+    
+    internal init(type: RoutingType, parentRoute: Route, action: RouteActionClosure! = nil) {
         self.name = nil
         self.type = type
+        self.parentRoute = parentRoute
         self.action = action
     }
     
     public func variable(action: RouteActionClosure! = nil) -> Route {
-        let variable = Route(type: .Variable, action: action)
+        let variable = Route(type: .Variable, parentRoute: self, action: action)
         subRoutes.append(variable)
         return variable
     }
     
     public func route(name: String, type: RoutingType, action: RouteActionClosure! = nil) -> Route {
-        let route = Route(name, type: type, action: action)
+        let route = Route(name, type: type, parentRoute: self, action: action)
         subRoutes.append(route)
         return route
     }
@@ -60,8 +70,8 @@ public class Route: NSObject {
     public func execute(animated: Bool, variable: String? = nil) -> UIViewController? {
         var result: UIViewController? = nil
         
-        if let navigator = Router.sharedInstance.navigator {
-            if let action = self.action {
+        if let action = self.action {
+            if let navigator = parentRouter?.navigator {
                 if (staticValue != nil) {
                     result = staticValue
                     if let navigator = parentRouter?.navigator {
@@ -104,6 +114,9 @@ public class Route: NSObject {
                     }
                     
                 }
+            } else {
+                // they don't have a navigator setup, so just run it.
+                result = action(variable: variable)
             }
         }
         
@@ -112,4 +125,32 @@ public class Route: NSObject {
     
     private weak var staticValue: UIViewController? = nil
     internal weak var parentRouter: Router?
+}
+
+// MARK: Searching
+
+extension Route {
+    public func routesByName(name: String) -> [Route] {
+        return subRoutes.filter { return $0.name == name }
+    }
+    
+    public func routeByName(name: String) -> Route? {
+        let routes = routesByName(name)
+        if routes.count > 0 {
+            return routes[0]
+        }
+        return nil
+    }
+    
+    public func routesByType(type: RoutingType) -> [Route] {
+        return subRoutes.filter { return $0.type == type }
+    }
+    
+    public func routeByType(type: RoutingType) -> Route? {
+        let routes = routesByType(type)
+        if routes.count > 0 {
+            return routes[0]
+        }
+        return nil
+    }
 }

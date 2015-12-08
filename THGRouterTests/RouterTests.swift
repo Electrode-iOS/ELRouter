@@ -112,14 +112,14 @@ class RouterTests: XCTestCase {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("walmart.com", type: .Other).route("item", type: .Other).variable() { variable in
+        router.register(Route("walmart.com", type: .Other).route("item", type: .Other).variable().route("something", type: .Other) { variable in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
             handlerExpectation.fulfill()
             return nil
         })
         
-        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345")!)
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345/something")!)
         
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
