@@ -26,10 +26,15 @@ public class Route: NSObject {
     /// The name of the route, ie: "reviews"
     public let name: String?
     public let type: RoutingType
-    public private(set) var parentRoute: Route?
     public var userInfo = [String: AnyObject]()
     
     public internal(set) var subRoutes = [Route]()
+
+    // this used to be weak, however due to the nature of how things are registered,
+    // it can't be weak.  This creates a *retain loop*, however there is no mechanism
+    // to remove existing route entries (we don't want someone unregistering 
+    // someoneelse's route.
+    public private(set) var parentRoute: Route?
 
     /// Action block
     public let action: RouteActionClosure?
@@ -57,12 +62,14 @@ public class Route: NSObject {
     
     public func variable(action: RouteActionClosure! = nil) -> Route {
         let variable = Route(type: .Variable, parentRoute: self, action: action)
+        variable.parentRouter = parentRouter
         subRoutes.append(variable)
         return variable
     }
     
     public func route(name: String, type: RoutingType, action: RouteActionClosure! = nil) -> Route {
         let route = Route(name, type: type, parentRoute: self, action: action)
+        route.parentRouter = parentRouter
         subRoutes.append(route)
         return route
     }

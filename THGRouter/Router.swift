@@ -56,7 +56,7 @@ extension Router {
 
 extension Router {
     /**
-     Register a route.
+     Registers a top level route.
      
      - parameter route: The Route being registered.
     */
