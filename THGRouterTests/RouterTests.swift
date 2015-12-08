@@ -87,8 +87,9 @@ class RouterTests: XCTestCase {
         })
         
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
-        router.evaluateURL(NSURL(string: "scheme://walmart.com/foo/bar")!)
+        let executed = router.evaluateURL(NSURL(string: "scheme://walmart.com")!)
         
+        XCTAssert(executed, "This should've failed")
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
     
