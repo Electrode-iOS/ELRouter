@@ -10,8 +10,8 @@ import XCTest
 import THGRouter
 
 class NSURLDeepLinkTests: XCTestCase {
-    func testDeepLinkComponents() {
-        let url = NSURL(string: "scheme://walmart.com/bar/foo")!
+    func test_deepLinkComponents_componentOutputMatchesOriginalURL() {
+        let url = NSURL(string: "scheme://walmart.com:1234/bar/foo?a=b&b=c")!
         
         let components = url.deepLinkComponents
         
@@ -20,5 +20,20 @@ class NSURLDeepLinkTests: XCTestCase {
         XCTAssertEqual(components![0], "walmart.com")
         XCTAssertEqual(components![1], "bar")
         XCTAssertEqual(components![2], "foo")
+    }
+    
+    func test_deepLinkComponents_hostIsIncludedInComponents() {
+        let url = NSURL(string: "scheme://walmart.com")!
+        let host = url.host!
+        let components = url.deepLinkComponents
+        
+        XCTAssertEqual(components![0], host)
+    }
+    
+    func test_deepLinkComponents_returnsNilForBadURL() {
+        let url = NSURL(string: "://")!
+        let components = url.deepLinkComponents
+
+        XCTAssertNil(components)
     }
 }

@@ -35,28 +35,31 @@ public class Router: NSObject {
 }
 
 extension Router {
+    /// Update the view controllers that are managed by the navigator
     public func updateNavigator() {
-        if let navigator = navigator {
-            let tabRoutes = routesByType(.Static)
-            
-            var controllers = [UIViewController]()
-            for route in tabRoutes {
-                let vc = route.execute(false)
-                if let vc = vc {
-                    controllers.append(vc)
-                }
+        guard let navigator = navigator else { return }
+        
+        let tabRoutes = routesByType(.Static)
+        var controllers = [UIViewController]()
+        
+        for route in tabRoutes {
+            if let vc = route.execute(false) {
+                controllers.append(vc)
             }
-            
-            navigator.setViewControllers(controllers, animated: false)
         }
         
-        
+        navigator.setViewControllers(controllers, animated: false)
     }
 }
 
 // MARK: - Registering Routes
 
 extension Router {
+    /**
+     Register a route.
+     
+     - parameter route: The Route being registered.
+    */
     public func register(route: Route) {
         var currentRoute = route
         
@@ -77,11 +80,21 @@ extension Router {
 // MARK: - Evaluating Routes
 
 extension Router {
+    /**
+     Evaluate a URL. Routes matching the URL will be executed.
+     
+     - parameter url: The URL to evaluate.
+    */
     public func evaluateURL(url: NSURL) -> Bool {
         guard let components = url.deepLinkComponents else { return false }
         return evaluate(components)
     }
     
+    /**
+     Evaluate an array of components. Routes matching the URL will be executed.
+     
+     - parameter components: The array of components to evaluate.
+    */
     public func evaluate(components: [String]) -> Bool {
         var result = false
         
@@ -165,10 +178,20 @@ extension Router {
 // MARK: - Getting Routes
 
 extension Router {
+    /**
+     Get all routes of a particular name.
+     
+     - parameter name: The name of the routes to get.
+    */
     public func routesByName(name: String) -> [Route] {
         return routes.filter { return $0.name == name }
     }
     
+    /**
+     Get all routes of a particular routing type.
+     
+     - parameter type: The routing type of the routes to get.
+    */
     public func routesByType(type: RoutingType) -> [Route] {
         return routes.filter { return $0.type == type }
     }

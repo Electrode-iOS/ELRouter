@@ -12,7 +12,7 @@ import THGRouter
 class RouterTests: XCTestCase {
     
     func testBasicOtherRoute() {
-        let router = Router.sharedInstance
+        let router = Router()
         let handlerRanExpectation = expectationWithDescription("route handler should run")
         
         let route = Route("foo", type: .Other) { (variable) in
@@ -21,12 +21,14 @@ class RouterTests: XCTestCase {
         }
         
         router.register(route)
+        router.navigator = UITabBarController(nibName: nil, bundle: nil)
+        
         router.evaluate(["foo"])
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
     
     func testRegister() {
-        let router = Router.sharedInstance
+        let router = Router()
         
         let route = Route("registerTest", type: .Other) { (variable) in
             return nil
@@ -38,7 +40,7 @@ class RouterTests: XCTestCase {
     }
     
     func testRoutesByName() {
-        let router = Router.sharedInstance
+        let router = Router()
         
         router.register(Route("testRouteName", type: .Other) { (variable) in
             return nil
@@ -83,6 +85,8 @@ class RouterTests: XCTestCase {
             handlerExpectation.fulfill()
             return nil
         })
+        
+        router.navigator = UITabBarController(nibName: nil, bundle: nil)
         router.evaluateURL(NSURL(string: "scheme://walmart.com/foo/bar")!)
         
         waitForExpectationsWithTimeout(2.0, handler: nil)
