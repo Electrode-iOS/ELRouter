@@ -15,6 +15,7 @@ public typealias RouteActionClosure = (variable: String?) -> UIViewController?
 @objc
 public enum RoutingType: UInt {
     case Static
+    case Segue
     case Screen
     case Modal
     case Variable
