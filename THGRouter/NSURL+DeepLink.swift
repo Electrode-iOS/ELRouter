@@ -10,30 +10,20 @@ import Foundation
 
 public extension NSURL {
     public var deepLinkComponents: [String]? {
+        guard let pathComponents = pathComponents else { return nil }
+        
         // a deep link doesn't have the notion of a host, construct it as such
-        if let pathComponents = pathComponents {
-            var components = [String]()
-            
-            // if we have a host, it's considered a component.
-            if let host = host {
-                components.append(host)
-            }
-            
-            // out "/" and append our components
-            let filtered = pathComponents.filter { (item) -> Bool in
-                if item == "/" {
-                    return false
-                } else {
-                    return true
-                }
-            }
-            
-            components.appendContentsOf(filtered)
-            
-            return components
+        var components = [String]()
+        
+        // if we have a host, it's considered a component.
+        if let host = host {
+            components.append(host)
         }
         
-        return nil
+        // out "/" and append our components
+        components.appendContentsOf(pathComponents.filter { !($0 == "/") })
+        
+        return components
     }
     
     /*public var queryAsPairsif : [String : String]? {
