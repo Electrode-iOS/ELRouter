@@ -68,47 +68,51 @@ public class Route: NSObject {
     }
     
     public func execute(animated: Bool, variable: String? = nil) -> UIViewController? {
-        // bail out when missing a valid navigator or action
-        guard let navigator = parentRouter?.navigator else { return nil }
+        // bail out when missing a valid action
         guard let action = action else { return nil }
         
         var result: UIViewController? = nil
 
-        if let staticValue = staticValue {
-            result = staticValue
-            parentRouter?.navigator?.selectedViewController = staticValue
-        } else {
-            result = action(variable: variable)
-            
-            let navController = navigator.selectedViewController as? UINavigationController
-            
-            switch(type) {
-            case .Static:
-                // do nothing.  tab's are handled slightly differently above.
-                // TODO: say some meaningful shit about why this works this way.
-                staticValue = result
+        if let navigator = parentRouter?.navigator {
+            if let staticValue = staticValue {
+                result = staticValue
+                parentRouter?.navigator?.selectedViewController = staticValue
+            } else {
+                result = action(variable: variable)
                 
-            case .Screen:
-                if let vc = result {
-                    navController?.pushViewController(vc, animated: animated)
-                }
+                let navController = navigator.selectedViewController as? UINavigationController
                 
-            case .Modal:
-                if let vc = result {
-                    if navController?.topViewController?.presentedViewController != nil {
-                        navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
-                            // do something in the completion block?
-                        }
-                    } else {
-                        navController?.topViewController?.presentViewController(vc, animated: animated) {
-                            // do something in the completion block?
+                switch(type) {
+                case .Static:
+                    // do nothing.  tab's are handled slightly differently above.
+                    // TODO: say some meaningful shit about why this works this way.
+                    staticValue = result
+                    
+                case .Screen:
+                    if let vc = result {
+                        navController?.pushViewController(vc, animated: animated)
+                    }
+                    
+                case .Modal:
+                    if let vc = result {
+                        if navController?.topViewController?.presentedViewController != nil {
+                            navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
+                                // do something in the completion block?
+                            }
+                        } else {
+                            navController?.topViewController?.presentViewController(vc, animated: animated) {
+                                // do something in the completion block?
+                            }
                         }
                     }
+                    
+                default:
+                    break
                 }
-            } else {
-                // they don't have a navigator setup, so just run it.
-                result = action(variable: variable)
             }
+        } else {
+            // they don't have a navigator setup, so just run it.
+            result = action(variable: variable)
         }
         
         return result
