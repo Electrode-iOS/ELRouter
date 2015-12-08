@@ -9,14 +9,13 @@
 import Foundation
 import UIKit
 
-//public typealias RouteActionCompletion = () -> Void
-public typealias RouteActionClosure = (variable: String?) -> UIViewController?
+public typealias RouteActionClosure = (variable: String?) -> AnyObject?
 
 @objc
 public enum RoutingType: UInt {
     case Static
     case Segue
-    case Screen
+    case Push
     case Modal
     case Variable
     case Other // ??
@@ -75,16 +74,18 @@ public class Route: NSObject {
         return route
     }
     
-    public func execute(animated: Bool, variable: String? = nil) -> UIViewController? {
+    public func execute(animated: Bool, variable: String? = nil) -> AnyObject? {
         // bail out when missing a valid action
         guard let action = action else { return nil }
         
-        var result: UIViewController? = nil
+        var result: AnyObject? = nil
 
         if let navigator = parentRouter?.navigator {
             if let staticValue = staticValue {
                 result = staticValue
-                parentRouter?.navigator?.selectedViewController = staticValue
+                if let vc = staticValue as? UIViewController {
+                    parentRouter?.navigator?.selectedViewController = vc
+                }
             } else {
                 result = action(variable: variable)
                 
@@ -94,28 +95,46 @@ public class Route: NSObject {
                 case .Static:
                     // do nothing.  tab's are handled slightly differently above.
                     // TODO: say some meaningful shit about why this works this way.
-                    if let vc = result {
+                    if let vc = result as? UIViewController {
                         if !(vc is UINavigationController) {
                             result = UINavigationController(rootViewController: vc)
+                            //result = staticValue
                         }
                     }
                     staticValue = result
                     
-                case .Screen:
-                    if let vc = result {
+                case .Push:
+                    if let vc = result as? UIViewController {
                         navController?.pushViewController(vc, animated: animated)
                     }
                     
                 case .Modal:
-                    if let vc = result {
+                    if let vc = result as? UIViewController {
+                        // is the VC presenting something already?
                         if navController?.topViewController?.presentedViewController != nil {
                             navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
-                                // do something in the completion block?
+                                // show our new VC once dismissed.
+                                navController?.topViewController?.presentViewController(vc, animated: animated) {
+                                    // do something in the completion block?
+                                }
                             }
                         } else {
                             navController?.topViewController?.presentViewController(vc, animated: animated) {
                                 // do something in the completion block?
                             }
+                        }
+                    }
+                    
+                case .Segue:
+                    if let segueID = result as? String {
+                        // is the VC presenting something already?
+                        if navController?.topViewController?.presentedViewController != nil {
+                            navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
+                                // perform our segue once dismissed.
+                                navController?.topViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
+                            }
+                        } else {
+                            navController?.topViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
                         }
                     }
                     
@@ -131,7 +150,7 @@ public class Route: NSObject {
         return result
     }
     
-    private weak var staticValue: UIViewController? = nil
+    private weak var staticValue: AnyObject? = nil
     internal weak var parentRouter: Router?
 }
 

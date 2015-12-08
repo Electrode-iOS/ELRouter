@@ -44,10 +44,12 @@ extension Router {
         
         for route in tabRoutes {
             if let vc = route.execute(false) {
-                if vc is UINavigationController {
-                    controllers.append(vc)
-                } else {
-                    controllers.append(UINavigationController(rootViewController: vc))
+                if let vc = vc as? UIViewController {
+                    if vc is UINavigationController {
+                        controllers.append(vc)
+                    } else {
+                        controllers.append(UINavigationController(rootViewController: vc))
+                    }
                 }
             }
         }
@@ -84,6 +86,20 @@ extension Router {
 // MARK: - Evaluating Routes
 
 extension Router {
+    /**
+     Evaluate a URL String. Routes matching the URL will be executed.
+     
+     - parameter url: The URL to evaluate.
+     */
+    public func evaluateURLString(urlString: String, animated: Bool = false) -> Bool {
+        let url = NSURL(string: urlString)
+        if let url = url {
+            return evaluateURL(url, animated: animated)
+        } else {
+            return false
+        }
+    }
+    
     /**
      Evaluate a URL. Routes matching the URL will be executed.
      
