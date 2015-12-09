@@ -126,10 +126,8 @@ extension Router {
                     variable = components[i]
                 }
                 
-                if route.parentRoute?.type == .Variable {
-                    if i > 0 {
-                        variable = components[i-1]
-                    }
+                if route.parentRoute?.type == .Variable && i > 0  {
+                    variable = components[i-1]
                 }
                 
                 route.execute(animated, variable: variable)
