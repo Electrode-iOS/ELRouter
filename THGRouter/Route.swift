@@ -95,11 +95,10 @@ public class Route: NSObject {
                 case .Static:
                     // do nothing.  tab's are handled slightly differently above.
                     // TODO: say some meaningful shit about why this works this way.
-                    if let vc = result as? UIViewController {
-                        if !(vc is UINavigationController) {
-                            result = UINavigationController(rootViewController: vc)
-                            //result = staticValue
-                        }
+                    if let vc = result as? UIViewController where !(vc is UINavigationController) {
+                        result = UINavigationController(rootViewController: vc)
+                        //result = staticValue
+
                     }
                     staticValue = result
                     
