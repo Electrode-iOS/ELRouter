@@ -166,20 +166,21 @@ extension Router {
                 }
                 
                 // if there are multiple variables specified, dig in to see if any match the next component.
-                var found = false
-                for item in variables {
-                    if let nextComponent = nextComponent {
+                var matchingVariableFound = false
+
+                if let nextComponent = nextComponent {
+                    for item in variables {
                         if item.routeByName(nextComponent) != nil || i == components.count - 1 {
                             result.append(item)
                             currentRoute = item
-                            found = true
+                            matchingVariableFound = true
                         }
                     }
                 }
                 
                 // if there's only 1 variable specified here, just register it
                 // if there's no nextComponent.
-                if variables.count == 1 && !found && nextComponent == nil {
+                if variables.count == 1 && !matchingVariableFound && nextComponent == nil {
                     let item = variables[0]
                     result.append(item)
                     currentRoute = item
