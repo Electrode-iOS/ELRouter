@@ -212,7 +212,7 @@ extension Router {
     }
     
     /// Find the end routes that satisfy a URL
-    public func routeSetForURL(url: NSURL) -> [Route]? {
+    public func routesForURL(url: NSURL) -> [Route]? {
         guard let components = url.deepLinkComponents else { return nil }
         
         var currentRouteSet: [Route] = [masterRoute]

@@ -132,7 +132,7 @@ class RouterTests: XCTestCase {
 
 // MARK: - Evaluate Tests
 
-extension Router {
+extension RouterTests {
     func test_evaluate_returnsTrueForHandledURL() {
         let router = Router()
         
@@ -150,5 +150,48 @@ extension Router {
         
         let routeWasHandled = router.evaluate(["walmart.com"])
         XCTAssertFalse(routeWasHandled)
+    }
+}
+
+extension RouterTests {
+    func test_routesForURL() {
+        let router = Router()
+        
+        router.register(Route("walmart.com", type: .Other) { variable in
+            return nil
+            })
+        
+        router.register(Route("walmart.com", type: .Other).route("foo", type: .Other) { variable in
+            return nil
+            })
+        
+        
+        let fooRoute = Route("walmart.com", type: .Other).route("foo", type: .Other)
+        
+        fooRoute.route("bar", type: .Other) { variable in
+            return nil
+        }
+        
+        fooRoute.route("bar", type: .Other) { variable in
+            return nil
+        }
+        
+        router.register(fooRoute)
+        
+        
+        router.register(Route("walmart.com", type: .Other).route("bar", type: .Other) { variable in
+            return nil
+            })
+        
+        router.evaluate(["walmart.com", "foo", "bar"])
+        
+        let routes = router.routesForURL(NSURL(string: "scheme://walmart.com/foo/bar")!)
+        
+        XCTAssertNotNil(routes)
+        XCTAssertEqual(routes!.count, 2)
+        
+        for route in routes! {
+            XCTAssertEqual(route.name!, "bar")
+        }
     }
 }
