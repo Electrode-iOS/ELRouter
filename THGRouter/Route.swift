@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-public typealias RouteActionClosure = (variable: String?) -> AnyObject?
+public typealias RouteActionClosure = (variable: String?) -> Any?
 
 @objc
 public enum RoutingType: UInt {
-    case Static
     case Segue
+    case Static
     case Push
     case Modal
     case Variable
@@ -74,11 +74,11 @@ public class Route: NSObject {
         return route
     }
     
-    public func execute(animated: Bool, variable: String? = nil) -> AnyObject? {
+    public func execute(animated: Bool, variable: String? = nil) -> Any? {
         // bail out when missing a valid action
         guard let action = action else { return nil }
         
-        var result: AnyObject? = nil
+        var result: Any? = nil
 
         if let navigator = parentRouter?.navigator {
             if let staticValue = staticValue {
@@ -96,12 +96,8 @@ public class Route: NSObject {
                     // do nothing.  tab's are handled slightly differently above.
                     // TODO: say some meaningful shit about why this works this way.
                     if let vc = result as? UIViewController {
-                        if !(vc is UINavigationController) {
-                            result = UINavigationController(rootViewController: vc)
-                            //result = staticValue
-                        }
+                        staticValue = vc
                     }
-                    staticValue = result
                     
                 case .Push:
                     if let vc = result as? UIViewController {
