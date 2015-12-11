@@ -199,7 +199,7 @@ extension Router {
      - parameter name: The name of the routes to get.
     */
     public func routesByName(name: String) -> [Route] {
-        return routes.filter { return $0.name == name }
+        return routes.filterByName(name)
     }
     
     /**
@@ -208,7 +208,7 @@ extension Router {
      - parameter type: The routing type of the routes to get.
     */
     public func routesByType(type: RoutingType) -> [Route] {
-        return routes.filter { return $0.type == type }
+        return routes.filterByType(type)
     }
     
     /// Find the end routes that satisfy a URL

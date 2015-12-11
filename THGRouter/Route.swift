@@ -34,7 +34,7 @@ public class Route: NSObject {
     // it can't be weak.  This creates a *retain loop*, however there is no mechanism
     // to remove existing route entries (we don't want someone unregistering 
     // someoneelse's route.
-    public private(set) var parentRoute: Route?
+    public internal(set) var parentRoute: Route?
 
     /// Action block
     public let action: RouteActionClosure?
@@ -157,7 +157,7 @@ public class Route: NSObject {
 
 extension Route {
     public func routesByName(name: String) -> [Route] {
-        return subRoutes.filter { return $0.name == name }
+        return subRoutes.filterByName(name)
     }
     
     public func routeByName(name: String) -> Route? {
@@ -169,7 +169,7 @@ extension Route {
     }
     
     public func routesByType(type: RoutingType) -> [Route] {
-        return subRoutes.filter { return $0.type == type }
+        return subRoutes.filterByType(type)
     }
     
     public func routeByType(type: RoutingType) -> Route? {
@@ -178,5 +178,27 @@ extension Route {
             return routes[0]
         }
         return nil
+    }
+}
+
+// MARK: Filtering Route Collections
+
+extension CollectionType where Generator.Element == Route {
+    /**
+     Filter a collection of Route objects by name.
+     
+     - parameter name: The name of the routes to filter by.
+     */
+    public func filterByName(name: String) -> [Route] {
+        return filter { $0.name == name }
+    }
+    
+    /**
+     Filter a collection of Route objects by routing type.
+     
+     - parameter type: The routing type of the routes to filter by.
+     */
+    public func filterByType(type: RoutingType) -> [Route] {
+        return filter { $0.type == type }
     }
 }
