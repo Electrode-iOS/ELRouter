@@ -12,7 +12,7 @@ import THGRouter
 class RouteCollectionTypeTests: XCTestCase {
     func test_filterByName_returnsRoutesForValidName() {
         let routeName = "filterByName"
-        let routes = [Route(routeName, type: .Other), Route(routeName, type: .Static)]
+        let routes = [Route(routeName, type: .Other), Route(routeName, type: .Static), Route("otherName", type: .Static)]
         
         let filteredRoutes = routes.filterByName(routeName)
         XCTAssertFalse(filteredRoutes.isEmpty)
