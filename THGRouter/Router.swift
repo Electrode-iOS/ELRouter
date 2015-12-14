@@ -34,6 +34,8 @@ public class Router: NSObject {
     }
 }
 
+// MARK: - Managing the Navigator
+
 extension Router {
     /// Update the view controllers that are managed by the navigator
     public func updateNavigator() {
@@ -110,7 +112,7 @@ extension Router {
     public func evaluate(components: [String], animated: Bool = false) -> Bool {
         var result = false
         
-        let routes = routesToExecute(masterRoute, components: components)
+        let routes = routesForComponents(components)
         let valid = routes.count == components.count
         
         if valid && routes.count > 0 {
@@ -130,56 +132,6 @@ extension Router {
             }
             
             result = true
-        }
-        
-        return result
-    }
-    
-    private func routesToExecute(startRoute: Route, components: [String]) -> [Route] {
-        var result = [Route]()
-        
-        var currentRoute: Route = startRoute
-        
-        for i in 0..<components.count {
-            let component = components[i]
-            
-            if let route = currentRoute.routeByName(component) {
-                // oh, it's a route.  add that shit.
-                result.append(route)
-                currentRoute = route
-            } else {
-                // is it a variable?
-                
-                // we're more likely to have multiple variables, so check them against the
-                // next component in the set.
-                let variables = currentRoute.routesByType(.Variable)
-                var nextComponent: String? = nil
-                
-                if i < components.count - 1 {
-                    nextComponent = components[i+1]
-                }
-                
-                // if there are multiple variables specified, dig in to see if any match the next component.
-                var matchingVariableFound = false
-
-                if let nextComponent = nextComponent {
-                    for item in variables {
-                        if item.routeByName(nextComponent) != nil || i == components.count - 1 {
-                            result.append(item)
-                            currentRoute = item
-                            matchingVariableFound = true
-                        }
-                    }
-                }
-                
-                // if there's only 1 variable specified here, just register it
-                // if there's no nextComponent.
-                if variables.count == 1 && !matchingVariableFound && nextComponent == nil {
-                    let item = variables[0]
-                    result.append(item)
-                    currentRoute = item
-                }
-            }
         }
         
         return result
@@ -205,5 +157,24 @@ extension Router {
     */
     public func routesByType(type: RoutingType) -> [Route] {
         return routes.filterByType(type)
+    }
+    
+    /**
+     Get all routes that match the given URL.
+     
+     - parameter url: The url to match against.
+     */
+    public func routesForURL(url: NSURL) -> [Route] {
+        guard let components = url.deepLinkComponents else { return [Route]() }
+        return routesForComponents(components)
+    }
+    
+    /**
+     Get all routes that match an array of components.
+     
+     - parameter components: The array of component strings to match against.
+     */
+    public func routesForComponents(components: [String]) -> [Route] {
+        return masterRoute.routesForComponents(components)
     }
 }

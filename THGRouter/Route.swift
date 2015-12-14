@@ -150,7 +150,7 @@ public class Route: NSObject {
     internal weak var parentRouter: Router?
 }
 
-// MARK: Searching
+// MARK: - Finding Routes
 
 extension Route {
     public func routesByName(name: String) -> [Route] {
@@ -175,6 +175,57 @@ extension Route {
             return routes[0]
         }
         return nil
+    }
+    
+    /// Finds all routes that satisfy an array of components
+    internal func routesForComponents(components: [String]) -> [Route] {
+        var result = [Route]()
+        
+        var currentRoute: Route = self
+        
+        for i in 0..<components.count {
+            let component = components[i]
+            
+            if let route = currentRoute.routeByName(component) {
+                // oh, it's a route.  add that shit.
+                result.append(route)
+                currentRoute = route
+            } else {
+                // is it a variable?
+                
+                // we're more likely to have multiple variables, so check them against the
+                // next component in the set.
+                let variables = currentRoute.routesByType(.Variable)
+                var nextComponent: String? = nil
+                
+                if i < components.count - 1 {
+                    nextComponent = components[i+1]
+                }
+                
+                // if there are multiple variables specified, dig in to see if any match the next component.
+                var matchingVariableFound = false
+                
+                if let nextComponent = nextComponent {
+                    for item in variables {
+                        if item.routeByName(nextComponent) != nil || i == components.count - 1 {
+                            result.append(item)
+                            currentRoute = item
+                            matchingVariableFound = true
+                        }
+                    }
+                }
+                
+                // if there's only 1 variable specified here, just register it
+                // if there's no nextComponent.
+                if variables.count == 1 && !matchingVariableFound && nextComponent == nil {
+                    let item = variables[0]
+                    result.append(item)
+                    currentRoute = item
+                }
+            }
+        }
+        
+        return result
     }
 }
 
