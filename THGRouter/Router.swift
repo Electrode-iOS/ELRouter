@@ -206,25 +206,4 @@ extension Router {
     public func routesByType(type: RoutingType) -> [Route] {
         return routes.filterByType(type)
     }
-    
-    /// Find the end routes that satisfy a URL
-    public func routesForURL(url: NSURL) -> [Route]? {
-        guard let components = url.deepLinkComponents else { return nil }
-        
-        var currentRouteSet: [Route] = [masterRoute]
-        
-        for index in 0..<components.count {
-            let part = components[index]
-            
-            var routeSet = [Route]()
-            
-            for route in currentRouteSet {
-                route.routesByName(part).each { routeSet.append($0) }
-            }
-            
-            currentRouteSet = routeSet
-        }
-        
-        return currentRouteSet
-    }
 }
