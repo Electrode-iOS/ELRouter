@@ -108,9 +108,10 @@ extension Router {
      Evaluate an array of components. Routes matching the URL will be executed.
      
      - parameter components: The array of components to evaluate.
+     - parameter animated: Determines if the view controller action should be animated.
     */
     public func evaluate(components: [String], animated: Bool = false) -> Bool {
-        var result = false
+        var componentsWereHandled = false
         
         let routes = routesForComponents(components)
         let valid = routes.count == components.count
@@ -131,10 +132,10 @@ extension Router {
                 route.execute(animated, variable: variable)
             }
             
-            result = true
+            componentsWereHandled = true
         }
         
-        return result
+        return componentsWereHandled
     }
 }
 
@@ -163,7 +164,7 @@ extension Router {
      Get all routes that match the given URL.
      
      - parameter url: The url to match against.
-     */
+    */
     public func routesForURL(url: NSURL) -> [Route] {
         guard let components = url.deepLinkComponents else { return [Route]() }
         return routesForComponents(components)
@@ -173,7 +174,7 @@ extension Router {
      Get all routes that match an array of components.
      
      - parameter components: The array of component strings to match against.
-     */
+    */
     public func routesForComponents(components: [String]) -> [Route] {
         return masterRoute.routesForComponents(components)
     }
