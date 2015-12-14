@@ -60,6 +60,13 @@ public class Route: NSObject {
         self.action = action
     }
     
+    private weak var staticValue: AnyObject? = nil
+    internal weak var parentRouter: Router?
+}
+
+// MARK: - Adding sub routes
+
+extension Route {
     public func variable(action: RouteActionClosure! = nil) -> Route {
         let variable = Route(type: .Variable, parentRoute: self, action: action)
         variable.parentRouter = parentRouter
@@ -73,7 +80,17 @@ public class Route: NSObject {
         subRoutes.append(route)
         return route
     }
-    
+}
+
+// MARK: - Executing Routes
+
+extension Route {
+    /**
+     Execute the route's action
+     
+     - parameter animated: Determines if the view controller action should be animated.
+     - parameter variable: The variable value extracted from the URL component.
+    */
     public func execute(animated: Bool, variable: String? = nil) -> Any? {
         // bail out when missing a valid action
         guard let action = action else { return nil }
@@ -145,18 +162,25 @@ public class Route: NSObject {
         
         return result
     }
-    
-    private weak var staticValue: AnyObject? = nil
-    internal weak var parentRouter: Router?
 }
 
 // MARK: - Finding Routes
 
 extension Route {
+    /**
+     Get all subroutes of a particular name.
+     
+     - parameter name: The name of the routes to get.
+    */
     public func routesByName(name: String) -> [Route] {
         return subRoutes.filterByName(name)
     }
     
+    /**
+     Get the first subroute of a particular name.
+     
+     - parameter name: The name of the route to get.
+    */
     public func routeByName(name: String) -> Route? {
         let routes = routesByName(name)
         if routes.count > 0 {
@@ -165,10 +189,21 @@ extension Route {
         return nil
     }
     
+    
+    /**
+     Get all subroutes of a particular routing type.
+     
+     - parameter type: The routing type of the routes to get.
+    */
     public func routesByType(type: RoutingType) -> [Route] {
         return subRoutes.filterByType(type)
     }
     
+    /**
+     Get the first subroute of a particular routing type.
+     
+     - parameter type: The routing type of the routes to get.
+    */
     public func routeByType(type: RoutingType) -> Route? {
         let routes = routesByType(type)
         if routes.count > 0 {
@@ -177,18 +212,21 @@ extension Route {
         return nil
     }
     
-    /// Finds all routes that satisfy an array of components
+    /**
+     Get all subroutes that match an array of components.
+    
+     - parameter components: The array of component strings to match against.
+    */
     internal func routesForComponents(components: [String]) -> [Route] {
-        var result = [Route]()
-        
-        var currentRoute: Route = self
+        var results = [Route]()
+        var currentRoute = self
         
         for i in 0..<components.count {
             let component = components[i]
             
             if let route = currentRoute.routeByName(component) {
                 // oh, it's a route.  add that shit.
-                result.append(route)
+                results.append(route)
                 currentRoute = route
             } else {
                 // is it a variable?
@@ -208,7 +246,7 @@ extension Route {
                 if let nextComponent = nextComponent {
                     for item in variables {
                         if item.routeByName(nextComponent) != nil || i == components.count - 1 {
-                            result.append(item)
+                            results.append(item)
                             currentRoute = item
                             matchingVariableFound = true
                         }
@@ -219,18 +257,19 @@ extension Route {
                 // if there's no nextComponent.
                 if variables.count == 1 && !matchingVariableFound && nextComponent == nil {
                     let item = variables[0]
-                    result.append(item)
+                    results.append(item)
                     currentRoute = item
                 }
             }
         }
         
-        return result
+        return results
     }
 }
 
 // MARK: Filtering Route Collections
 
+/// Adds a basic filtering API for collections of Route objects
 extension CollectionType where Generator.Element == Route {
     /**
      Filter a collection of Route objects by name.
