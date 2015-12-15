@@ -275,7 +275,7 @@ extension CollectionType where Generator.Element == Route {
      Filter a collection of Route objects by name.
      
      - parameter name: The name of the routes to filter by.
-     */
+    */
     public func filterByName(name: String) -> [Route] {
         return filter { $0.name == name }
     }
@@ -284,7 +284,7 @@ extension CollectionType where Generator.Element == Route {
      Filter a collection of Route objects by routing type.
      
      - parameter type: The routing type of the routes to filter by.
-     */
+    */
     public func filterByType(type: RoutingType) -> [Route] {
         return filter { $0.type == type }
     }

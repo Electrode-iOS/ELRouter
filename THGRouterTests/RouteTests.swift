@@ -9,6 +9,8 @@
 import XCTest
 @testable import THGRouter
 
+// MARK: - initialization Tests
+
 class RouteTests: XCTestCase {
     func test_initialization_withName() {
         let route = Route("testName", type: .Other)
@@ -85,6 +87,8 @@ class RouteTests: XCTestCase {
     }
 }
 
+// MARK: - variable Tests
+
 extension RouteTests {
     func test_variable_appendsSubRoute() {
         let parentRoute = Route("variableTest", type: .Other)
@@ -117,6 +121,8 @@ extension RouteTests {
         XCTAssertEqual(parentRoute.subRoutes[0].parentRoute, parentRoute)
     }
 }
+
+// MARK: - route Tests
 
 extension RouteTests {
     func test_route_appendsSubRoute() {
@@ -152,13 +158,25 @@ extension RouteTests {
     }
 }
 
-// TODO: execute tests
+// MARK: - execute Tests
 
 extension RouteTests {
+    // TODO: implement tests
     func test_execute_basicStaticRoute() {
         XCTAssertTrue(false)
     }
 }
+
+// MARK: - routesForComponents Tests
+
+extension RouteTests {
+    // TODO: implement tests
+    func test_routesForComponents() {
+        XCTAssertTrue(false)
+    }
+}
+
+// MARK: - routesByName Tests
 
 extension RouteTests {
     func test_routesByName_returnsRoutesForValidName() {
@@ -189,6 +207,8 @@ extension RouteTests {
         XCTAssertTrue(namedRoutes.isEmpty)
     }
 }
+
+// MARK: - routesByType Tests
 
 extension RouteTests {
     func test_routesByType_returnsRoutesForValidType() {

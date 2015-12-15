@@ -9,11 +9,147 @@
 import XCTest
 @testable import THGRouter
 
+// MARK: - translate Tests
+
 class RouterTests: XCTestCase {
-    func test_updateNavigator() {
+    func test_updateNavigator_setsTabBarViewControllersBasedOnStaticRoutes() {
+        let router = Router()
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+                
+        router.register(Route("tabOne", type: .Static) { (variable) in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.register(Route("tabTwo", type: .Static) { (variable) in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.register(Route("tabThree", type: .Static) { (variable) in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.updateNavigator()
+        
+        XCTAssertNotNil(tabBarController.viewControllers)
+        XCTAssertEqual(tabBarController.viewControllers?.count, 3)
+    }
+    
+    func test_updateNavigator_doesNotSetTabBarViewControllersWithNilActionReturns() {
+        let router = Router()
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+        
+        router.register(Route("tabOne", type: .Static) { (variable) in
+            return nil
+        })
+        
+        router.register(Route("tabTwo", type: .Static) { (variable) in
+            return nil
+        })
+        
+        router.register(Route("tabThree", type: .Static) { (variable) in
+            return nil
+        })
+        
+        router.updateNavigator()
+        
+        XCTAssertNil(tabBarController.viewControllers)
+    }
+    
+    func test_updateNavigator_doesNotSetTabBarViewControllersWithNilActions() {
+        let router = Router()
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+        
+        router.register(Route("tabOne", type: .Static))
+        router.register(Route("tabTwo", type: .Static))
+        router.register(Route("tabThree", type: .Static))
+        
+        router.updateNavigator()
+        
+        XCTAssertNil(tabBarController.viewControllers)
+    }
+    
+    func test_updateNavigator_executesStaticRoutes() {
+        let router = Router()
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+        
+        let tabOneExpectation = expectationWithDescription("tabOne static route executes")
+        let tabTwoExpectation = expectationWithDescription("tabTwo static route executes")
+        let tabThreeExpectation = expectationWithDescription("tabThree static route executes")
+
+        router.register(Route("tabOne", type: .Static) { (variable) in
+            tabOneExpectation.fulfill()
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.register(Route("tabTwo", type: .Static) { (variable) in
+            tabTwoExpectation.fulfill()
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.register(Route("tabThree", type: .Static) { (variable) in
+            tabThreeExpectation.fulfill()
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.updateNavigator()
+        
+        waitForExpectationsWithTimeout(2.0, handler: nil)
+    }
+    
+    func test_updateNavigator_doesNotExecuteStaticRoutesWithNilNavigator() {
+        let router = Router()
+        
+        router.register(Route("tabOne", type: .Static) { (variable) in
+            XCTAssertTrue(false)
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.register(Route("tabTwo", type: .Static) { (variable) in
+            XCTAssertTrue(false)
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.register(Route("tabThree", type: .Static) { (variable) in
+            XCTAssertTrue(false)
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            return UINavigationController(rootViewController: vc)
+        })
+        
+        router.updateNavigator()
+    }
+}
+
+// MARK: - translate Tests
+
+extension RouterTests {
+    // TODO: implement tests
+    func test_translate() {
         XCTAssertTrue(false)
     }
 }
+
+// MARK: - routesForComponents Tests
+
+extension RouterTests {
+    func test_routesForComponents() {
+        // TODO: implement tests
+        XCTAssertTrue(false)
+    }
+}
+
+// MARK: - routesByName Tests
 
 extension RouterTests {
     func test_routesByName_returnsRegisteredRoutesForValidName() {
@@ -38,6 +174,8 @@ extension RouterTests {
         XCTAssertTrue(fakeRoutes.isEmpty)
     }
 }
+
+// MARK: - routesByType Tests
 
 extension RouterTests {
     func test_routesByType_returnsRegisteredRoutesForValidType() {
@@ -65,6 +203,8 @@ extension RouterTests {
         XCTAssertTrue(fakeRoutes.isEmpty)
     }
 }
+
+// MARK: - register Tests
 
 extension RouterTests {
     func test_register_namedRouteGetsAppendedToRoutes() {
@@ -96,6 +236,8 @@ extension RouterTests {
     }
 }
 
+// MARK: - evaluate Tests
+
 extension RouterTests {
     func test_evaluate_returnsTrueForHandledURL() {
         let router = Router()
@@ -112,6 +254,8 @@ extension RouterTests {
         XCTAssertFalse(routeWasHandled)
     }
 }
+
+// MARK: - evaluateURL Tests
 
 extension RouterTests {
     func test_evaluateURL_returnsTrueForHandledURL() {
@@ -165,7 +309,6 @@ extension RouterTests {
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
     
-    
     func test_evaluateURL_executesActionWithSingleRouteComponent() {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
@@ -198,6 +341,8 @@ extension RouterTests {
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
 }
+
+// MARK: - evaluateURLString Tests
 
 extension RouterTests {
     func test_evaluateURLString_returnsTrueForHandledURL() {
