@@ -45,10 +45,8 @@ extension Router {
         var controllers = [UIViewController]()
         
         for route in tabRoutes {
-            if let vc = route.execute(false) {
-                if let vc = vc as? UINavigationController {
-                    controllers.append(vc)
-                }
+            if let vc = route.execute(false) as? UINavigationController {
+                controllers.append(vc)
             }
         }
         
