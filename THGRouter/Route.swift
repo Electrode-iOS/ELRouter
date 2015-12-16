@@ -151,8 +151,7 @@ extension Route {
                         }
                     }
                     
-                default:
-                    break
+                case .Other, .Variable: break
                 }
             }
         } else {
