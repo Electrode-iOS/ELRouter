@@ -170,9 +170,53 @@ extension RouteTests {
 // MARK: - routesForComponents Tests
 
 extension RouteTests {
-    // TODO: implement tests
-    func test_routesForComponents() {
-        XCTAssertTrue(false)
+    func test_routesForComponents_returnsEmptyResultsForBogusComponents() {
+        let route = Route("variableTest", type: .Other)
+        let results = route.routesForComponents(["walmart.com", "foo"])
+        XCTAssertTrue(results.isEmpty)
+    }
+    
+    func test_routesForComponents_returnsEmptyResultsForEmptyComponents() {
+        let route = Route("variableTest", type: .Other)
+        let results = route.routesForComponents([])
+        XCTAssertTrue(results.isEmpty)
+    }
+    
+    func test_routesForComponents_returnsNamedRoutesForValidComponents() {
+        let route = Route("variableTest", type: .Other)
+        route.route("walmart.com", type: .Other).route("foo", type: .Other)
+        
+        let results = route.routesForComponents(["walmart.com", "foo"])
+        
+        XCTAssertFalse(results.isEmpty)
+        XCTAssertEqual(results.count, 2)
+        XCTAssertEqual(results[0].name, "walmart.com")
+        XCTAssertEqual(results[1].name, "foo")
+    }
+    
+    func test_routesForComponents_returnsVariableRoutesWhenNextComponentExists() {
+        let route = Route("variableTest", type: .Other)
+        route.route("walmart.com", type: .Other).variable().route("foo", type: .Other)
+        
+        let results = route.routesForComponents(["walmart.com", "12345", "foo"])
+        
+        XCTAssertFalse(results.isEmpty)
+        XCTAssertEqual(results.count, 3)
+        XCTAssertEqual(results[0].name, "walmart.com")
+        XCTAssertEqual(results[1].type, RoutingType.Variable)
+        XCTAssertEqual(results[2].name, "foo")
+    }
+    
+    func test_routesForComponents_returnsVariableRoutesWhenNextComponentIsMissing() {
+        let route = Route("variableTest", type: .Other)
+        route.route("walmart.com", type: .Other).variable().route("foo", type: .Other)
+        
+        let results = route.routesForComponents(["walmart.com", "12345"])
+        
+        XCTAssertFalse(results.isEmpty)
+        XCTAssertEqual(results.count, 2)
+        XCTAssertEqual(results[0].name, "walmart.com")
+        XCTAssertEqual(results[1].type, RoutingType.Variable)
     }
 }
 
