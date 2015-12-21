@@ -6,61 +6,23 @@
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
+/* 
+
+TODO:
+
+Consider getting rid of this file.  It's only needed to sync manual navigation events
+with to prevent collison with router based nav events.  Do we need to do this?
+
+If not, we just need to uncomment the swizzle in Router.swift.
+
+*/
+
 import Foundation
 import UIKit
 import THGFoundation
 import THGDispatch
 
 typealias NavSyncAction = () -> Void
-
-extension Array {
-    
-    //Stack - LIFO
-    mutating func push(newElement: Element) {
-        self.append(newElement)
-    }
-    
-    mutating func pop() -> Element? {
-        if self.count > 0 {
-            return self.removeLast()
-        }
-        return nil
-    }
-    
-    func peekAtStack() -> Element? {
-        if self.count > 0 {
-            return self.last
-        }
-        return nil
-    }
-    
-    //Queue - FIFO
-    mutating func enqueue(newElement: Element) {
-        self.append(newElement)
-    }
-    
-    mutating func dequeue() -> Element? {
-        if self.count > 0 {
-            return self.removeAtIndex(0)
-        }
-        return nil
-    }
-    
-    func peekAtQueue() -> Element? {
-        if self.count > 0 {
-            return self.first
-        }
-        return nil
-    }
-}
-
-extension Array where Element : Equatable {
-    mutating func removeObject(object : Generator.Element) {
-        if let index = self.indexOf(object) {
-            self.removeAtIndex(index)
-        }
-    }
-}
 
 public class NavSync: NSObject {
     public static var sharedInstance = NavSync()
@@ -76,16 +38,14 @@ public class NavSync: NSObject {
     func appeared(controller: UIViewController, animated: Bool) {
         controller.router_viewDidAppear(animated)
         lock.unlock()
+        // i wish we could tell if this appear came from a route being processed or a 
+        // developer doing a push/present manually.
+        Router.lock.unlock()
     }
     
     func push(viewController: UIViewController, animated: Bool, navController: UINavigationController) {
         if animated {
             Dispatch().async(queue) {
-                while !self.lock.trylock() {
-                    print("Waiting (push)...")
-                    sleep(0)
-                }
-                
                 Dispatch().async(.Main) {
                     navController.router_pushViewController(viewController, animated: animated)
                 }
@@ -98,11 +58,6 @@ public class NavSync: NSObject {
     func present(viewController: UIViewController, animated: Bool, completion: (() -> Void)?, fromController: UIViewController) {
         if animated {
             Dispatch().async(queue) {
-                while !self.lock.trylock() {
-                    print("Waiting (present)...")
-                    sleep(0)
-                }
-                
                 Dispatch().async(.Main) {
                     fromController.router_presentViewController(viewController, animated: animated, completion: completion)
                 }

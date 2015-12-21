@@ -20,6 +20,23 @@ public enum RoutingType: UInt {
     case Modal
     case Variable
     case Other // ??
+    
+    var description: String {
+        switch self {
+        case .Segue:
+            return "Segue"
+        case .Static:
+            return "Static"
+        case .Push:
+            return "Push"
+        case .Modal:
+            return "Modal"
+        case .Variable:
+            return "Variable"
+        case .Other:
+            return "Other"
+        }
+    }
 }
 
 @objc
@@ -75,11 +92,15 @@ public class Route: NSObject {
         return route
     }
     
-    internal func execute(animated: Bool, lastViewController: UIViewController?, variable: String? = nil) -> Any? {
+    internal func execute(animated: Bool, variable: String? = nil) -> Any? {
         // bail out when missing a valid action
-        guard let action = action else { return nil }
+        guard let action = action else {
+            Router.lock.unlock()
+            return nil
+        }
         
         var result: Any? = nil
+        var navActionOccurred = false
 
         if let navigator = parentRouter?.navigator {
             if let staticValue = staticValue {
@@ -91,6 +112,7 @@ public class Route: NSObject {
                 result = action(variable: variable)
                 
                 let navController = navigator.selectedViewController as? UINavigationController
+                let lastVC = navController?.topViewController
                 
                 switch(type) {
                 case .Static:
@@ -103,36 +125,19 @@ public class Route: NSObject {
                 case .Push:
                     if let vc = result as? UIViewController {
                         navController?.pushViewController(vc, animated: animated)
+                        navActionOccurred = true
                     }
                     
                 case .Modal:
                     if let vc = result as? UIViewController {
-                        // is the VC presenting something already?
-                        if lastViewController?.presentedViewController != nil {
-                            lastViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
-                                // show our new VC once dismissed.
-                                lastViewController?.presentViewController(vc, animated: animated) {
-                                    // do something in the completion block?
-                                }
-                            }
-                        } else {
-                            lastViewController?.presentViewController(vc, animated: animated) {
-                                // do something in the completion block?
-                            }
-                        }
+                        lastVC?.presentViewController(vc, animated: animated, completion: nil)
+                        navActionOccurred = true
                     }
                     
                 case .Segue:
                     if let segueID = result as? String {
-                        // is the VC presenting something already?
-                        if lastViewController?.presentedViewController != nil {
-                            lastViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
-                                // perform our segue once dismissed.
-                                lastViewController?.performSegueWithIdentifier(segueID, sender: lastViewController)
-                            }
-                        } else {
-                            lastViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
-                        }
+                        lastVC?.performSegueWithIdentifier(segueID, sender: self)
+                        navActionOccurred = true
                     }
                     
                     
@@ -143,6 +148,12 @@ public class Route: NSObject {
         } else {
             // they don't have a navigator setup, so just run it.
             result = action(variable: variable)
+        }
+        
+        // if no navigation action actually happened, unlock so route execution can continue.
+        // otherwise, let the swizzle for viewDidAppear: in Router.swift do the unlock.
+        if navActionOccurred == false {
+            Router.lock.unlock()
         }
         
         return result
