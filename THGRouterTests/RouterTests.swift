@@ -136,7 +136,7 @@ class RouterTests: XCTestCase {
 extension RouterTests {
     // TODO: implement tests
     func test_translate() {
-        XCTAssertTrue(false)
+        XCTFail("translate test not implemented")
     }
 }
 
@@ -145,7 +145,7 @@ extension RouterTests {
 extension RouterTests {
     func test_routesForComponents() {
         // TODO: implement tests
-        XCTAssertTrue(false)
+        XCTFail("routesForComponents test not implemented")
     }
 }
 

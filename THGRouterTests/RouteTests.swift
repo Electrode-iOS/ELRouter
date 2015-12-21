@@ -161,9 +161,69 @@ extension RouteTests {
 // MARK: - execute Tests
 
 extension RouteTests {
-    // TODO: implement tests
-    func test_execute_basicStaticRoute() {
-        XCTAssertTrue(false)
+    func test_execute_returnsActionResult() {
+        let route = Route("executeTest", type: .Other) { variable in
+            return "foo"
+        }
+        
+        let result = route.execute(false)
+        
+        XCTAssertNotNil(result)
+        XCTAssertTrue(result is String)
+        XCTAssertEqual(result as? String, "foo")
+    }
+    
+    func test_execute_passesVariableToActionClosure() {
+        let route = Route("executeTest", type:  .Static) { variable in
+            XCTAssertNotNil(variable)
+            XCTAssertEqual(variable, "foo")
+            return nil
+        }
+        
+        route.execute(false, variable: "foo")
+    }
+    
+    func test_execute_pushesViewController() {
+        let router = Router()
+        let navigator = TestNavigator()
+        router.navigator = navigator
+        let route = Route("executeTest", type:  .Push) { variable in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            vc.title = "Push Test"
+            return vc
+        }
+        route.parentRouter = router
+        
+        route.execute(false)
+        
+        XCTAssertEqual(navigator.testNavigationController?.viewControllers.count, 2)
+        XCTAssertEqual(navigator.testNavigationController?.topViewController?.title, "Push Test")
+    }
+    
+    func test_execute_presentsModalViewController() {
+        let router = Router()
+        let navigator = TestNavigator()
+        router.navigator = navigator
+        let route = Route("executeTest", type:  .Modal) { variable in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            vc.title = "Modal Test"
+            return vc
+        }
+        route.parentRouter = router
+        
+        route.execute(false)
+        
+        XCTAssertEqual(navigator.testNavigationController?.viewControllers.count, 1)
+        XCTAssertNotNil(navigator.testNavigationController?.topViewController?.presentedViewController)
+        XCTAssertEqual(navigator.testNavigationController?.topViewController?.presentedViewController?.title, "Modal Test")
+    }
+    
+    func test_execute_setsStaticValue() {
+        XCTFail()
+    }
+    
+    func test_execute_performsSegue() {
+        XCTFail()
     }
 }
 
@@ -280,5 +340,21 @@ extension RouteTests {
         
         let filteredRoutes = route.routesByType(.Other)
         XCTAssertTrue(filteredRoutes.isEmpty)
+    }
+}
+
+@objc final class TestNavigator: NSObject, Navigator {
+    var selectedViewController: UIViewController?
+    var selectedIndex: Int = 0
+    var testNavigationController: UINavigationController?
+    
+    override init() {
+        let navigationConroller = UINavigationController(rootViewController: UIViewController(nibName: nil, bundle: nil))
+        testNavigationController = navigationConroller
+        selectedViewController = navigationConroller
+    }
+    
+    func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
+        
     }
 }
