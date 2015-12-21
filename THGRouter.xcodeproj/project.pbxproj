@@ -11,6 +11,7 @@
 		1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F02D1C0E00AB0039ED7F /* RouterTests.swift */; };
 		1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */; };
 		177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */; };
+		CA339E231C233ED200F1CFBF /* THGDispatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA339E201C233EB800F1CFBF /* THGDispatch.framework */; };
 		CA3930DF1BD011E90021CD95 /* THGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* THGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
 		CA39312C1BD015830021CD95 /* NavigationSyncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* NavigationSyncing.swift */; };
@@ -50,6 +51,20 @@
 			remoteGlobalIDString = CA8CD5631B7A9DCB00DA8BF7;
 			remoteInfo = THGFoundation_osxTests;
 		};
+		CA339E1F1C233EB800F1CFBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA0CEA691A8A877200DF93E9;
+			remoteInfo = THGDispatch;
+		};
+		CA339E211C233EB800F1CFBF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA0CEA741A8A877200DF93E9;
+			remoteInfo = THGDispatchTests;
+		};
 		CA3931421BD59A370021CD95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CA3930D21BD011E90021CD95 /* Project object */;
@@ -64,6 +79,7 @@
 		1714F02D1C0E00AB0039ED7F /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLDeepLinkTests.swift; sourceTree = "<group>"; };
 		177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGFoundation.xcodeproj; path = ../Excalibur/THGFoundation.xcodeproj; sourceTree = "<group>"; };
+		CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGDispatch.xcodeproj; path = ../KillerRabbit/THGDispatch.xcodeproj; sourceTree = "<group>"; };
 		CA3930DB1BD011E90021CD95 /* THGRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THGRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3930DE1BD011E90021CD95 /* THGRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THGRouter.h; sourceTree = "<group>"; };
 		CA3930E01BD011E90021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA339E231C233ED200F1CFBF /* THGDispatch.framework in Frameworks */,
 				177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +121,15 @@
 				177EC1451C03CD1E00DD5BB7 /* THGFoundationTests.xctest */,
 				177EC1471C03CD1E00DD5BB7 /* THGFoundation.framework */,
 				177EC1491C03CD1E00DD5BB7 /* THGFoundation_osxTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CA339E1B1C233EB800F1CFBF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CA339E201C233EB800F1CFBF /* THGDispatch.framework */,
+				CA339E221C233EB800F1CFBF /* THGDispatchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -144,6 +170,7 @@
 		CA3930E61BD013530021CD95 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */,
 				177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */,
 			);
 			name = Modules;
@@ -240,6 +267,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = CA339E1B1C233EB800F1CFBF /* Products */;
+					ProjectRef = CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */;
+				},
+				{
 					ProductGroup = 177EC13C1C03CD1E00DD5BB7 /* Products */;
 					ProjectRef = 177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */;
 				},
@@ -279,6 +310,20 @@
 			fileType = wrapper.cfbundle;
 			path = THGFoundation_osxTests.xctest;
 			remoteRef = 177EC1481C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CA339E201C233EB800F1CFBF /* THGDispatch.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = THGDispatch.framework;
+			remoteRef = CA339E1F1C233EB800F1CFBF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CA339E221C233EB800F1CFBF /* THGDispatchTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = THGDispatchTests.xctest;
+			remoteRef = CA339E211C233EB800F1CFBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
