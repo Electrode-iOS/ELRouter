@@ -43,7 +43,7 @@ extension Router {
         var controllers = [UIViewController]()
         
         for route in tabRoutes {
-            if let vc = route.execute(false) {
+            if let vc = route.execute(false, lastViewController: nil) {
                 if let vc = vc as? UINavigationController {
                     controllers.append(vc)
                 }
@@ -118,6 +118,8 @@ extension Router {
         let valid = routes.count == components.count
         
         if valid && routes.count > 0 {
+            var lastViewController: UIViewController? = nil
+            
             for i in 0..<components.count {
                 let route = routes[i]
                 
@@ -132,7 +134,8 @@ extension Router {
                     }
                 }
                 
-                route.execute(animated, variable: variable)
+                let result = route.execute(animated, lastViewController: lastViewController, variable: variable)
+                lastViewController = result as? UIViewController
             }
             
             result = true

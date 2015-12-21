@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import THGFoundation
 
 public typealias RouteActionClosure = (variable: String?) -> Any?
 
@@ -33,7 +34,7 @@ public class Route: NSObject {
     // this used to be weak, however due to the nature of how things are registered,
     // it can't be weak.  This creates a *retain loop*, however there is no mechanism
     // to remove existing route entries (we don't want someone unregistering 
-    // someoneelse's route.
+    // someoneelse's route).
     public private(set) var parentRoute: Route?
 
     /// Action block
@@ -74,7 +75,7 @@ public class Route: NSObject {
         return route
     }
     
-    public func execute(animated: Bool, variable: String? = nil) -> Any? {
+    internal func execute(animated: Bool, lastViewController: UIViewController?, variable: String? = nil) -> Any? {
         // bail out when missing a valid action
         guard let action = action else { return nil }
         
@@ -107,15 +108,15 @@ public class Route: NSObject {
                 case .Modal:
                     if let vc = result as? UIViewController {
                         // is the VC presenting something already?
-                        if navController?.topViewController?.presentedViewController != nil {
-                            navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
+                        if lastViewController?.presentedViewController != nil {
+                            lastViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
                                 // show our new VC once dismissed.
-                                navController?.topViewController?.presentViewController(vc, animated: animated) {
+                                lastViewController?.presentViewController(vc, animated: animated) {
                                     // do something in the completion block?
                                 }
                             }
                         } else {
-                            navController?.topViewController?.presentViewController(vc, animated: animated) {
+                            lastViewController?.presentViewController(vc, animated: animated) {
                                 // do something in the completion block?
                             }
                         }
@@ -124,15 +125,16 @@ public class Route: NSObject {
                 case .Segue:
                     if let segueID = result as? String {
                         // is the VC presenting something already?
-                        if navController?.topViewController?.presentedViewController != nil {
-                            navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
+                        if lastViewController?.presentedViewController != nil {
+                            lastViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
                                 // perform our segue once dismissed.
-                                navController?.topViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
+                                lastViewController?.performSegueWithIdentifier(segueID, sender: lastViewController)
                             }
                         } else {
-                            navController?.topViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
+                            lastViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
                         }
                     }
+                    
                     
                 default:
                     break
