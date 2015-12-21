@@ -87,7 +87,11 @@ extension Router {
      Can be used to determine if Routes are currently be processed.
      */
     public var processing: Bool {
-        return (Router.routesInFlight != nil)
+        var result = false
+        synchronized(self) { () -> Void in
+            result = (Router.routesInFlight != nil)
+        }
+        return result
     }
     
     /**
