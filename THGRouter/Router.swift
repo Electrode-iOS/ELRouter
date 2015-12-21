@@ -45,7 +45,7 @@ extension Router {
         let navigatorRoutes = routesByType(.Static)
         var controllers = [UIViewController]()
         
-        for route in tabRoutes {
+        for route in navigatorRoutes {
             if let vc = route.execute(false) as? UINavigationController {
                 controllers.append(vc)
             }
@@ -126,10 +126,10 @@ extension Router {
             inFlight = Router.routesInFlight != nil
         }
         if inFlight {
-            return result
+            return componentsWereHandled
         }
         
-        let routes = routesToExecute(masterRoute, components: components)
+        let routes = routesForComponents(components)
         let valid = routes.count == components.count
         
         if valid && routes.count > 0 {
