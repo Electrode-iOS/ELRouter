@@ -50,9 +50,9 @@ public class Route: NSObject {
 
     // this used to be weak, however due to the nature of how things are registered,
     // it can't be weak.  This creates a *retain loop*, however there is no mechanism
-    // to remove existing route entries (we don't want someone unregistering 
+    // to remove existing route entries (we don't want someone unregistering
     // someoneelse's route).
-    public private(set) var parentRoute: Route?
+    public internal(set) var parentRoute: Route?
 
     /// Action block
     public let action: RouteActionClosure?
@@ -78,6 +78,13 @@ public class Route: NSObject {
         self.action = action
     }
     
+    private weak var staticValue: AnyObject? = nil
+    internal weak var parentRouter: Router?
+}
+
+// MARK: - Adding sub routes
+
+extension Route {
     public func variable(action: RouteActionClosure! = nil) -> Route {
         let variable = Route(type: .Variable, parentRoute: self, action: action)
         variable.parentRouter = parentRouter
@@ -91,7 +98,17 @@ public class Route: NSObject {
         subRoutes.append(route)
         return route
     }
-    
+}
+
+// MARK: - Executing Routes
+
+extension Route {
+    /**
+     Execute the route's action
+     
+     - parameter animated: Determines if the view controller action should be animated.
+     - parameter variable: The variable value extracted from the URL component.
+    */
     internal func execute(animated: Bool, variable: String? = nil) -> Any? {
         // bail out when missing a valid action
         guard let action = action else {
@@ -140,9 +157,7 @@ public class Route: NSObject {
                         navActionOccurred = true
                     }
                     
-                    
-                default:
-                    break
+                case .Other, .Variable: break
                 }
             }
         } else {
@@ -158,18 +173,25 @@ public class Route: NSObject {
         
         return result
     }
-    
-    private weak var staticValue: AnyObject? = nil
-    internal weak var parentRouter: Router?
 }
 
-// MARK: Searching
+// MARK: - Finding Routes
 
 extension Route {
+    /**
+     Get all subroutes of a particular name.
+     
+     - parameter name: The name of the routes to get.
+    */
     public func routesByName(name: String) -> [Route] {
-        return subRoutes.filter { return $0.name == name }
+        return subRoutes.filterByName(name)
     }
     
+    /**
+     Get the first subroute of a particular name.
+     
+     - parameter name: The name of the route to get.
+    */
     public func routeByName(name: String) -> Route? {
         let routes = routesByName(name)
         if routes.count > 0 {
@@ -178,15 +200,103 @@ extension Route {
         return nil
     }
     
+    
+    /**
+     Get all subroutes of a particular routing type.
+     
+     - parameter type: The routing type of the routes to get.
+    */
     public func routesByType(type: RoutingType) -> [Route] {
-        return subRoutes.filter { return $0.type == type }
+        return subRoutes.filterByType(type)
     }
     
+    /**
+     Get the first subroute of a particular routing type.
+     
+     - parameter type: The routing type of the routes to get.
+    */
     public func routeByType(type: RoutingType) -> Route? {
         let routes = routesByType(type)
         if routes.count > 0 {
             return routes[0]
         }
         return nil
+    }
+    
+    /**
+     Get all subroutes that match an array of components.
+    
+     - parameter components: The array of component strings to match against.
+    */
+    internal func routesForComponents(components: [String]) -> [Route] {
+        var results = [Route]()
+        var currentRoute = self
+        
+        for i in 0..<components.count {
+            let component = components[i]
+            
+            if let route = currentRoute.routeByName(component) {
+                // oh, it's a route.  add that shit.
+                results.append(route)
+                currentRoute = route
+            } else {
+                // is it a variable?
+                
+                // we're more likely to have multiple variables, so check them against the
+                // next component in the set.
+                let variables = currentRoute.routesByType(.Variable)
+                var nextComponent: String? = nil
+                
+                if i < components.count - 1 {
+                    nextComponent = components[i+1]
+                }
+                
+                // if there are multiple variables specified, dig in to see if any match the next component.
+                var matchingVariableFound = false
+                
+                if let nextComponent = nextComponent {
+                    for item in variables {
+                        if item.routeByName(nextComponent) != nil || i == components.count - 1 {
+                            results.append(item)
+                            currentRoute = item
+                            matchingVariableFound = true
+                        }
+                    }
+                }
+                
+                // if there's only 1 variable specified here, just register it
+                // if there's no nextComponent.
+                if variables.count == 1 && !matchingVariableFound && nextComponent == nil {
+                    let item = variables[0]
+                    results.append(item)
+                    currentRoute = item
+                }
+            }
+        }
+        
+        return results
+    }
+}
+
+// MARK: Filtering Route Collections
+
+/// Adds a basic filtering API for collections of Route objects
+extension CollectionType where Generator.Element == Route {
+    /**
+     Filter a collection of Route objects by name.
+     
+     - parameter name: The name of the routes to filter by.
+    */
+    public func filterByName(name: String) -> [Route] {
+        return filter { $0.name == name }
+    }
+    
+    /**
+     Filter a collection of Route objects by routing type.
+     
+     - parameter type: The routing type of the routes to filter by.
+    */
+    public func filterByType(type: RoutingType) -> [Route] {
+        return filter { $0.type == type }
     }
 }
