@@ -8,6 +8,7 @@
 
 import Foundation
 import THGFoundation
+import THGDispatch
 
 /// 
 @objc
@@ -41,7 +42,7 @@ extension Router {
     public func updateNavigator() {
         guard let navigator = navigator else { return }
         
-        let tabRoutes = routesByType(.Static)
+        let navigatorRoutes = routesByType(.Static)
         var controllers = [UIViewController]()
         
         for route in tabRoutes {
@@ -83,6 +84,13 @@ extension Router {
 
 extension Router {
     /**
+     Can be used to determine if Routes are currently be processed.
+     */
+    public var processing: Bool {
+        return (Router.routesInFlight != nil)
+    }
+    
+    /**
      Evaluate a URL String. Routes matching the URL will be executed.
      
      - parameter url: The URL to evaluate.
@@ -111,30 +119,34 @@ extension Router {
     public func evaluate(components: [String], animated: Bool = false) -> Bool {
         var componentsWereHandled = false
         
-        let routes = routesForComponents(components)
+        // if we have routes in flight, return false.  We can't do anything
+        // until those have finished.
+        var inFlight = false
+        synchronized(self) {
+            inFlight = Router.routesInFlight != nil
+        }
+        if inFlight {
+            return result
+        }
+        
+        let routes = routesToExecute(masterRoute, components: components)
         let valid = routes.count == components.count
         
         if valid && routes.count > 0 {
-            for i in 0..<components.count {
-                let route = routes[i]
-                
-                var variable: String? = nil
-                if route.type == .Variable {
-                    variable = components[i]
-                }
-                
-                if route.parentRoute?.type == .Variable && i > 0  {
-                    variable = components[i-1]
-                }
-                
-                route.execute(animated, variable: variable)
+            synchronized(self) {
+                Router.routesInFlight = routes
             }
+            
+            serializedRoute(routes, components: components, animated: animated)
             
             componentsWereHandled = true
         }
         
         return componentsWereHandled
     }
+    
+    internal static let lock = Spinlock()
+    private static var routesInFlight: [Route]? = nil
 }
 
 // MARK: - Getting Routes
@@ -177,3 +189,74 @@ extension Router {
         return masterRoute.routesForComponents(components)
     }
 }
+
+// MARK: - Route/Navigation synchronization
+
+/*extension UIViewController {
+    public override class func initialize() {
+        struct Static {
+            static var token: dispatch_once_t = 0
+        }
+        
+        // make sure this isn't a subclass
+        if self !== UIViewController.self {
+            return
+        }
+        
+        dispatch_once(&Static.token) {
+            unsafeSwizzle(self, original: Selector("viewDidAppear:"), replacement: Selector("router_viewDidAppear:"))
+        }
+    }
+    
+    internal func router_viewDidAppear(animated: Bool) {
+        // release the lock that's holding up route execution.
+        Router.lock.unlock()
+    }
+}*/
+
+extension Router {
+    internal func serializedRoute(routes: [Route], components: [String], animated: Bool) {
+        
+        let navController = navigator?.selectedViewController as? UINavigationController
+        // clear any presenting controllers.
+        if let presentedViewController = navController?.topViewController?.presentedViewController {
+            presentedViewController.dismissViewControllerAnimated(animated, completion: nil)
+        }
+
+        // process routes in the background.
+        Dispatch().async(.Background) {
+            for i in 0..<components.count {
+                let route = routes[i]
+
+                var variable: String? = nil
+                if route.type == .Variable {
+                    variable = components[i]
+                }
+                
+                if route.parentRoute?.type == .Variable {
+                    if i > 0 {
+                        variable = components[i-1]
+                    }
+                }
+                
+                // acquire the lock.  if there's a nav event in progress
+                // this will wait until that event has finished.
+                Router.lock.lock()
+                
+                log(.Debug, "Processing route: \((route.name ?? variable)!), \(route.type.description)")
+                
+                // execute route on the main thread.
+                Dispatch().async(.Main) {
+                    route.execute(animated, variable: variable)
+                    log(.Debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
+                }
+            }
+            
+            // clear our in-flight routes now that we're done.
+            synchronized(self) {
+                Router.routesInFlight = nil
+            }
+        }
+    }
+}
+

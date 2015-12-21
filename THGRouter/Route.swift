@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import THGFoundation
 
 public typealias RouteActionClosure = (variable: String?) -> Any?
 
@@ -19,6 +20,23 @@ public enum RoutingType: UInt {
     case Modal
     case Variable
     case Other // ??
+    
+    var description: String {
+        switch self {
+        case .Segue:
+            return "Segue"
+        case .Static:
+            return "Static"
+        case .Push:
+            return "Push"
+        case .Modal:
+            return "Modal"
+        case .Variable:
+            return "Variable"
+        case .Other:
+            return "Other"
+        }
+    }
 }
 
 @objc
@@ -32,8 +50,8 @@ public class Route: NSObject {
 
     // this used to be weak, however due to the nature of how things are registered,
     // it can't be weak.  This creates a *retain loop*, however there is no mechanism
-    // to remove existing route entries (we don't want someone unregistering 
-    // someoneelse's route.
+    // to remove existing route entries (we don't want someone unregistering
+    // someoneelse's route).
     public internal(set) var parentRoute: Route?
 
     /// Action block
@@ -91,11 +109,15 @@ extension Route {
      - parameter animated: Determines if the view controller action should be animated.
      - parameter variable: The variable value extracted from the URL component.
     */
-    public func execute(animated: Bool, variable: String? = nil) -> Any? {
+    internal func execute(animated: Bool, variable: String? = nil) -> Any? {
         // bail out when missing a valid action
-        guard let action = action else { return nil }
+        guard let action = action else {
+            Router.lock.unlock()
+            return nil
+        }
         
         var result: Any? = nil
+        var navActionOccurred = false
 
         if let navigator = parentRouter?.navigator {
             if let staticValue = staticValue {
@@ -107,6 +129,7 @@ extension Route {
                 result = action(variable: variable)
                 
                 let navController = navigator.selectedViewController as? UINavigationController
+                let lastVC = navController?.topViewController
                 
                 switch(type) {
                 case .Static:
@@ -119,36 +142,19 @@ extension Route {
                 case .Push:
                     if let vc = result as? UIViewController {
                         navController?.pushViewController(vc, animated: animated)
+                        navActionOccurred = true
                     }
                     
                 case .Modal:
                     if let vc = result as? UIViewController {
-                        // is the VC presenting something already?
-                        if navController?.topViewController?.presentedViewController != nil {
-                            navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
-                                // show our new VC once dismissed.
-                                navController?.topViewController?.presentViewController(vc, animated: animated) {
-                                    // do something in the completion block?
-                                }
-                            }
-                        } else {
-                            navController?.topViewController?.presentViewController(vc, animated: animated) {
-                                // do something in the completion block?
-                            }
-                        }
+                        lastVC?.presentViewController(vc, animated: animated, completion: nil)
+                        navActionOccurred = true
                     }
                     
                 case .Segue:
                     if let segueID = result as? String {
-                        // is the VC presenting something already?
-                        if navController?.topViewController?.presentedViewController != nil {
-                            navController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated) { () -> Void in
-                                // perform our segue once dismissed.
-                                navController?.topViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
-                            }
-                        } else {
-                            navController?.topViewController?.performSegueWithIdentifier(segueID, sender: navController?.topViewController)
-                        }
+                        lastVC?.performSegueWithIdentifier(segueID, sender: self)
+                        navActionOccurred = true
                     }
                     
                 case .Other, .Variable: break
@@ -157,6 +163,12 @@ extension Route {
         } else {
             // they don't have a navigator setup, so just run it.
             result = action(variable: variable)
+        }
+        
+        // if no navigation action actually happened, unlock so route execution can continue.
+        // otherwise, let the swizzle for viewDidAppear: in Router.swift do the unlock.
+        if navActionOccurred == false {
+            Router.lock.unlock()
         }
         
         return result
