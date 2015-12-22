@@ -10,6 +10,7 @@
 		1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */; };
 		1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F02D1C0E00AB0039ED7F /* RouterTests.swift */; };
 		1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */; };
+		174962781C29AA8600FE8DEE /* MockNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174962771C29AA8600FE8DEE /* MockNavigator.swift */; };
 		177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */; };
 		17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */; };
 		17E105591C2850D900C05CEA /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105571C2850D900C05CEA /* RouteTests.swift */; };
@@ -103,6 +104,7 @@
 		1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarControllerTests.swift; sourceTree = "<group>"; };
 		1714F02D1C0E00AB0039ED7F /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLDeepLinkTests.swift; sourceTree = "<group>"; };
+		174962771C29AA8600FE8DEE /* MockNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNavigator.swift; sourceTree = "<group>"; };
 		177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGFoundation.xcodeproj; path = ../Excalibur/THGFoundation.xcodeproj; sourceTree = "<group>"; };
 		17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCollectionTypeTests.swift; sourceTree = "<group>"; };
 		17E105571C2850D900C05CEA /* RouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				CA39313E1BD59A370021CD95 /* THGRouterTests.swift */,
 				1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */,
 				1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */,
+				174962771C29AA8600FE8DEE /* MockNavigator.swift */,
 			);
 			path = THGRouterTests;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 			files = (
 				CA39313F1BD59A370021CD95 /* THGRouterTests.swift in Sources */,
 				1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */,
+				174962781C29AA8600FE8DEE /* MockNavigator.swift in Sources */,
 				17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */,
 				1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */,
 				1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */,

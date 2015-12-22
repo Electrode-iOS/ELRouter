@@ -185,7 +185,7 @@ extension RouteTests {
     
     func test_execute_pushesViewController() {
         let router = Router()
-        let navigator = TestNavigator()
+        let navigator = MockNavigator()
         router.navigator = navigator
         let route = Route("executeTest", type:  .Push) { variable in
             let vc = UIViewController(nibName: nil, bundle: nil)
@@ -202,7 +202,7 @@ extension RouteTests {
     
     func test_execute_presentsModalViewController() {
         let router = Router()
-        let navigator = TestNavigator()
+        let navigator = MockNavigator()
         router.navigator = navigator
         let route = Route("executeTest", type:  .Modal) { variable in
             let vc = UIViewController(nibName: nil, bundle: nil)
@@ -351,21 +351,5 @@ extension RouteTests {
         
         let filteredRoutes = route.routesByType(.Other)
         XCTAssertTrue(filteredRoutes.isEmpty)
-    }
-}
-
-@objc final class TestNavigator: NSObject, Navigator {
-    var selectedViewController: UIViewController?
-    var selectedIndex: Int = 0
-    var testNavigationController: UINavigationController?
-    
-    override init() {
-        let navigationConroller = UINavigationController(rootViewController: UIViewController(nibName: nil, bundle: nil))
-        testNavigationController = navigationConroller
-        selectedViewController = navigationConroller
-    }
-    
-    func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
-        
     }
 }
