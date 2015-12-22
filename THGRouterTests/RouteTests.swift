@@ -218,11 +218,22 @@ extension RouteTests {
         XCTAssertEqual(navigator.testNavigationController?.topViewController?.presentedViewController?.title, "Modal Test")
     }
     
-    func test_execute_setsStaticValue() {
-        XCTFail()
+    func test_execute_returnsStaticValue() {
+        let route = Route("executeTest", type:  .Static) { variable in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            vc.title = "Static Test"
+            return vc
+        }
+        
+        let staticValue = route.execute(false)
+        
+        XCTAssertNotNil(staticValue)
+        XCTAssertTrue(staticValue is UIViewController)
+        XCTAssertEqual((staticValue as? UIViewController)?.title, "Static Test")
     }
     
     func test_execute_performsSegue() {
+        // TODO: test segues
         XCTFail()
     }
 }
