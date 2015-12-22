@@ -135,8 +135,20 @@ class RouterTests: XCTestCase {
 
 extension RouterTests {
     // TODO: implement tests
-    func test_translate() {
-        XCTFail("translate test not implemented")
+    func test_translate_shouldNotThrowExceptionForNewTranslation() {
+        let router = Router()
+        
+        // nothing to assert because test will fail if exception is thrown
+        router.translate("foo", to: "bar")
+    }
+    
+    func test_translate_throwsExceptionForExistingTranslation() {
+        let router = Router()
+        router.translate("foo", to: "bar")
+        
+        // TODO: this test always fails, no way to catch an obj-c exception from Swift
+        router.translate("foo", to: "bar")
+
     }
 }
 
