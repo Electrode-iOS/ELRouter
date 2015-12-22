@@ -353,3 +353,25 @@ extension RouteTests {
         XCTAssertTrue(filteredRoutes.isEmpty)
     }
 }
+
+extension RouteTests {
+    func test_routeByType_returnsRouteForValidType() {
+        let testName = "subRouteName"
+        let route = Route("routeByName", type: .Other)
+        route.route(testName, type: .Static)
+        
+        let fetchedRoute = route.routeByType(.Static)
+        
+        XCTAssertNotNil(fetchedRoute)
+        XCTAssertEqual(fetchedRoute?.type, RoutingType.Static)
+        XCTAssertEqual(fetchedRoute?.name, testName)
+    }
+    
+    func test_routeByType_returnsNilForBogusType() {
+        let route = Route("routeByName", type: .Other)
+        
+        let fetchedRoute = route.routeByType(.Static)
+        
+        XCTAssertNil(fetchedRoute)
+    }
+}
