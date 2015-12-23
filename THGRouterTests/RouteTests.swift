@@ -236,6 +236,22 @@ extension RouteTests {
         // TODO: test segues
         XCTFail()
     }
+    
+    func test_execute_setsSelectedViewController() {
+        let router = Router()
+        let navigator = MockNavigator()
+        router.navigator = navigator
+        let vc = UIViewController(nibName: nil, bundle: nil)
+        let route = Route("selectTest", type: .Static) { _ in
+            return vc
+        }
+        route.parentRouter = router
+        route.execute(false) // setup staticValue
+
+        route.execute(false)
+        
+        XCTAssertEqual(vc, navigator.selectedViewController)
+    }
 }
 
 // MARK: - routesForComponents Tests
