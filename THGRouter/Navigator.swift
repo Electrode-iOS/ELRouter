@@ -17,6 +17,11 @@ public protocol Navigator {
     func setViewControllers(viewControllers: [UIViewController]?, animated: Bool)
 }
 
+extension Navigator {
+    var selectedNavigationController: UINavigationController? {
+        return selectedViewController as? UINavigationController
+    }
+}
 
 extension UITabBarController: Navigator {
     // UITabBarController has the necessary stuff to conform to this already.
