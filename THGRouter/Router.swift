@@ -15,16 +15,16 @@ import THGDispatch
 public class Router: NSObject {
     static public let sharedInstance = Router()
     public var navigator: Navigator? = nil
-    
     public var routes: [Route] {
         return masterRoute.subRoutes
     }
-    
     private let masterRoute: Route = Route("MASTER", type: .Other)
-    
-    
     private var translation = [String : String]()
+}
 
+// MARK: - Translation API
+
+extension Router {
     public func translate(from: String, to: String) {
         let existing = translation[from]
         if existing != nil {

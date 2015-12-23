@@ -185,7 +185,7 @@ extension RouteTests {
     
     func test_execute_pushesViewController() {
         let router = Router()
-        let navigator = TestNavigator()
+        let navigator = MockNavigator()
         router.navigator = navigator
         let route = Route("executeTest", type:  .Push) { variable in
             let vc = UIViewController(nibName: nil, bundle: nil)
@@ -202,7 +202,7 @@ extension RouteTests {
     
     func test_execute_presentsModalViewController() {
         let router = Router()
-        let navigator = TestNavigator()
+        let navigator = MockNavigator()
         router.navigator = navigator
         let route = Route("executeTest", type:  .Modal) { variable in
             let vc = UIViewController(nibName: nil, bundle: nil)
@@ -218,12 +218,50 @@ extension RouteTests {
         XCTAssertEqual(navigator.testNavigationController?.topViewController?.presentedViewController?.title, "Modal Test")
     }
     
-    func test_execute_setsStaticValue() {
-        XCTFail()
+    func test_execute_returnsStaticValue() {
+        let route = Route("executeTest", type:  .Static) { variable in
+            let vc = UIViewController(nibName: nil, bundle: nil)
+            vc.title = "Static Test"
+            return vc
+        }
+        
+        let staticValue = route.execute(false)
+        
+        XCTAssertNotNil(staticValue)
+        XCTAssertTrue(staticValue is UIViewController)
+        XCTAssertEqual((staticValue as? UIViewController)?.title, "Static Test")
     }
     
     func test_execute_performsSegue() {
-        XCTFail()
+        let router = Router()
+        let navigator = MockNavigator()
+        router.navigator = navigator
+        let vc = ExecuteSegueTestViewController(nibName: nil, bundle: nil)
+        navigator.selectedViewController = UINavigationController(rootViewController: vc)
+        let route = Route("segueTest", type:  .Segue) { variable in
+            return "fooSegue"
+        }
+        route.parentRouter = router
+
+        route.execute(false)
+        
+        XCTAssertEqual(vc.segueIdentifierValue, "fooSegue")
+    }
+    
+    func test_execute_setsSelectedViewController() {
+        let router = Router()
+        let navigator = MockNavigator()
+        router.navigator = navigator
+        let vc = UIViewController(nibName: nil, bundle: nil)
+        let route = Route("selectTest", type: .Static) { _ in
+            return vc
+        }
+        route.parentRouter = router
+        route.execute(false) // setup staticValue
+
+        route.execute(false)
+        
+        XCTAssertEqual(vc, navigator.selectedViewController)
     }
 }
 
@@ -343,18 +381,36 @@ extension RouteTests {
     }
 }
 
-@objc final class TestNavigator: NSObject, Navigator {
-    var selectedViewController: UIViewController?
-    var selectedIndex: Int = 0
-    var testNavigationController: UINavigationController?
-    
-    override init() {
-        let navigationConroller = UINavigationController(rootViewController: UIViewController(nibName: nil, bundle: nil))
-        testNavigationController = navigationConroller
-        selectedViewController = navigationConroller
+// MARK: - routeByType
+
+extension RouteTests {
+    func test_routeByType_returnsRouteForValidType() {
+        let testName = "subRouteName"
+        let route = Route("routeByName", type: .Other)
+        route.route(testName, type: .Static)
+        
+        let fetchedRoute = route.routeByType(.Static)
+        
+        XCTAssertNotNil(fetchedRoute)
+        XCTAssertEqual(fetchedRoute?.type, RoutingType.Static)
+        XCTAssertEqual(fetchedRoute?.name, testName)
     }
     
-    func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
+    func test_routeByType_returnsNilForBogusType() {
+        let route = Route("routeByName", type: .Other)
         
+        let fetchedRoute = route.routeByType(.Static)
+        
+        XCTAssertNil(fetchedRoute)
+    }
+}
+
+// MARK: - Mock vc
+
+private class ExecuteSegueTestViewController: UIViewController {
+    var segueIdentifierValue: String?
+    
+    override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
+        segueIdentifierValue = identifier
     }
 }
