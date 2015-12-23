@@ -135,17 +135,76 @@ class RouterTests: XCTestCase {
 
 extension RouterTests {
     // TODO: implement tests
-    func test_translate() {
-        XCTFail("translate test not implemented")
+    func test_translate_shouldNotThrowExceptionForNewTranslation() {
+        let router = Router()
+        
+        // nothing to assert because test will fail if exception is thrown
+        router.translate("foo", to: "bar")
+    }
+    
+    func test_translate_throwsExceptionForExistingTranslation() {
+        let router = Router()
+        router.translate("foo", to: "bar")
+        
+        // TODO: this test always fails, no way to catch an obj-c exception from Swift
+        router.translate("foo", to: "bar")
+
     }
 }
 
 // MARK: - routesForComponents Tests
 
 extension RouterTests {
-    func test_routesForComponents() {
-        // TODO: implement tests
-        XCTFail("routesForComponents test not implemented")
+    func test_routesForComponents_returnsEmptyResultsForBogusComponents() {
+        let router = Router()
+        let results = router.routesForComponents(["walmart.com", "foo"])
+        
+        XCTAssertTrue(results.isEmpty)
+    }
+    
+    func test_routesForComponents_returnsEmptyResultsForEmptyComponents() {
+        let router = Router()
+        let results = router.routesForComponents([])
+        
+        XCTAssertTrue(results.isEmpty)
+    }
+    
+    func test_routesForComponents_returnsNamedRoutesForValidComponents() {
+        let router = Router()
+        let route = Route("walmart.com", type: .Other).route("foo", type: .Other)
+        router.register(route)
+        
+        let results = router.routesForComponents(["walmart.com", "foo"])
+        
+        XCTAssertFalse(results.isEmpty)
+        XCTAssertEqual(results.count, 2)
+        XCTAssertEqual(results[0].name, "walmart.com")
+        XCTAssertEqual(results[1].name, "foo")
+    }
+}
+
+extension RouterTests {
+    func test_routesForURL__returnsNamedRoutesForValidURL() {
+        let router = Router()
+        let route = Route("walmart.com", type: .Other).route("foo", type: .Other)
+        router.register(route)
+        let url = NSURL(string: "scheme://walmart.com/foo")!
+        
+        let results = router.routesForURL(url)
+        
+        XCTAssertFalse(results.isEmpty)
+        XCTAssertEqual(results.count, 2)
+        XCTAssertEqual(results[0].name, "walmart.com")
+        XCTAssertEqual(results[1].name, "foo")
+    }
+    
+    func test_routesForURL__returnsEmptyResultsForBadURL() {
+        let router = Router()
+        let url = NSURL(string: "::")!
+        
+        let results = router.routesForURL(url)
+        
+        XCTAssertTrue(results.isEmpty)
     }
 }
 
@@ -275,6 +334,14 @@ extension RouterTests {
         XCTAssertFalse(routeWasHandled)
     }
     
+    func test_evaluateURL_returnsFalseForBadURL() {
+        let router = Router()
+        let url = NSURL(string: "::")!
+        
+        let routeWasHandled = router.evaluateURL(url)
+        XCTAssertFalse(routeWasHandled)
+    }
+    
     func test_evaluateURL_executesActionWithMultipleURLComponents() {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
@@ -358,5 +425,43 @@ extension RouterTests {
         
         let routeWasHandled = router.evaluateURLString("scheme://walmart.com")
         XCTAssertFalse(routeWasHandled)
+    }
+    
+    func test_evaluateURLString_returnsFalseForBadURLL() {
+        let router = Router()
+        
+        let routeWasHandled = router.evaluateURLString("      ")
+        XCTAssertFalse(routeWasHandled)
+    }
+}
+
+// MARK: - processing Tests
+
+extension RouterTests {
+    func test_processing_returnsFalseWhenNoRoutesAreInFlight() {
+        let router = Router()
+        let processing = router.processing
+        
+        XCTAssertFalse(processing)
+    }
+}
+
+// MARK: - serializedRoute Tests
+
+extension RouterTests {
+    func test_serializedRoute_dismissesPresentedViewController() {
+        // TODO: fix this test. failing because UIViewController is being presented in a view that is not
+        // part of the view hiearchy
+        let router = Router()
+        let navigator = MockNavigator()
+        router.navigator = navigator
+        let viewController = UIViewController(nibName: nil, bundle: nil)
+        navigator.testNavigationController?.topViewController?.presentViewController(viewController, animated: false, completion: nil)
+        
+        XCTAssertNotNil(navigator.testNavigationController?.topViewController?.presentedViewController)
+
+        router.serializedRoute([], components: [], animated: false)
+        
+        XCTAssertNil(navigator.testNavigationController?.topViewController?.presentedViewController)
     }
 }
