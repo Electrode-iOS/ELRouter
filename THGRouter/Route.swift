@@ -141,19 +141,19 @@ extension Route {
                     
                 case .Push:
                     if let vc = result as? UIViewController {
-                        navController?.pushViewController(vc, animated: animated)
+                        navController?.router_pushViewController(vc, animated: animated)
                         navActionOccurred = true
                     }
                     
                 case .Modal:
                     if let vc = result as? UIViewController {
-                        lastVC?.presentViewController(vc, animated: animated, completion: nil)
+                        lastVC?.router_presentViewController(vc, animated: animated, completion: nil)
                         navActionOccurred = true
                     }
                     
                 case .Segue:
                     if let segueID = result as? String {
-                        lastVC?.performSegueWithIdentifier(segueID, sender: self)
+                        lastVC?.router_performSegueWithIdentifier(segueID, sender: self)
                         navActionOccurred = true
                     }
                     

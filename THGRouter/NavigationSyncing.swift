@@ -24,47 +24,65 @@ import THGDispatch
 
 typealias NavSyncAction = () -> Void
 
-public class NavSync: NSObject {
-    public static var sharedInstance = NavSync()
-    
-    let queue: DispatchQueue
-    internal let lock = Spinlock()
+internal class NavSync: NSObject {
+    internal static var sharedInstance = NavSync()
+
+    let routerQueue: DispatchQueue
     
     override init() {
-        queue = DispatchQueue.createSerial("THGRouterNavSync", targetQueue: .Background)
+        routerQueue = DispatchQueue.createSerial("THGRouterSync", targetQueue: .Background)
         super.init()
     }
     
-    func appeared(controller: UIViewController, animated: Bool) {
-        controller.router_viewDidAppear(animated)
-        lock.unlock()
-        // i wish we could tell if this appear came from a route being processed or a 
-        // developer doing a push/present manually.
+    internal func appeared(controller: UIViewController, animated: Bool) {
+        controller.swizzled_viewDidAppear(animated)
         Router.lock.unlock()
     }
     
-    func push(viewController: UIViewController, animated: Bool, navController: UINavigationController) {
+    internal func push(viewController: UIViewController, animated: Bool, navController: UINavigationController, fromRouter: Bool) {
+        // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
+        if !fromRouter && Router.sharedInstance.processing {
+            exceptionFailure("Attempted to push a ViewController while routes were being processed!")
+            return
+        }
+        
         if animated {
-            Dispatch().async(queue) {
+            Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
-                    navController.router_pushViewController(viewController, animated: animated)
+                    navController.swizzled_pushViewController(viewController, animated: animated)
                 }
             }
         } else {
-            navController.router_pushViewController(viewController, animated: animated)
+            navController.swizzled_pushViewController(viewController, animated: animated)
         }
     }
 
-    func present(viewController: UIViewController, animated: Bool, completion: (() -> Void)?, fromController: UIViewController) {
+    internal func present(viewController: UIViewController, animated: Bool, completion: (() -> Void)?, fromController: UIViewController, fromRouter: Bool) {
+        // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
+        if !fromRouter && Router.sharedInstance.processing {
+            exceptionFailure("Attempted to present a ViewController while routes were being processed!")
+            return
+        }
+        
         if animated {
-            Dispatch().async(queue) {
+            Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
-                    fromController.router_presentViewController(viewController, animated: animated, completion: completion)
+                    fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
                 }
             }
         } else {
-            fromController.router_presentViewController(viewController, animated: animated, completion: completion)
+            fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
         }
+    }
+    
+    internal func performSegueWithIdentifier(identifier: String, sender: AnyObject?, fromController: UIViewController, fromRouter: Bool) {
+        // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
+        if !fromRouter && Router.sharedInstance.processing {
+            exceptionFailure("Attempted to perform a segue while routes were being processed!")
+            return
+        }
+
+        fromController.performSegueWithIdentifier(identifier, sender: sender)
     }
 }
 
@@ -80,7 +98,7 @@ extension UINavigationController {
         }
         
         dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: Selector("pushViewController:animated:"), replacement: Selector("router_pushViewController:animated:"))
+            unsafeSwizzle(self, original: Selector("pushViewController:animated:"), replacement: Selector("swizzled_pushViewController:animated:"))
             
             // TODO: figure out if we need to handle popViewController, popToRootViewController and popToViewController.
         }
@@ -88,10 +106,13 @@ extension UINavigationController {
     
     // MARK: - Method Swizzling
     
-    internal func router_pushViewController(viewController: UIViewController, animated: Bool) {
-        NavSync.sharedInstance.push(viewController, animated: animated, navController: self)
+    internal func swizzled_pushViewController(viewController: UIViewController, animated: Bool) {
+        NavSync.sharedInstance.push(viewController, animated: animated, navController: self, fromRouter: false)
     }
 
+    internal func router_pushViewController(viewController: UIViewController, animated: Bool) {
+        NavSync.sharedInstance.push(viewController, animated: animated, navController: self, fromRouter: true)
+    }
 }
 
 extension UIViewController {
@@ -106,8 +127,8 @@ extension UIViewController {
         }
         
         dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: Selector("viewDidAppear:"), replacement: Selector("router_viewDidAppear:"))
-            unsafeSwizzle(self, original: Selector("presentViewController:animated:completion:"), replacement: Selector("router_presentViewController:animated:completion:"))
+            unsafeSwizzle(self, original: Selector("viewDidAppear:"), replacement: Selector("swizzled_viewDidAppear:"))
+            unsafeSwizzle(self, original: Selector("presentViewController:animated:completion:"), replacement: Selector("swizzled_presentViewController:animated:completion:"))
             
             // TODO: figure out if we need to handle dismissViewControllerAnimated
         }
@@ -115,12 +136,20 @@ extension UIViewController {
     
     // MARK: - Method Swizzling
     
-    internal func router_viewDidAppear(animated: Bool) {
+    internal func swizzled_viewDidAppear(animated: Bool) {
         // release whatever lock is present
         NavSync.sharedInstance.appeared(self, animated: animated)
     }
     
+    internal func swizzled_presentViewController(viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        NavSync.sharedInstance.present(viewControllerToPresent, animated: animated, completion: completion, fromController: self, fromRouter: false)
+    }
+    
     internal func router_presentViewController(viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?) {
-        NavSync.sharedInstance.present(viewControllerToPresent, animated: animated, completion: completion, fromController: self)
+        NavSync.sharedInstance.present(viewControllerToPresent, animated: animated, completion: completion, fromController: self, fromRouter: true)
+    }
+    
+    internal func router_performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
+        NavSync.sharedInstance.performSegueWithIdentifier(identifier, sender: sender, fromController: self, fromRouter: true)
     }
 }

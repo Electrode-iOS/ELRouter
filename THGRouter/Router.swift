@@ -125,22 +125,14 @@ extension Router {
         
         // if we have routes in flight, return false.  We can't do anything
         // until those have finished.
-        var inFlight = false
-        synchronized(self) {
-            inFlight = Router.routesInFlight != nil
-        }
-        if inFlight {
-            return componentsWereHandled
+        if processing {
+            return false
         }
         
         let routes = routesForComponents(components)
         let valid = routes.count == components.count
         
         if valid && routes.count > 0 {
-            synchronized(self) {
-                Router.routesInFlight = routes
-            }
-            
             serializedRoute(routes, components: components, animated: animated)
             
             componentsWereHandled = true
@@ -220,13 +212,21 @@ extension Router {
 
 extension Router {
     internal func serializedRoute(routes: [Route], components: [String], animated: Bool) {
+        if processing {
+            return
+        }
+        
+        // set our in-flight routes to what we were given.
+        synchronized(self) {
+            Router.routesInFlight = routes
+        }
         
         let navController = navigator?.selectedViewController as? UINavigationController
         // clear any presenting controllers.
         if let presentedViewController = navController?.topViewController?.presentedViewController {
             presentedViewController.dismissViewControllerAnimated(animated, completion: nil)
         }
-
+        
         // process routes in the background.
         Dispatch().async(.Background) {
             for i in 0..<components.count {
