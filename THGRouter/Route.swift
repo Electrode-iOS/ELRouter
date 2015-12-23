@@ -123,7 +123,7 @@ extension Route {
             if let staticValue = staticValue {
                 result = staticValue
                 if let vc = staticValue as? UIViewController {
-                    parentRouter?.navigator?.selectedViewController = vc
+                    navigator.selectedViewController = vc
                 }
             } else {
                 result = action(variable: variable)

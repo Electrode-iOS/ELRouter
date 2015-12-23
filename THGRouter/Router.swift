@@ -212,9 +212,7 @@ extension Router {
 
 extension Router {
     internal func serializedRoute(routes: [Route], components: [String], animated: Bool) {
-        if processing {
-            return
-        }
+        guard !processing else { return }
         
         // set our in-flight routes to what we were given.
         synchronized(self) {
