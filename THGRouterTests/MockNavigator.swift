@@ -21,6 +21,6 @@ import THGRouter
     }
     
     func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
-        
+        selectedViewController = viewControllers?.first
     }
 }

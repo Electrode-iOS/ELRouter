@@ -233,8 +233,19 @@ extension RouteTests {
     }
     
     func test_execute_performsSegue() {
-        // TODO: test segues
-        XCTFail()
+        let router = Router()
+        let navigator = MockNavigator()
+        router.navigator = navigator
+        let vc = ExecuteSegueTestViewController(nibName: nil, bundle: nil)
+        navigator.selectedViewController = UINavigationController(rootViewController: vc)
+        let route = Route("segueTest", type:  .Segue) { variable in
+            return "fooSegue"
+        }
+        route.parentRouter = router
+
+        route.execute(false)
+        
+        XCTAssertEqual(vc.segueIdentifierValue, "fooSegue")
     }
     
     func test_execute_setsSelectedViewController() {
@@ -370,6 +381,8 @@ extension RouteTests {
     }
 }
 
+// MARK: - routeByType
+
 extension RouteTests {
     func test_routeByType_returnsRouteForValidType() {
         let testName = "subRouteName"
@@ -389,5 +402,15 @@ extension RouteTests {
         let fetchedRoute = route.routeByType(.Static)
         
         XCTAssertNil(fetchedRoute)
+    }
+}
+
+// MARK: - Mock vc
+
+private class ExecuteSegueTestViewController: UIViewController {
+    var segueIdentifierValue: String?
+    
+    override func performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
+        segueIdentifierValue = identifier
     }
 }
