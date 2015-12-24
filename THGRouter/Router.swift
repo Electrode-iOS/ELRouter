@@ -212,21 +212,16 @@ extension Router {
 
 extension Router {
     internal func serializedRoute(routes: [Route], components: [String], animated: Bool) {
-        if processing {
-            return
-        }
+        guard !processing else { return }
         
         // set our in-flight routes to what we were given.
         synchronized(self) {
             Router.routesInFlight = routes
         }
         
-        let navController = navigator?.selectedViewController as? UINavigationController
         // clear any presenting controllers.
-        if let presentedViewController = navController?.topViewController?.presentedViewController {
-            presentedViewController.dismissViewControllerAnimated(animated, completion: nil)
-        }
-        
+        navigator?.selectedNavigationController?.topViewController?.presentedViewController?.dismissViewControllerAnimated(animated, completion: nil)
+
         // process routes in the background.
         Dispatch().async(.Background) {
             for i in 0..<components.count {

@@ -123,13 +123,10 @@ extension Route {
             if let staticValue = staticValue {
                 result = staticValue
                 if let vc = staticValue as? UIViewController {
-                    parentRouter?.navigator?.selectedViewController = vc
+                    navigator.selectedViewController = vc
                 }
             } else {
                 result = action(variable: variable)
-                
-                let navController = navigator.selectedViewController as? UINavigationController
-                let lastVC = navController?.topViewController
                 
                 switch(type) {
                 case .Static:
@@ -141,19 +138,19 @@ extension Route {
                     
                 case .Push:
                     if let vc = result as? UIViewController {
-                        navController?.router_pushViewController(vc, animated: animated)
+                        navigator.selectedNavigationController?.router_pushViewController(vc, animated: animated)
                         navActionOccurred = true
                     }
                     
                 case .Modal:
                     if let vc = result as? UIViewController {
-                        lastVC?.router_presentViewController(vc, animated: animated, completion: nil)
+                        navigator.selectedNavigationController?.topViewController?.router_presentViewController(vc, animated: animated, completion: nil)
                         navActionOccurred = true
                     }
                     
                 case .Segue:
                     if let segueID = result as? String {
-                        lastVC?.router_performSegueWithIdentifier(segueID, sender: self)
+                        navigator.selectedNavigationController?.topViewController?.router_performSegueWithIdentifier(segueID, sender: self)
                         navActionOccurred = true
                     }
                     
