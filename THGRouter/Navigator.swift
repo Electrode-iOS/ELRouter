@@ -18,6 +18,7 @@ public protocol Navigator {
 }
 
 extension Navigator {
+    /// Get the selected view controller casted as a UINavigationController type
     var selectedNavigationController: UINavigationController? {
         return selectedViewController as? UINavigationController
     }
