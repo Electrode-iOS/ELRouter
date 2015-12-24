@@ -1,4 +1,4 @@
-# Maynard
+# Maynard [![Build Status](https://travis-ci.org/TheHolyGrail/Maynard.svg)](https://travis-ci.org/TheHolyGrail/Maynard)
 
 THGRouter.framework. A **work in progress** of a URL router for UIKit.
 
