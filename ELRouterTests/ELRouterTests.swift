@@ -1,15 +1,15 @@
 //
-//  THGRouterTests.swift
-//  THGRouterTests
+//  ELRouterTests.swift
+//  ELRouterTests
 //
 //  Created by Brandon Sneed on 10/19/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
 import XCTest
-import THGRouter
+import ELRouter
 
-class THGRouterTests: XCTestCase {
+class ELRouterTests: XCTestCase {
     
     func testNSURLPathBehavior() {
         let url = NSURL(string: "walmart://something/1234/abcd?blah1=1,blah2=2")

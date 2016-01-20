@@ -1,0 +1,44 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "ABC43406D9D37932D5E4C9F5487AFE570D641A31",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "7D51FEE86695D298E2BDAEA0A5938727BE31AF7D" : 0,
+    "ABC43406D9D37932D5E4C9F5487AFE570D641A31" : 0,
+    "8793D34A7BF94DA191D8F935B1E0425A8C1B2681" : 0,
+    "F75375CB2C82D2BC362ACFD0392481707735854D" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "306787B9-ACA8-4DD2-BB8D-72187FC89BC4",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "7D51FEE86695D298E2BDAEA0A5938727BE31AF7D" : "ELDispatch\/",
+    "ABC43406D9D37932D5E4C9F5487AFE570D641A31" : "ELRouter\/",
+    "8793D34A7BF94DA191D8F935B1E0425A8C1B2681" : "ELFoundation\/",
+    "F75375CB2C82D2BC362ACFD0392481707735854D" : "ELLog\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ELRouter",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ELRouter.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Electrode-iOS\/ELDispatch.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7D51FEE86695D298E2BDAEA0A5938727BE31AF7D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Electrode-iOS\/ELFoundation.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8793D34A7BF94DA191D8F935B1E0425A8C1B2681"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Electrode-iOS\/ELRouter.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ABC43406D9D37932D5E4C9F5487AFE570D641A31"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Electrode-iOS\/ELLog.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F75375CB2C82D2BC362ACFD0392481707735854D"
+    }
+  ]
+}

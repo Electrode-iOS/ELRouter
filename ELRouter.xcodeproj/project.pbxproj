@@ -11,93 +11,93 @@
 		1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F02D1C0E00AB0039ED7F /* RouterTests.swift */; };
 		1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */; };
 		174962781C29AA8600FE8DEE /* MockNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174962771C29AA8600FE8DEE /* MockNavigator.swift */; };
-		177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */; };
+		177EC14A1C03CD2E00DD5BB7 /* ELFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* ELFoundation.framework */; };
 		17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */; };
 		17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */; };
 		17E105591C2850D900C05CEA /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105571C2850D900C05CEA /* RouteTests.swift */; };
-		CA339E231C233ED200F1CFBF /* THGDispatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA339E201C233EB800F1CFBF /* THGDispatch.framework */; };
-		CA3930DF1BD011E90021CD95 /* THGRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* THGRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CA339E231C233ED200F1CFBF /* ELDispatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA339E201C233EB800F1CFBF /* ELDispatch.framework */; };
+		CA3930DF1BD011E90021CD95 /* ELRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* ELRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
 		CA39312E1BD054EE0021CD95 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312D1BD054EE0021CD95 /* Router.swift */; };
-		CA39313F1BD59A370021CD95 /* THGRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39313E1BD59A370021CD95 /* THGRouterTests.swift */; };
-		CA3931411BD59A370021CD95 /* THGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3930DB1BD011E90021CD95 /* THGRouter.framework */; };
+		CA39313F1BD59A370021CD95 /* ELRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39313E1BD59A370021CD95 /* ELRouterTests.swift */; };
+		CA3931411BD59A370021CD95 /* ELRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3930DB1BD011E90021CD95 /* ELRouter.framework */; };
 		CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */; };
 		CAB6B5DE1C27DA1400242F6A /* NavigationSyncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* NavigationSyncing.swift */; };
-		CAB6B5EB1C27DB0100242F6A /* THGLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6B5E61C27DAB000242F6A /* THGLog.framework */; };
-		CAB6B5ED1C27E08000242F6A /* THGRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB6B5EC1C27E08000242F6A /* THGRouter.swift */; };
+		CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6B5E61C27DAB000242F6A /* ELLog.framework */; };
+		CAB6B5ED1C27E08000242F6A /* ELRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB6B5EC1C27E08000242F6A /* ELRouter.swift */; };
 		CAEFB34E1C0E16E200B94EE8 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		177EC1421C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */;
+			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CACF2A0A1A9614D20084EFAE;
-			remoteInfo = THGFoundation;
+			remoteInfo = ELFoundation;
 		};
 		177EC1441C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */;
+			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CACF2A151A9614D20084EFAE;
-			remoteInfo = THGFoundationTests;
+			remoteInfo = ELFoundationTests;
 		};
 		177EC1461C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */;
+			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA8CD55A1B7A9DCA00DA8BF7;
-			remoteInfo = THGFoundation_osx;
+			remoteInfo = ELFoundation_osx;
 		};
 		177EC1481C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */;
+			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA8CD5631B7A9DCB00DA8BF7;
-			remoteInfo = THGFoundation_osxTests;
+			remoteInfo = ELFoundation_osxTests;
 		};
 		CA339E1F1C233EB800F1CFBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */;
+			containerPortal = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA0CEA691A8A877200DF93E9;
-			remoteInfo = THGDispatch;
+			remoteInfo = ELDispatch;
 		};
 		CA339E211C233EB800F1CFBF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */;
+			containerPortal = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA0CEA741A8A877200DF93E9;
-			remoteInfo = THGDispatchTests;
+			remoteInfo = ELDispatchTests;
 		};
 		CA3931421BD59A370021CD95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CA3930D21BD011E90021CD95 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CA3930DA1BD011E90021CD95;
-			remoteInfo = THGRouter;
+			remoteInfo = ELRouter;
 		};
 		CAB6B5E51C27DAB000242F6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* THGLog.xcodeproj */;
+			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA8D47BB1AAE6FF50028B74D;
-			remoteInfo = THGLog;
+			remoteInfo = ELLog;
 		};
 		CAB6B5E71C27DAB000242F6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* THGLog.xcodeproj */;
+			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA8D47C61AAE6FF50028B74D;
-			remoteInfo = THGLogTests;
+			remoteInfo = ELLogTests;
 		};
 		CAB6B5E91C27DAB000242F6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* THGLog.xcodeproj */;
+			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA2410631AF966F600AA4410;
-			remoteInfo = THGLog_osx;
+			remoteInfo = ELLog_osx;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -106,23 +106,23 @@
 		1714F02D1C0E00AB0039ED7F /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLDeepLinkTests.swift; sourceTree = "<group>"; };
 		174962771C29AA8600FE8DEE /* MockNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNavigator.swift; sourceTree = "<group>"; };
-		177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGFoundation.xcodeproj; path = ../Excalibur/THGFoundation.xcodeproj; sourceTree = "<group>"; };
+		177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELFoundation.xcodeproj; path = ../ELFoundation/ELFoundation.xcodeproj; sourceTree = "<group>"; };
 		17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingTypeTests.swift; sourceTree = "<group>"; };
 		17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCollectionTypeTests.swift; sourceTree = "<group>"; };
 		17E105571C2850D900C05CEA /* RouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
-		CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGDispatch.xcodeproj; path = ../KillerRabbit/THGDispatch.xcodeproj; sourceTree = "<group>"; };
-		CA3930DB1BD011E90021CD95 /* THGRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = THGRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA3930DE1BD011E90021CD95 /* THGRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = THGRouter.h; sourceTree = "<group>"; };
+		CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELDispatch.xcodeproj; path = ../ELDispatch/ELDispatch.xcodeproj; sourceTree = "<group>"; };
+		CA3930DB1BD011E90021CD95 /* ELRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ELRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA3930DE1BD011E90021CD95 /* ELRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELRouter.h; sourceTree = "<group>"; };
 		CA3930E01BD011E90021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA3931261BD014A60021CD95 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
 		CA39312B1BD015830021CD95 /* NavigationSyncing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationSyncing.swift; sourceTree = "<group>"; };
 		CA39312D1BD054EE0021CD95 /* Router.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
-		CA39313C1BD59A370021CD95 /* THGRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = THGRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CA39313E1BD59A370021CD95 /* THGRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = THGRouterTests.swift; sourceTree = "<group>"; };
+		CA39313C1BD59A370021CD95 /* ELRouterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ELRouterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA39313E1BD59A370021CD95 /* ELRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ELRouterTests.swift; sourceTree = "<group>"; };
 		CA3931401BD59A370021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+DeepLink.swift"; sourceTree = "<group>"; };
-		CAB6B5DF1C27DAB000242F6A /* THGLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGLog.xcodeproj; path = ../Shrubbery/THGLog.xcodeproj; sourceTree = "<group>"; };
-		CAB6B5EC1C27E08000242F6A /* THGRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = THGRouter.swift; sourceTree = "<group>"; };
+		CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELLog.xcodeproj; path = ../ELLog/ELLog.xcodeproj; sourceTree = "<group>"; };
+		CAB6B5EC1C27E08000242F6A /* ELRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ELRouter.swift; sourceTree = "<group>"; };
 		CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -131,9 +131,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAB6B5EB1C27DB0100242F6A /* THGLog.framework in Frameworks */,
-				CA339E231C233ED200F1CFBF /* THGDispatch.framework in Frameworks */,
-				177EC14A1C03CD2E00DD5BB7 /* THGFoundation.framework in Frameworks */,
+				CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */,
+				CA339E231C233ED200F1CFBF /* ELDispatch.framework in Frameworks */,
+				177EC14A1C03CD2E00DD5BB7 /* ELFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,7 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA3931411BD59A370021CD95 /* THGRouter.framework in Frameworks */,
+				CA3931411BD59A370021CD95 /* ELRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,10 +151,10 @@
 		177EC13C1C03CD1E00DD5BB7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */,
-				177EC1451C03CD1E00DD5BB7 /* THGFoundationTests.xctest */,
-				177EC1471C03CD1E00DD5BB7 /* THGFoundation.framework */,
-				177EC1491C03CD1E00DD5BB7 /* THGFoundation_osxTests.xctest */,
+				177EC1431C03CD1E00DD5BB7 /* ELFoundation.framework */,
+				177EC1451C03CD1E00DD5BB7 /* ELFoundationTests.xctest */,
+				177EC1471C03CD1E00DD5BB7 /* ELFoundation.framework */,
+				177EC1491C03CD1E00DD5BB7 /* ELFoundation_osxTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,8 +162,8 @@
 		CA339E1B1C233EB800F1CFBF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA339E201C233EB800F1CFBF /* THGDispatch.framework */,
-				CA339E221C233EB800F1CFBF /* THGDispatchTests.xctest */,
+				CA339E201C233EB800F1CFBF /* ELDispatch.framework */,
+				CA339E221C233EB800F1CFBF /* ELDispatchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,8 +172,8 @@
 			isa = PBXGroup;
 			children = (
 				CA3930E61BD013530021CD95 /* Modules */,
-				CA3930DD1BD011E90021CD95 /* THGRouter */,
-				CA39313D1BD59A370021CD95 /* THGRouterTests */,
+				CA3930DD1BD011E90021CD95 /* ELRouter */,
+				CA39313D1BD59A370021CD95 /* ELRouterTests */,
 				CA3930DC1BD011E90021CD95 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -181,17 +181,17 @@
 		CA3930DC1BD011E90021CD95 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA3930DB1BD011E90021CD95 /* THGRouter.framework */,
-				CA39313C1BD59A370021CD95 /* THGRouterTests.xctest */,
+				CA3930DB1BD011E90021CD95 /* ELRouter.framework */,
+				CA39313C1BD59A370021CD95 /* ELRouterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CA3930DD1BD011E90021CD95 /* THGRouter */ = {
+		CA3930DD1BD011E90021CD95 /* ELRouter */ = {
 			isa = PBXGroup;
 			children = (
-				CA3930DE1BD011E90021CD95 /* THGRouter.h */,
-				CAB6B5EC1C27E08000242F6A /* THGRouter.swift */,
+				CA3930DE1BD011E90021CD95 /* ELRouter.h */,
+				CAB6B5EC1C27E08000242F6A /* ELRouter.swift */,
 				CA3930E01BD011E90021CD95 /* Info.plist */,
 				CA3931261BD014A60021CD95 /* Route.swift */,
 				CA39312D1BD054EE0021CD95 /* Router.swift */,
@@ -199,41 +199,41 @@
 				CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */,
 				CA39312B1BD015830021CD95 /* NavigationSyncing.swift */,
 			);
-			path = THGRouter;
+			path = ELRouter;
 			sourceTree = "<group>";
 		};
 		CA3930E61BD013530021CD95 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				CAB6B5DF1C27DAB000242F6A /* THGLog.xcodeproj */,
-				CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */,
-				177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */,
+				CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */,
+				CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */,
+				177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
 		};
-		CA39313D1BD59A370021CD95 /* THGRouterTests */ = {
+		CA39313D1BD59A370021CD95 /* ELRouterTests */ = {
 			isa = PBXGroup;
 			children = (
 				CA3931401BD59A370021CD95 /* Info.plist */,
 				17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */,
 				17E105571C2850D900C05CEA /* RouteTests.swift */,
 				1714F02D1C0E00AB0039ED7F /* RouterTests.swift */,
-				CA39313E1BD59A370021CD95 /* THGRouterTests.swift */,
+				CA39313E1BD59A370021CD95 /* ELRouterTests.swift */,
 				1714F0181C0DFDC70039ED7F /* TabBarControllerTests.swift */,
 				1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */,
 				174962771C29AA8600FE8DEE /* MockNavigator.swift */,
 				17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */,
 			);
-			path = THGRouterTests;
+			path = ELRouterTests;
 			sourceTree = "<group>";
 		};
 		CAB6B5E01C27DAB000242F6A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CAB6B5E61C27DAB000242F6A /* THGLog.framework */,
-				CAB6B5E81C27DAB000242F6A /* THGLogTests.xctest */,
-				CAB6B5EA1C27DAB000242F6A /* THGLog.framework */,
+				CAB6B5E61C27DAB000242F6A /* ELLog.framework */,
+				CAB6B5E81C27DAB000242F6A /* ELLogTests.xctest */,
+				CAB6B5EA1C27DAB000242F6A /* ELLog.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,16 +245,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA3930DF1BD011E90021CD95 /* THGRouter.h in Headers */,
+				CA3930DF1BD011E90021CD95 /* ELRouter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		CA3930DA1BD011E90021CD95 /* THGRouter */ = {
+		CA3930DA1BD011E90021CD95 /* ELRouter */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA3930E31BD011E90021CD95 /* Build configuration list for PBXNativeTarget "THGRouter" */;
+			buildConfigurationList = CA3930E31BD011E90021CD95 /* Build configuration list for PBXNativeTarget "ELRouter" */;
 			buildPhases = (
 				CA3930D61BD011E90021CD95 /* Sources */,
 				CA3930D71BD011E90021CD95 /* Frameworks */,
@@ -265,14 +265,14 @@
 			);
 			dependencies = (
 			);
-			name = THGRouter;
-			productName = THGRouter;
-			productReference = CA3930DB1BD011E90021CD95 /* THGRouter.framework */;
+			name = ELRouter;
+			productName = ELRouter;
+			productReference = CA3930DB1BD011E90021CD95 /* ELRouter.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		CA39313B1BD59A370021CD95 /* THGRouterTests */ = {
+		CA39313B1BD59A370021CD95 /* ELRouterTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CA3931491BD59A370021CD95 /* Build configuration list for PBXNativeTarget "THGRouterTests" */;
+			buildConfigurationList = CA3931491BD59A370021CD95 /* Build configuration list for PBXNativeTarget "ELRouterTests" */;
 			buildPhases = (
 				CA3931381BD59A370021CD95 /* Sources */,
 				CA3931391BD59A370021CD95 /* Frameworks */,
@@ -283,9 +283,9 @@
 			dependencies = (
 				CA3931431BD59A370021CD95 /* PBXTargetDependency */,
 			);
-			name = THGRouterTests;
-			productName = THGRouterTests;
-			productReference = CA39313C1BD59A370021CD95 /* THGRouterTests.xctest */;
+			name = ELRouterTests;
+			productName = ELRouterTests;
+			productReference = CA39313C1BD59A370021CD95 /* ELRouterTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -305,7 +305,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CA3930D51BD011E90021CD95 /* Build configuration list for PBXProject "THGRouter" */;
+			buildConfigurationList = CA3930D51BD011E90021CD95 /* Build configuration list for PBXProject "ELRouter" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -318,86 +318,86 @@
 			projectReferences = (
 				{
 					ProductGroup = CA339E1B1C233EB800F1CFBF /* Products */;
-					ProjectRef = CA339E1A1C233EB800F1CFBF /* THGDispatch.xcodeproj */;
+					ProjectRef = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
 				},
 				{
 					ProductGroup = 177EC13C1C03CD1E00DD5BB7 /* Products */;
-					ProjectRef = 177EC13B1C03CD1E00DD5BB7 /* THGFoundation.xcodeproj */;
+					ProjectRef = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
 				},
 				{
 					ProductGroup = CAB6B5E01C27DAB000242F6A /* Products */;
-					ProjectRef = CAB6B5DF1C27DAB000242F6A /* THGLog.xcodeproj */;
+					ProjectRef = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
-				CA3930DA1BD011E90021CD95 /* THGRouter */,
-				CA39313B1BD59A370021CD95 /* THGRouterTests */,
+				CA3930DA1BD011E90021CD95 /* ELRouter */,
+				CA39313B1BD59A370021CD95 /* ELRouterTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		177EC1431C03CD1E00DD5BB7 /* THGFoundation.framework */ = {
+		177EC1431C03CD1E00DD5BB7 /* ELFoundation.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = THGFoundation.framework;
+			path = ELFoundation.framework;
 			remoteRef = 177EC1421C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		177EC1451C03CD1E00DD5BB7 /* THGFoundationTests.xctest */ = {
+		177EC1451C03CD1E00DD5BB7 /* ELFoundationTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = THGFoundationTests.xctest;
+			path = ELFoundationTests.xctest;
 			remoteRef = 177EC1441C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		177EC1471C03CD1E00DD5BB7 /* THGFoundation.framework */ = {
+		177EC1471C03CD1E00DD5BB7 /* ELFoundation.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = THGFoundation.framework;
+			path = ELFoundation.framework;
 			remoteRef = 177EC1461C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		177EC1491C03CD1E00DD5BB7 /* THGFoundation_osxTests.xctest */ = {
+		177EC1491C03CD1E00DD5BB7 /* ELFoundation_osxTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = THGFoundation_osxTests.xctest;
+			path = ELFoundation_osxTests.xctest;
 			remoteRef = 177EC1481C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CA339E201C233EB800F1CFBF /* THGDispatch.framework */ = {
+		CA339E201C233EB800F1CFBF /* ELDispatch.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = THGDispatch.framework;
+			path = ELDispatch.framework;
 			remoteRef = CA339E1F1C233EB800F1CFBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CA339E221C233EB800F1CFBF /* THGDispatchTests.xctest */ = {
+		CA339E221C233EB800F1CFBF /* ELDispatchTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = THGDispatchTests.xctest;
+			path = ELDispatchTests.xctest;
 			remoteRef = CA339E211C233EB800F1CFBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CAB6B5E61C27DAB000242F6A /* THGLog.framework */ = {
+		CAB6B5E61C27DAB000242F6A /* ELLog.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = THGLog.framework;
+			path = ELLog.framework;
 			remoteRef = CAB6B5E51C27DAB000242F6A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CAB6B5E81C27DAB000242F6A /* THGLogTests.xctest */ = {
+		CAB6B5E81C27DAB000242F6A /* ELLogTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = THGLogTests.xctest;
+			path = ELLogTests.xctest;
 			remoteRef = CAB6B5E71C27DAB000242F6A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CAB6B5EA1C27DAB000242F6A /* THGLog.framework */ = {
+		CAB6B5EA1C27DAB000242F6A /* ELLog.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = THGLog.framework;
+			path = ELLog.framework;
 			remoteRef = CAB6B5E91C27DAB000242F6A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -427,7 +427,7 @@
 			files = (
 				CAB6B5DE1C27DA1400242F6A /* NavigationSyncing.swift in Sources */,
 				CA3931271BD014A60021CD95 /* Route.swift in Sources */,
-				CAB6B5ED1C27E08000242F6A /* THGRouter.swift in Sources */,
+				CAB6B5ED1C27E08000242F6A /* ELRouter.swift in Sources */,
 				CA39312E1BD054EE0021CD95 /* Router.swift in Sources */,
 				CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */,
 				CAEFB34E1C0E16E200B94EE8 /* Navigator.swift in Sources */,
@@ -438,7 +438,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA39313F1BD59A370021CD95 /* THGRouterTests.swift in Sources */,
+				CA39313F1BD59A370021CD95 /* ELRouterTests.swift in Sources */,
 				1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */,
 				174962781C29AA8600FE8DEE /* MockNavigator.swift in Sources */,
 				17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */,
@@ -454,7 +454,7 @@
 /* Begin PBXTargetDependency section */
 		CA3931431BD59A370021CD95 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CA3930DA1BD011E90021CD95 /* THGRouter */;
+			target = CA3930DA1BD011E90021CD95 /* ELRouter */;
 			targetProxy = CA3931421BD59A370021CD95 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -557,11 +557,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = THGRouter/Info.plist;
+				INFOPLIST_FILE = ELRouter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.THGRouter;
+				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -576,11 +576,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = THGRouter/Info.plist;
+				INFOPLIST_FILE = ELRouter/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.THGRouter;
+				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -589,9 +589,9 @@
 		CA3931441BD59A370021CD95 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = THGRouterTests/Info.plist;
+				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.THGRouterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -599,9 +599,9 @@
 		CA3931451BD59A370021CD95 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = THGRouterTests/Info.plist;
+				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.THGRouterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -609,7 +609,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CA3930D51BD011E90021CD95 /* Build configuration list for PBXProject "THGRouter" */ = {
+		CA3930D51BD011E90021CD95 /* Build configuration list for PBXProject "ELRouter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA3930E11BD011E90021CD95 /* Debug */,
@@ -618,7 +618,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA3930E31BD011E90021CD95 /* Build configuration list for PBXNativeTarget "THGRouter" */ = {
+		CA3930E31BD011E90021CD95 /* Build configuration list for PBXNativeTarget "ELRouter" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA3930E41BD011E90021CD95 /* Debug */,
@@ -627,7 +627,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CA3931491BD59A370021CD95 /* Build configuration list for PBXNativeTarget "THGRouterTests" */ = {
+		CA3931491BD59A370021CD95 /* Build configuration list for PBXNativeTarget "ELRouterTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CA3931441BD59A370021CD95 /* Debug */,

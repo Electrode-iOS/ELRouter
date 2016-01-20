@@ -1,13 +1,13 @@
 //
 //  MockNavigator.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Angelo Di Paolo on 12/22/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
 import Foundation
-import THGRouter
+import ELRouter
 
 @objc final class MockNavigator: NSObject, Navigator {
     var selectedViewController: UIViewController?

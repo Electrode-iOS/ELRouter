@@ -1,14 +1,14 @@
 //
 //  Router.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Brandon Sneed on 10/15/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
 import Foundation
-import THGFoundation
-import THGDispatch
+import ELFoundation
+import ELDispatch
 
 /// 
 @objc

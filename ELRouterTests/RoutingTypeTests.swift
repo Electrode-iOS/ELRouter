@@ -1,13 +1,13 @@
 //
 //  RoutingTypeTests.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Angelo Di Paolo on 12/22/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
 import XCTest
-@testable import THGRouter
+@testable import ELRouter
 
 class RoutingTypeTests: XCTestCase {
     func test_description() {

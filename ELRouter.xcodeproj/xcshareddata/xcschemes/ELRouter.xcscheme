@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CA3930DA1BD011E90021CD95"
-               BuildableName = "THGRouter.framework"
-               BlueprintName = "THGRouter"
-               ReferencedContainer = "container:THGRouter.xcodeproj">
+               BuildableName = "ELRouter.framework"
+               BlueprintName = "ELRouter"
+               ReferencedContainer = "container:ELRouter.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "CA39313B1BD59A370021CD95"
-               BuildableName = "THGRouterTests.xctest"
-               BlueprintName = "THGRouterTests"
-               ReferencedContainer = "container:THGRouter.xcodeproj">
+               BuildableName = "ELRouterTests.xctest"
+               BlueprintName = "ELRouterTests"
+               ReferencedContainer = "container:ELRouter.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CA3930DA1BD011E90021CD95"
-            BuildableName = "THGRouter.framework"
-            BlueprintName = "THGRouter"
-            ReferencedContainer = "container:THGRouter.xcodeproj">
+            BuildableName = "ELRouter.framework"
+            BlueprintName = "ELRouter"
+            ReferencedContainer = "container:ELRouter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CA3930DA1BD011E90021CD95"
-            BuildableName = "THGRouter.framework"
-            BlueprintName = "THGRouter"
-            ReferencedContainer = "container:THGRouter.xcodeproj">
+            BuildableName = "ELRouter.framework"
+            BlueprintName = "ELRouter"
+            ReferencedContainer = "container:ELRouter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -84,9 +84,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "CA3930DA1BD011E90021CD95"
-            BuildableName = "THGRouter.framework"
-            BlueprintName = "THGRouter"
-            ReferencedContainer = "container:THGRouter.xcodeproj">
+            BuildableName = "ELRouter.framework"
+            BlueprintName = "ELRouter"
+            ReferencedContainer = "container:ELRouter.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

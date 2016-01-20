@@ -1,13 +1,13 @@
 //
 //  RouteCollectionTypeTests.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Angelo Di Paolo on 12/10/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
 import XCTest
-import THGRouter
+import ELRouter
 
 class RouteCollectionTypeTests: XCTestCase {
     func test_filterByName_returnsRoutesForValidName() {

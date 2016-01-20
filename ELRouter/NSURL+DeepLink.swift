@@ -1,6 +1,6 @@
 //
 //  NSURL+DeepLink.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Brandon Sneed on 10/20/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.

@@ -1,14 +1,14 @@
 # Maynard [![Build Status](https://travis-ci.org/TheHolyGrail/Maynard.svg)](https://travis-ci.org/TheHolyGrail/Maynard)
 
-THGRouter.framework. A **work in progress** of a URL router for UIKit.
+ELRouter.framework. A **work in progress** of a URL router for UIKit.
 
 ## Requirements
 
-Maynard depends on [`THGFoundation.framework`](https://github.com/TheHolyGrail/Excalibur).
+Maynard depends on [`ELFoundation.framework`](https://github.com/TheHolyGrail/ELFoundation).
 
 ## Installation
 
-Install by adding `THGRouter.xcodeproj` to your project and configuring your target to link `THGRouter.framework`.
+Install by adding `ELRouter.xcodeproj` to your project and configuring your target to link `ELRouter.framework`.
 
 ## Usage
 

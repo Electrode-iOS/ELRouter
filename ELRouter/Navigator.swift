@@ -1,6 +1,6 @@
 //
 //  Navigator.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Brandon Sneed on 12/1/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.

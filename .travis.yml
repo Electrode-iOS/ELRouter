@@ -2,8 +2,8 @@ language: objective-c
 osx_image: xcode7.2
 
 install: 
-  - git clone https://github.com/TheHolyGrail/Excalibur.git ../Excalibur
-  - git clone https://github.com/TheHolyGrail/KillerRabbit.git ../KillerRabbit
-  - git clone https://github.com/TheHolyGrail/Shrubbery.git ../Shrubbery
+  - git clone https://github.com/TheHolyGrail/ELFoundation.git ../ELFoundation
+  - git clone https://github.com/TheHolyGrail/ELDispatch.git ../ELDispatch
+  - git clone https://github.com/TheHolyGrail/ELLog.git ../ELLog
 script:
-   - xctool -project THGRouter.xcodeproj -scheme THGRouter -sdk iphonesimulator build test
+   - xctool -project ELRouter.xcodeproj -scheme ELRouter -sdk iphonesimulator build test

@@ -9,15 +9,15 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "1E5D6217-391D-43B9-AE5C-AE0C98D38DB1",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "8793D34A7BF94DA191D8F935B1E0425A8C1B2681" : "Skeletor-iOS\/CoreLibraries\/THGFoundation\/",
+    "8793D34A7BF94DA191D8F935B1E0425A8C1B2681" : "Skeletor-iOS\/CoreLibraries\/ELFoundation\/",
     "F19DB05669FC9F3260DE3858447015D8C6DA0B41" : "Skeletor-iOS\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "RouterExample",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
-  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CoreLibraries\/THGRouter\/Example\/RouterExample\/RouterExample.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "CoreLibraries\/ELRouter\/Example\/RouterExample\/RouterExample.xcodeproj",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
     {
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:TheHolyGrail\/Excalibur.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:TheHolyGrail\/ELFoundation.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8793D34A7BF94DA191D8F935B1E0425A8C1B2681"
     },

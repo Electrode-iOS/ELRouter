@@ -1,13 +1,13 @@
 //
 //  NSURLDeepLinkTests.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Angelo Di Paolo on 12/1/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
 //
 
 import XCTest
-import THGRouter
+import ELRouter
 
 class NSURLDeepLinkTests: XCTestCase {
     func test_deepLinkComponents_componentOutputMatchesOriginalURL() {

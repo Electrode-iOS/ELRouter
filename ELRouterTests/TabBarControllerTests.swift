@@ -1,6 +1,6 @@
 //
 //  TabBarControllerTests.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Angelo Di Paolo on 12/1/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 import UIKit
-import THGRouter
+import ELRouter
 
 class TabBarControllerTests: XCTestCase {
     override func tearDown() {

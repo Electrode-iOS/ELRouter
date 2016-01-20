@@ -13,32 +13,32 @@
 		CA39310D1BD013C80021CD95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA39310B1BD013C80021CD95 /* Main.storyboard */; };
 		CA39310F1BD013C80021CD95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA39310E1BD013C80021CD95 /* Assets.xcassets */; };
 		CA3931121BD013C80021CD95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA3931101BD013C80021CD95 /* LaunchScreen.storyboard */; };
-		CA3931211BD013F80021CD95 /* THGRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3931201BD013DE0021CD95 /* THGRouter.framework */; };
-		CA3931221BD013F80021CD95 /* THGRouter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA3931201BD013DE0021CD95 /* THGRouter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA3931211BD013F80021CD95 /* ELRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3931201BD013DE0021CD95 /* ELRouter.framework */; };
+		CA3931221BD013F80021CD95 /* ELRouter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA3931201BD013DE0021CD95 /* ELRouter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CA3931361BD58B510021CD95 /* WhateverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931351BD58B510021CD95 /* WhateverViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		178A38591C03C2D2004EAC2C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CA39311A1BD013DE0021CD95 /* THGRouter.xcodeproj */;
+			containerPortal = CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA39313C1BD59A370021CD95;
-			remoteInfo = THGRouterTests;
+			remoteInfo = ELRouterTests;
 		};
 		CA39311F1BD013DE0021CD95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CA39311A1BD013DE0021CD95 /* THGRouter.xcodeproj */;
+			containerPortal = CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA3930DB1BD011E90021CD95;
-			remoteInfo = THGRouter;
+			remoteInfo = ELRouter;
 		};
 		CA3931231BD013F80021CD95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CA39311A1BD013DE0021CD95 /* THGRouter.xcodeproj */;
+			containerPortal = CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = CA3930DA1BD011E90021CD95;
-			remoteInfo = THGRouter;
+			remoteInfo = ELRouter;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -49,7 +49,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CA3931221BD013F80021CD95 /* THGRouter.framework in Embed Frameworks */,
+				CA3931221BD013F80021CD95 /* ELRouter.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -65,7 +65,7 @@
 		CA39310E1BD013C80021CD95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA3931111BD013C80021CD95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA3931131BD013C80021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CA39311A1BD013DE0021CD95 /* THGRouter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = THGRouter.xcodeproj; path = ../../THGRouter.xcodeproj; sourceTree = "<group>"; };
+		CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELRouter.xcodeproj; path = ../../ELRouter.xcodeproj; sourceTree = "<group>"; };
 		CA3931351BD58B510021CD95 /* WhateverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WhateverViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,7 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA3931211BD013F80021CD95 /* THGRouter.framework in Frameworks */,
+				CA3931211BD013F80021CD95 /* ELRouter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,7 +116,7 @@
 		CA3931191BD013CF0021CD95 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				CA39311A1BD013DE0021CD95 /* THGRouter.xcodeproj */,
+				CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -124,8 +124,8 @@
 		CA39311B1BD013DE0021CD95 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CA3931201BD013DE0021CD95 /* THGRouter.framework */,
-				178A385A1C03C2D2004EAC2C /* THGRouterTests.xctest */,
+				CA3931201BD013DE0021CD95 /* ELRouter.framework */,
+				178A385A1C03C2D2004EAC2C /* ELRouterTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -180,7 +180,7 @@
 			projectReferences = (
 				{
 					ProductGroup = CA39311B1BD013DE0021CD95 /* Products */;
-					ProjectRef = CA39311A1BD013DE0021CD95 /* THGRouter.xcodeproj */;
+					ProjectRef = CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -191,17 +191,17 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		178A385A1C03C2D2004EAC2C /* THGRouterTests.xctest */ = {
+		178A385A1C03C2D2004EAC2C /* ELRouterTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = THGRouterTests.xctest;
+			path = ELRouterTests.xctest;
 			remoteRef = 178A38591C03C2D2004EAC2C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CA3931201BD013DE0021CD95 /* THGRouter.framework */ = {
+		CA3931201BD013DE0021CD95 /* ELRouter.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = THGRouter.framework;
+			path = ELRouter.framework;
 			remoteRef = CA39311F1BD013DE0021CD95 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -237,7 +237,7 @@
 /* Begin PBXTargetDependency section */
 		CA3931241BD013F80021CD95 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = THGRouter;
+			name = ELRouter;
 			targetProxy = CA3931231BD013F80021CD95 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */

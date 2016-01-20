@@ -1,6 +1,6 @@
 //
 //  NavigationSyncing.swift
-//  THGRouter
+//  ELRouter
 //
 //  Created by Brandon Sneed on 10/15/15.
 //  Copyright © 2015 theholygrail.io. All rights reserved.
@@ -19,8 +19,8 @@ If not, we just need to uncomment the swizzle in Router.swift.
 
 import Foundation
 import UIKit
-import THGFoundation
-import THGDispatch
+import ELFoundation
+import ELDispatch
 
 typealias NavSyncAction = () -> Void
 
@@ -30,7 +30,7 @@ internal class NavSync: NSObject {
     let routerQueue: DispatchQueue
     
     override init() {
-        routerQueue = DispatchQueue.createSerial("THGRouterSync", targetQueue: .Background)
+        routerQueue = DispatchQueue.createSerial("ELRouterSync", targetQueue: .Background)
         super.init()
     }
     
