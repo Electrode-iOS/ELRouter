@@ -78,6 +78,27 @@
 			remoteGlobalIDString = CA3930DA1BD011E90021CD95;
 			remoteInfo = ELRouter;
 		};
+		CA75A5BC1C51A643009BC537 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CA8D47BA1AAE6FF50028B74D;
+			remoteInfo = ELLog;
+		};
+		CA75A5BE1C51A643009BC537 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CA0CEA681A8A877200DF93E9;
+			remoteInfo = ELDispatch;
+		};
+		CA75A5C01C51A643009BC537 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CACF2A091A9614D20084EFAE;
+			remoteInfo = ELFoundation;
+		};
 		CAB6B5E51C27DAB000242F6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
@@ -264,6 +285,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				CA75A5BD1C51A643009BC537 /* PBXTargetDependency */,
+				CA75A5BF1C51A643009BC537 /* PBXTargetDependency */,
+				CA75A5C11C51A643009BC537 /* PBXTargetDependency */,
 			);
 			name = ELRouter;
 			productName = ELRouter;
@@ -457,6 +481,21 @@
 			target = CA3930DA1BD011E90021CD95 /* ELRouter */;
 			targetProxy = CA3931421BD59A370021CD95 /* PBXContainerItemProxy */;
 		};
+		CA75A5BD1C51A643009BC537 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ELLog;
+			targetProxy = CA75A5BC1C51A643009BC537 /* PBXContainerItemProxy */;
+		};
+		CA75A5BF1C51A643009BC537 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ELDispatch;
+			targetProxy = CA75A5BE1C51A643009BC537 /* PBXContainerItemProxy */;
+		};
+		CA75A5C11C51A643009BC537 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ELFoundation;
+			targetProxy = CA75A5C01C51A643009BC537 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -561,7 +600,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -580,7 +619,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouter;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -591,7 +630,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -601,7 +640,7 @@
 			buildSettings = {
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.ELRouterTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
