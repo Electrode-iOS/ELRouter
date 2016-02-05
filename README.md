@@ -1,10 +1,10 @@
-# Maynard [![Build Status](https://travis-ci.org/TheHolyGrail/Maynard.svg)](https://travis-ci.org/TheHolyGrail/Maynard)
+# ELRouter [![Build Status](https://travis-ci.org/Electrode-iOS/ELRouter.svg)](https://travis-ci.org/Electrode-iOS/ELRouter)
 
 ELRouter.framework. A **work in progress** of a URL router for UIKit.
 
 ## Requirements
 
-Maynard depends on [`ELFoundation.framework`](https://github.com/TheHolyGrail/ELFoundation).
+ELRouter depends on [`ELFoundation.framework`](https://github.com/Electrode-iOS/ELFoundation).
 
 ## Installation
 
