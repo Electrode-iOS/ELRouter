@@ -10,7 +10,17 @@ import Foundation
 import ELRouter
 
 @objc final class MockNavigator: NSObject, Navigator {
-    var selectedViewController: UIViewController?
+    var viewControllers: [UIViewController]? = nil
+    
+    var selectedViewController: UIViewController? {
+        didSet(newValue) {
+            if let controller = newValue {
+                let index = viewControllers?.indexOf(controller)
+                selectedIndex = index!
+            }
+        }
+    }
+    
     var selectedIndex: Int = 0
     var testNavigationController: UINavigationController?
     
@@ -21,6 +31,8 @@ import ELRouter
     }
     
     func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
+        self.viewControllers = viewControllers
+        
         selectedViewController = viewControllers?.first
     }
 }

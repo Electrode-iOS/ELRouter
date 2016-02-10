@@ -9,6 +9,7 @@
 import XCTest
 import UIKit
 import ELRouter
+import ELFoundation
 
 class TabBarControllerTests: XCTestCase {
     override func tearDown() {
@@ -20,10 +21,11 @@ class TabBarControllerTests: XCTestCase {
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
         
-        let tabTwoExpectation = expectationWithDescription("route handler should run")
+        let tabOneExpectation = expectationWithDescription("tab one created")
+        let tabTwoExpectation = expectationWithDescription("tab two created")
 
         router.register(Route("tabOne", type: .Static) { (variable) in
-            XCTAssertTrue(true, "Tab one handler should not be run when evaluating tab two")
+            tabOneExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
@@ -37,8 +39,12 @@ class TabBarControllerTests: XCTestCase {
         router.updateNavigator()
         
         router.evaluate(["tabTwo"])
+        
+        waitForConditionsWithTimeout(2.0) { () -> Bool in
+            return tabBarController.selectedIndex == 1
+        }
 
-        waitForExpectationsWithTimeout(2.0) { error in
+        waitForExpectationsWithTimeout(2.0) { (error) -> Void in
             XCTAssertNotNil(router.navigator)
             XCTAssertEqual(tabBarController.selectedIndex, 1)
             XCTAssertEqual(router.navigator!.selectedIndex, 1)
@@ -50,22 +56,24 @@ class TabBarControllerTests: XCTestCase {
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
         
-        let tabTwoExpectation = expectationWithDescription("route handler should run")
-        
+        let tabOneExpectation = expectationWithDescription("tab one created")
+        let tabTwoExpectation = expectationWithDescription("tab two created")
+        let tabThreeExpectation = expectationWithDescription("tab three created")
+
         router.register(Route("tabOne", type: .Static) { (variable) in
-            XCTAssertTrue(true, "Tab one handler should not be run when evaluating tab two")
+            tabOneExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
         router.register(Route("tabTwo", type: .Static) { (variable) in
-            XCTAssertTrue(true, "Tab two handler should not be run when evaluating tab three")
+            tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
         router.register(Route("tabThree", type: .Static) { (variable) in
-            tabTwoExpectation.fulfill()
+            tabThreeExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
@@ -74,14 +82,18 @@ class TabBarControllerTests: XCTestCase {
         
         router.evaluateURL(NSURL(string: "scheme://tabThree")!)
         
-        waitForExpectationsWithTimeout(2.0) { error in
+        waitForConditionsWithTimeout(2.0) { () -> Bool in
+            return tabBarController.selectedIndex == 2
+        }
+        
+        waitForExpectationsWithTimeout(2.0) { (error) -> Void in
             XCTAssertNotNil(router.navigator)
             XCTAssertEqual(tabBarController.selectedIndex, 2)
             XCTAssertEqual(router.navigator!.selectedIndex, 2)
         }
     }
     
-    func test_navigator_properTabIsSelectedWhenEvaluatingComplexURL() {
+    func test_navigator_evaluateFailsWithBogusURL() {
         let router = Router()
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
@@ -108,12 +120,14 @@ class TabBarControllerTests: XCTestCase {
         
         router.updateNavigator()
         
-        router.evaluateURL(NSURL(string: "scheme://tabTwo:5150/foo/bar/tabTwo?a=b&b=c")!)
+        // this route doesn't exist, evaluated should be false.
+        let evaluated = router.evaluateURL(NSURL(string: "scheme://tabTwo:5150/foo/bar/tabTwo?a=b&b=c")!)
         
         waitForExpectationsWithTimeout(2.0) { error in
             XCTAssertNotNil(router.navigator)
-            XCTAssertEqual(tabBarController.selectedIndex, 1)
-            XCTAssertEqual(router.navigator!.selectedIndex, 1)
+            XCTAssertEqual(tabBarController.selectedIndex, 0)
+            XCTAssertEqual(router.navigator!.selectedIndex, 0)
+            XCTAssertFalse(evaluated)
         }
     }
 }
