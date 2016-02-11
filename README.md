@@ -4,7 +4,7 @@ ELRouter.framework. A **work in progress** of a URL router for UIKit.
 
 ## Requirements
 
-ELRouter depends on [`ELFoundation.framework`](https://github.com/Electrode-iOS/ELFoundation).
+ELRouter depends on [`ELFoundation`](https://github.com/Electrode-iOS/ELFoundation).
 
 ## Installation
 
@@ -45,13 +45,13 @@ router.evaluateURL(url)
 
 We appreciate your contributions to all of our projects and look forward to interacting with you via Pull Requests, the issue tracker, via Twitter, etc.  We're happy to help you, and to have you help us.  We'll strive to answer every PR and issue and be very transparent in what we do.
 
-When contributing code, please refer to our style guide [Dennis](https://github.com/TheHolyGrail/Dennis).
+When contributing code, please refer to our style guide [Dennis](https://github.com/Electrode-iOS/Dennis).
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Walmart, TheHolyGrail, and other Contributors
+Copyright (c) 2015 Walmart, and other Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
