@@ -143,12 +143,13 @@ extension RouterTests {
         router.translate("foo", to: "bar")
     }
     
-// TODO: this test always fails, no way to catch an obj-c exception from Swift and I don't have a clean solution at this time.
     func test_translate_throwsExceptionForExistingTranslation() {
         let router = Router()
         router.translate("foo", to: "bar")
         
-        router.translate("foo", to: "bar")
+        XCTAssertThrows({ () -> Void in
+            router.translate("foo", to: "bar")
+        }, "Exception caught as expected.")
 
     }
 }
