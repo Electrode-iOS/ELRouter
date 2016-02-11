@@ -237,7 +237,9 @@ extension RouteTests {
         let navigator = MockNavigator()
         router.navigator = navigator
         let vc = ExecuteSegueTestViewController(nibName: nil, bundle: nil)
-        navigator.selectedViewController = UINavigationController(rootViewController: vc)
+        let navVC = UINavigationController(rootViewController: vc)
+        navigator.setViewControllers([navVC], animated: false)
+        navigator.selectedViewController = navVC
         let route = Route("segueTest", type:  .Segue) { variable in
             return "fooSegue"
         }

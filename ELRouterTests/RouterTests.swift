@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import ELRouter
+import ELFoundation
 
 // MARK: - translate Tests
 
@@ -354,6 +355,10 @@ extension RouterTests {
             })
         
         router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345/something")!)
+        
+        waitForConditionsWithTimeout(2.0) { () -> Bool in
+            return false
+        }
         
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }

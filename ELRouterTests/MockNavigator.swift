@@ -13,10 +13,11 @@ import ELRouter
     var viewControllers: [UIViewController]? = nil
     
     var selectedViewController: UIViewController? {
-        didSet(newValue) {
+        willSet(newValue) {
             if let controller = newValue {
-                let index = viewControllers?.indexOf(controller)
-                selectedIndex = index!
+                if let index = viewControllers?.indexOf(controller) {
+                    selectedIndex = index
+                }
             }
         }
     }
