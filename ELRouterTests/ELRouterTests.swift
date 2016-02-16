@@ -3,7 +3,7 @@
 //  ELRouterTests
 //
 //  Created by Brandon Sneed on 10/19/15.
-//  Copyright © 2015 theholygrail.io. All rights reserved.
+//  Copyright © 2015 Walmart. All rights reserved.
 //
 
 import XCTest

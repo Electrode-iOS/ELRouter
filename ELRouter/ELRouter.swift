@@ -2,7 +2,7 @@
 //  ELRouter.swift
 //
 //  Created by Brandon Sneed on 12/20/15.
-//  Copyright © 2015 theholygrail.io. All rights reserved.
+//  Copyright © 2015 Walmart. All rights reserved.
 //
 
 /*

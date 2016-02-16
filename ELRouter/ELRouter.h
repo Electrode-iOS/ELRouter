@@ -3,7 +3,7 @@
 //  ELRouter
 //
 //  Created by Brandon Sneed on 10/15/15.
-//  Copyright © 2015 theholygrail.io. All rights reserved.
+//  Copyright © 2015 Walmart. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
