@@ -15,6 +15,7 @@
 		17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */; };
 		17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */; };
 		17E105591C2850D900C05CEA /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105571C2850D900C05CEA /* RouteTests.swift */; };
+		22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */; };
 		CA339E231C233ED200F1CFBF /* ELDispatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA339E201C233EB800F1CFBF /* ELDispatch.framework */; };
 		CA3930DF1BD011E90021CD95 /* ELRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* ELRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
@@ -131,6 +132,9 @@
 		17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingTypeTests.swift; sourceTree = "<group>"; };
 		17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCollectionTypeTests.swift; sourceTree = "<group>"; };
 		17E105571C2850D900C05CEA /* RouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
+		22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ELRouterTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCTestCase+Exceptions.h"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.h"; sourceTree = "<group>"; };
+		22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+Exceptions.m"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.m"; sourceTree = "<group>"; };
 		CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELDispatch.xcodeproj; path = ../ELDispatch/ELDispatch.xcodeproj; sourceTree = "<group>"; };
 		CA3930DB1BD011E90021CD95 /* ELRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ELRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3930DE1BD011E90021CD95 /* ELRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELRouter.h; sourceTree = "<group>"; };
@@ -178,6 +182,16 @@
 				177EC1491C03CD1E00DD5BB7 /* ELFoundation_osxTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		22C2FE961C6D433F005EB290 /* XCTestExceptions */ = {
+			isa = PBXGroup;
+			children = (
+				22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */,
+				22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */,
+				22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */,
+			);
+			name = XCTestExceptions;
 			sourceTree = "<group>";
 		};
 		CA339E1B1C233EB800F1CFBF /* Products */ = {
@@ -236,6 +250,7 @@
 		CA39313D1BD59A370021CD95 /* ELRouterTests */ = {
 			isa = PBXGroup;
 			children = (
+				22C2FE961C6D433F005EB290 /* XCTestExceptions */,
 				CA3931401BD59A370021CD95 /* Info.plist */,
 				17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */,
 				17E105571C2850D900C05CEA /* RouteTests.swift */,
@@ -318,6 +333,7 @@
 		CA3930D21BD011E90021CD95 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0720;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = theholygrail.io;
 				TargetAttributes = {
@@ -469,6 +485,7 @@
 				1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */,
 				1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */,
 				17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */,
+				22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */,
 				17E105591C2850D900C05CEA /* RouteTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -628,20 +645,25 @@
 		CA3931441BD59A370021CD95 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		CA3931451BD59A370021CD95 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
 			};
 			name = Release;
 		};
