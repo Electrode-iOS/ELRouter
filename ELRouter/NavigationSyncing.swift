@@ -151,7 +151,6 @@ extension UIViewController {
     
     internal func swizzled_viewDidAppear(animated: Bool) {
         // release whatever lock is present
-        print("ELAnalytics - viewDidAppear swizzled")
         NavSync.sharedInstance.appeared(self, animated: animated)
     }
     
