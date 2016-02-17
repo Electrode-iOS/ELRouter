@@ -18,6 +18,11 @@ public class Router: NSObject {
     public var routes: [Route] {
         return masterRoute.subRoutes
     }
+    public weak var eventFirehose: RouterEventFirehose? {
+        didSet {
+            NavSync.sharedInstance.eventFirehose = eventFirehose
+        }
+    }
     private let masterRoute: Route = Route("MASTER", type: .Other)
     private var translation = [String : String]()
 }

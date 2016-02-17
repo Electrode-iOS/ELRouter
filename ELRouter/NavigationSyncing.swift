@@ -24,10 +24,17 @@ import ELDispatch
 
 typealias NavSyncAction = () -> Void
 
+public protocol RouterEventFirehose: class {
+    func viewControllerAppeared(viewController: UIViewController)
+    func viewControllerPresented(viewController: UIViewController)
+    func viewControllerPushed(viewController: UIViewController)
+}
+
 internal class NavSync: NSObject {
     internal static var sharedInstance = NavSync()
 
     let routerQueue: DispatchQueue
+    weak var eventFirehose: RouterEventFirehose?
     
     override init() {
         routerQueue = DispatchQueue.createSerial("ELRouterSync", targetQueue: .Background)
@@ -35,11 +42,15 @@ internal class NavSync: NSObject {
     }
     
     internal func appeared(controller: UIViewController, animated: Bool) {
+        eventFirehose?.viewControllerAppeared(controller)
+        
         controller.swizzled_viewDidAppear(animated)
         Router.lock.unlock()
     }
     
     internal func push(viewController: UIViewController, animated: Bool, navController: UINavigationController, fromRouter: Bool) {
+        eventFirehose?.viewControllerPushed(viewController)
+        
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
             exceptionFailure("Attempted to push a ViewController while routes were being processed!")
@@ -58,6 +69,8 @@ internal class NavSync: NSObject {
     }
 
     internal func present(viewController: UIViewController, animated: Bool, completion: (() -> Void)?, fromController: UIViewController, fromRouter: Bool) {
+        eventFirehose?.viewControllerPresented(viewController)
+
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
             exceptionFailure("Attempted to present a ViewController while routes were being processed!")
@@ -138,6 +151,7 @@ extension UIViewController {
     
     internal func swizzled_viewDidAppear(animated: Bool) {
         // release whatever lock is present
+        print("ELAnalytics - viewDidAppear swizzled")
         NavSync.sharedInstance.appeared(self, animated: animated)
     }
     
