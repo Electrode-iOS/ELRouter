@@ -33,6 +33,8 @@ public protocol RouterEventFirehose: class {
 internal class NavSync: NSObject {
     internal static var sharedInstance = NavSync()
 
+    internal var scheduledControllers = NSHashTable.weakObjectsHashTable()
+    
     let routerQueue: DispatchQueue
     weak var eventFirehose: RouterEventFirehose?
     
@@ -49,6 +51,13 @@ internal class NavSync: NSObject {
     }
     
     internal func push(viewController: UIViewController, animated: Bool, navController: UINavigationController, fromRouter: Bool) {
+        // add it to the scheduled ones in the case of a double-show to prevent a system blow up.
+        if scheduledControllers.containsObject(viewController) {
+            return
+        } else {
+            scheduledControllers.addObject(viewController)
+        }
+        
         eventFirehose?.viewControllerPushed(viewController)
         
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
@@ -61,14 +70,23 @@ internal class NavSync: NSObject {
             Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
                     navController.swizzled_pushViewController(viewController, animated: animated)
+                    self.scheduledControllers.removeObject(viewController)
                 }
             }
         } else {
             navController.swizzled_pushViewController(viewController, animated: animated)
+            scheduledControllers.removeObject(viewController)
         }
     }
 
     internal func present(viewController: UIViewController, animated: Bool, completion: (() -> Void)?, fromController: UIViewController, fromRouter: Bool) {
+        // add it to the scheduled ones in the case of a double-show to prevent a system blow up.
+        if scheduledControllers.containsObject(viewController) {
+            return
+        } else {
+            scheduledControllers.addObject(viewController)
+        }
+        
         eventFirehose?.viewControllerPresented(viewController)
 
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
@@ -81,10 +99,12 @@ internal class NavSync: NSObject {
             Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
                     fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
+                    self.scheduledControllers.removeObject(viewController)
                 }
             }
         } else {
             fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
+            scheduledControllers.removeObject(viewController)
         }
     }
     

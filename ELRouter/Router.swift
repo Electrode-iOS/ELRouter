@@ -193,28 +193,6 @@ extension Router {
 
 // MARK: - Route/Navigation synchronization
 
-/*extension UIViewController {
-    public override class func initialize() {
-        struct Static {
-            static var token: dispatch_once_t = 0
-        }
-        
-        // make sure this isn't a subclass
-        if self !== UIViewController.self {
-            return
-        }
-        
-        dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: Selector("viewDidAppear:"), replacement: Selector("router_viewDidAppear:"))
-        }
-    }
-    
-    internal func router_viewDidAppear(animated: Bool) {
-        // release the lock that's holding up route execution.
-        Router.lock.unlock()
-    }
-}*/
-
 extension Router {
     internal func serializedRoute(routes: [Route], components: [String], animated: Bool) {
         if processing {
