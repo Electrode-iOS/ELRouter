@@ -305,6 +305,17 @@ extension RouterTests {
         router.register(Route("walmart.com", type: .Other))
         
         let routeWasHandled = router.evaluate(["walmart.com"])
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertTrue(routeWasHandled)
     }
     
@@ -312,6 +323,17 @@ extension RouterTests {
         let router = Router()
         
         let routeWasHandled = router.evaluate(["walmart.com"])
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertFalse(routeWasHandled)
     }
 }
@@ -325,6 +347,16 @@ extension RouterTests {
         let url = NSURL(string: "scheme://walmart.com")!
         let routeWasHandled = router.evaluateURL(url)
         
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertTrue(routeWasHandled)
     }
     
@@ -333,6 +365,17 @@ extension RouterTests {
         let url = NSURL(string: "scheme://walmart.com")!
         
         let routeWasHandled = router.evaluateURL(url)
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertFalse(routeWasHandled)
     }
     
@@ -341,6 +384,17 @@ extension RouterTests {
         let url = NSURL(string: "::")!
         
         let routeWasHandled = router.evaluateURL(url)
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertFalse(routeWasHandled)
     }
     
@@ -358,6 +412,16 @@ extension RouterTests {
         
         router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345/something")!)
         
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+        
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
     
@@ -373,9 +437,18 @@ extension RouterTests {
             return nil
         })
         
-        
         router.evaluateURL(NSURL(string: "scheme://walmart.com/12345")!)
         
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
     
@@ -391,6 +464,16 @@ extension RouterTests {
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
         let executed = router.evaluateURL(NSURL(string: "scheme://walmart.com")!)
         
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssert(executed, "This should've failed")
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
@@ -409,7 +492,17 @@ extension RouterTests {
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
         
         router.evaluate(["foo"])
-                
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         waitForExpectationsWithTimeout(2.0, handler: nil)
     }
 }
@@ -422,6 +515,17 @@ extension RouterTests {
         router.register(Route("walmart.com", type: .Other))
         
         let routeWasHandled = router.evaluateURLString("scheme://walmart.com")
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertTrue(routeWasHandled)
     }
     
@@ -429,6 +533,17 @@ extension RouterTests {
         let router = Router()
         
         let routeWasHandled = router.evaluateURLString("scheme://walmart.com")
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertFalse(routeWasHandled)
     }
     
@@ -436,6 +551,17 @@ extension RouterTests {
         let router = Router()
         
         let routeWasHandled = router.evaluateURLString("      ")
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+
         XCTAssertFalse(routeWasHandled)
     }
 }
