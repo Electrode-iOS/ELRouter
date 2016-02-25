@@ -40,8 +40,12 @@ class TabBarControllerTests: XCTestCase {
         
         router.evaluate(["tabTwo"])
         
-        waitForConditionsWithTimeout(2.0) { () -> Bool in
-            return tabBarController.selectedIndex == 1
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return tabBarController.selectedIndex == 1
+            }
+        } catch {
+            XCTFail()
         }
 
         waitForExpectationsWithTimeout(2.0) { (error) -> Void in
@@ -82,8 +86,12 @@ class TabBarControllerTests: XCTestCase {
         
         router.evaluateURL(NSURL(string: "scheme://tabThree")!)
         
-        waitForConditionsWithTimeout(2.0) { () -> Bool in
-            return tabBarController.selectedIndex == 2
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return tabBarController.selectedIndex == 2
+            }
+        } catch {
+            XCTFail()
         }
         
         waitForExpectationsWithTimeout(2.0) { (error) -> Void in
