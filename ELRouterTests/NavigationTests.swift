@@ -89,4 +89,29 @@ class NavigationTests: XCTestCase {
         }
     }
     
+    func testVCsStickAroundAfterDestructiveNavHeirarchy() {
+        // Added test to verify in-flight viewControllers stick around even after a destructive nav event.
+        
+        let newController = UIViewController()
+        
+        // present the VC, this will in turn induce a delay.
+        root!.navigationController?.pushViewController(newController, animated: true)
+        
+        let vc1 = UIViewController()
+        let vc2 = UIViewController()
+        
+        root!.navigationController?.setViewControllers([vc1, vc2], animated: false)
+        
+        // should be 1 here since it's scheduled and hasn't actually executed yet.
+        XCTAssertTrue(NavSync.sharedInstance.scheduledControllers.count == 1)
+        
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return NavSync.sharedInstance.scheduledControllers.count == 0
+            }
+        } catch {
+            // timeout occurred from waitForConditions.
+            XCTFail()
+        }
+    }
 }
