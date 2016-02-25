@@ -23,6 +23,7 @@
 		CA39313F1BD59A370021CD95 /* ELRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39313E1BD59A370021CD95 /* ELRouterTests.swift */; };
 		CA3931411BD59A370021CD95 /* ELRouter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3930DB1BD011E90021CD95 /* ELRouter.framework */; };
 		CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */; };
+		CAB204AD1C7F6FD700061469 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB204AC1C7F6FD700061469 /* NavigationTests.swift */; };
 		CAB6B5DE1C27DA1400242F6A /* NavigationSyncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* NavigationSyncing.swift */; };
 		CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6B5E61C27DAB000242F6A /* ELLog.framework */; };
 		CAB6B5ED1C27E08000242F6A /* ELRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB6B5EC1C27E08000242F6A /* ELRouter.swift */; };
@@ -146,6 +147,7 @@
 		CA39313E1BD59A370021CD95 /* ELRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ELRouterTests.swift; sourceTree = "<group>"; };
 		CA3931401BD59A370021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+DeepLink.swift"; sourceTree = "<group>"; };
+		CAB204AC1C7F6FD700061469 /* NavigationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELLog.xcodeproj; path = ../ELLog/ELLog.xcodeproj; sourceTree = "<group>"; };
 		CAB6B5EC1C27E08000242F6A /* ELRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ELRouter.swift; sourceTree = "<group>"; };
 		CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 				1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */,
 				174962771C29AA8600FE8DEE /* MockNavigator.swift */,
 				17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */,
+				CAB204AC1C7F6FD700061469 /* NavigationTests.swift */,
 			);
 			path = ELRouterTests;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */,
 				22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */,
 				17E105591C2850D900C05CEA /* RouteTests.swift in Sources */,
+				CAB204AD1C7F6FD700061469 /* NavigationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
