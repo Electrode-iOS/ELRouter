@@ -24,10 +24,19 @@ import ELDispatch
 
 typealias NavSyncAction = () -> Void
 
+public protocol RouterEventFirehose: class {
+    func viewControllerAppeared(viewController: UIViewController)
+    func viewControllerPresented(viewController: UIViewController)
+    func viewControllerPushed(viewController: UIViewController)
+}
+
 internal class NavSync: NSObject {
     internal static var sharedInstance = NavSync()
 
+    internal var scheduledControllers = NSHashTable.weakObjectsHashTable()
+    
     let routerQueue: DispatchQueue
+    weak var eventFirehose: RouterEventFirehose?
     
     override init() {
         routerQueue = DispatchQueue.createSerial("ELRouterSync", targetQueue: .Background)
@@ -35,11 +44,22 @@ internal class NavSync: NSObject {
     }
     
     internal func appeared(controller: UIViewController, animated: Bool) {
+        eventFirehose?.viewControllerAppeared(controller)
+        
         controller.swizzled_viewDidAppear(animated)
         Router.lock.unlock()
     }
     
     internal func push(viewController: UIViewController, animated: Bool, navController: UINavigationController, fromRouter: Bool) {
+        // add it to the scheduled ones in the case of a double-show to prevent a system blow up.
+        if scheduledControllers.containsObject(viewController) {
+            return
+        } else {
+            scheduledControllers.addObject(viewController)
+        }
+        
+        eventFirehose?.viewControllerPushed(viewController)
+        
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
             exceptionFailure("Attempted to push a ViewController while routes were being processed!")
@@ -50,14 +70,25 @@ internal class NavSync: NSObject {
             Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
                     navController.swizzled_pushViewController(viewController, animated: animated)
+                    self.scheduledControllers.removeObject(viewController)
                 }
             }
         } else {
             navController.swizzled_pushViewController(viewController, animated: animated)
+            scheduledControllers.removeObject(viewController)
         }
     }
 
     internal func present(viewController: UIViewController, animated: Bool, completion: (() -> Void)?, fromController: UIViewController, fromRouter: Bool) {
+        // add it to the scheduled ones in the case of a double-show to prevent a system blow up.
+        if scheduledControllers.containsObject(viewController) {
+            return
+        } else {
+            scheduledControllers.addObject(viewController)
+        }
+        
+        eventFirehose?.viewControllerPresented(viewController)
+
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
             exceptionFailure("Attempted to present a ViewController while routes were being processed!")
@@ -68,10 +99,12 @@ internal class NavSync: NSObject {
             Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
                     fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
+                    self.scheduledControllers.removeObject(viewController)
                 }
             }
         } else {
             fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
+            scheduledControllers.removeObject(viewController)
         }
     }
     
