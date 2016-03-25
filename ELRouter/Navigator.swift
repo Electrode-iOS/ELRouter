@@ -3,7 +3,7 @@
 //  ELRouter
 //
 //  Created by Brandon Sneed on 12/1/15.
-//  Copyright © 2015 theholygrail.io. All rights reserved.
+//  Copyright © 2015 Walmart. All rights reserved.
 //
 
 import Foundation
@@ -14,6 +14,7 @@ public protocol Navigator {
     var selectedViewController: UIViewController? { get set }
     var selectedIndex: Int { get set }
     
+    var viewControllers: [UIViewController]? { get set }
     func setViewControllers(viewControllers: [UIViewController]?, animated: Bool)
 }
 

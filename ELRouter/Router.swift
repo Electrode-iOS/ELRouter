@@ -3,7 +3,7 @@
 //  ELRouter
 //
 //  Created by Brandon Sneed on 10/15/15.
-//  Copyright © 2015 theholygrail.io. All rights reserved.
+//  Copyright © 2015 Walmart. All rights reserved.
 //
 
 import Foundation
@@ -43,20 +43,43 @@ extension Router {
 // MARK: - Managing the Navigator
 
 extension Router {
-    /// Update the view controllers that are managed by the navigator
-    public func updateNavigator() {
-        guard let navigator = navigator else { return }
-        
-        let navigatorRoutes = routesByType(.Static)
-        var controllers = [UIViewController]()
-        
-        for route in navigatorRoutes {
-            if let vc = route.execute(false) as? UINavigationController {
-                controllers.append(vc)
+    /// Attempt to detect what the navigator value should be.
+    public func detectNavigator() {
+        let windows = UIApplication.sharedApplication().windows
+        for window in windows {
+            if let nav = window.rootViewController as? Navigator {
+                navigator = nav
+                break
             }
         }
+    }
+    
+    /// Update the view controllers that are managed by the navigator
+    public func updateNavigator() {
+        if navigator == nil {
+            // try to detect the navigator if we don't have one.
+            detectNavigator()
+        }
         
-        navigator.setViewControllers(controllers, animated: false)
+        if let navigator = navigator {
+            let navigatorRoutes = routesByType(.Static)
+            var controllers = [UIViewController]()
+            
+            for route in navigatorRoutes {
+                if let vc = route.execute(false) as? UINavigationController {
+                    controllers.append(vc)
+                }
+            }
+            
+            // if we have controllers present already, add them to the beginning 
+            // of the array.
+            if let existingControllers = navigator.viewControllers {
+                controllers.insertContentsOf(existingControllers, at: 0)
+            }
+            
+            // set our new list.
+            navigator.setViewControllers(controllers, animated: false)
+        }
     }
 }
 
