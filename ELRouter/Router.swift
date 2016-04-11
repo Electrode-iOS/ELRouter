@@ -128,8 +128,14 @@ extension Router {
      - parameter url: The URL to evaluate.
      */
     public func evaluateURLString(urlString: String, animated: Bool = false) -> Bool {
-        guard let url = NSURL(string: urlString) else { return false }
-        return evaluateURL(url, animated: animated)
+        
+        if let url = NSURL(string: urlString) {
+            return evaluateURL(url, animated: animated)
+        }
+        else {
+            return false
+        }
+        
     }
     
     /**
