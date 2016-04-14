@@ -131,7 +131,7 @@ extension UINavigationController {
         }
         
         dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: Selector("pushViewController:animated:"), replacement: Selector("swizzled_pushViewController:animated:"))
+            unsafeSwizzle(self, original: #selector(UINavigationController.pushViewController(_:animated:)), replacement: #selector(UINavigationController.swizzled_pushViewController(_:animated:)))
             
             // TODO: figure out if we need to handle popViewController, popToRootViewController and popToViewController.
         }
@@ -160,8 +160,8 @@ extension UIViewController {
         }
         
         dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: Selector("viewDidAppear:"), replacement: Selector("swizzled_viewDidAppear:"))
-            unsafeSwizzle(self, original: Selector("presentViewController:animated:completion:"), replacement: Selector("swizzled_presentViewController:animated:completion:"))
+            unsafeSwizzle(self, original: #selector(UIViewController.viewDidAppear(_:)), replacement: #selector(UIViewController.swizzled_viewDidAppear(_:)))
+            unsafeSwizzle(self, original: #selector(UIViewController.presentViewController(_:animated:completion:)), replacement: #selector(UIViewController.swizzled_presentViewController(_:animated:completion:)))
             
             // TODO: figure out if we need to handle dismissViewControllerAnimated
         }
