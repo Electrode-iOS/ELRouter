@@ -10,7 +10,9 @@ import Foundation
 import UIKit
 import ELFoundation
 
-public typealias RouteActionClosure = (variable: String?) -> Any?
+public protocol AssociatedData { }
+
+public typealias RouteActionClosure = (variable: String?, associatedData: AssociatedData?) -> Any?
 
 @objc
 public enum RoutingType: UInt {
@@ -108,8 +110,9 @@ extension Route {
      
      - parameter animated: Determines if the view controller action should be animated.
      - parameter variable: The variable value extracted from the URL component.
+     - parameter associatedData: Potentially extra data passed in from the outside.
     */
-    internal func execute(animated: Bool, variable: String? = nil) -> Any? {
+    internal func execute(animated: Bool, variable: String? = nil, associatedData: AssociatedData? = nil) -> Any? {
         // bail out when missing a valid action
         guard let action = action else {
             Router.lock.unlock()
@@ -126,7 +129,7 @@ extension Route {
                     parentRouter?.navigator?.selectedViewController = vc
                 }
             } else {
-                result = action(variable: variable)
+                result = action(variable: variable, associatedData: associatedData)
                 
                 let navController = navigator.selectedViewController as? UINavigationController
                 let lastVC = navController?.topViewController
@@ -162,7 +165,7 @@ extension Route {
             }
         } else {
             // they don't have a navigator setup, so just run it.
-            result = action(variable: variable)
+            result = action(variable: variable, associatedData: associatedData)
         }
         
         // if no navigation action actually happened, unlock so route execution can continue.
