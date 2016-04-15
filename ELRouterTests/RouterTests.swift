@@ -403,7 +403,7 @@ extension RouterTests {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("walmart.com", type: .Other).route("item", type: .Other).variable().route("something", type: .Other) { variable in
+        router.register(Route("walmart.com", type: .Other).route("item", type: .Other).variable().route("something", type: .Other) { variable, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
             handlerExpectation.fulfill()
@@ -429,7 +429,7 @@ extension RouterTests {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("walmart.com", type: .Other).variable() { variable in
+        router.register(Route("walmart.com", type: .Other).variable() { variable, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
             
@@ -456,7 +456,7 @@ extension RouterTests {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("walmart.com", type: .Other) { variable in
+        router.register(Route("walmart.com", type: .Other) { variable, _ in
             handlerExpectation.fulfill()
             return nil
             })
@@ -483,7 +483,7 @@ extension RouterTests {
         let router = Router()
         let handlerRanExpectation = expectationWithDescription("route handler should run")
         
-        let route = Route("foo", type: .Other) { (variable) in
+        let route = Route("foo", type: .Other) { variable, _ in
             handlerRanExpectation.fulfill()
             return nil
         }
@@ -574,6 +574,48 @@ extension RouterTests {
         let processing = router.processing
         
         XCTAssertFalse(processing)
+    }
+}
+
+// MARK: - associatedData Tests
+
+extension String: AssociatedData { }
+
+extension RouterTests {
+    // TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.
+    func test_evaulate_executesActionWithAssociatedData() {
+        let router = Router()
+        let handlerRanExpectation = expectationWithDescription("route handler should run")
+        let handlerHasDataExpectation = expectationWithDescription("route handler should run")
+        
+        let route = Route("foo", type: .Other) { variable, associatedData in
+            handlerRanExpectation.fulfill()
+            
+            if let data = associatedData as? String {
+                if data == "blah" {
+                    handlerHasDataExpectation.fulfill()
+                }
+            }
+            
+            return nil
+        }
+        
+        router.register(route)
+        router.navigator = UITabBarController(nibName: nil, bundle: nil)
+        
+        router.evaluate(["foo"], associatedData: "blah")
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+        
+        waitForExpectationsWithTimeout(2.0, handler: nil)
     }
 }
 

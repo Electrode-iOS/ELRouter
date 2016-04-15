@@ -162,7 +162,7 @@ extension RouteTests {
 
 extension RouteTests {
     func test_execute_returnsActionResult() {
-        let route = Route("executeTest", type: .Other) { variable in
+        let route = Route("executeTest", type: .Other) { variable, _ in
             return "foo"
         }
         
@@ -174,7 +174,7 @@ extension RouteTests {
     }
     
     func test_execute_passesVariableToActionClosure() {
-        let route = Route("executeTest", type:  .Static) { variable in
+        let route = Route("executeTest", type:  .Static) { variable, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable, "foo")
             return nil
@@ -187,7 +187,7 @@ extension RouteTests {
         let router = Router()
         let navigator = MockNavigator()
         router.navigator = navigator
-        let route = Route("executeTest", type:  .Push) { variable in
+        let route = Route("executeTest", type:  .Push) { variable, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             vc.title = "Push Test"
             return vc

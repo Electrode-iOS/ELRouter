@@ -147,14 +147,25 @@ extension Router {
         guard let components = url.deepLinkComponents else { return false }
         return evaluate(components, animated: animated)
     }
-    
+
     /**
      Evaluate an array of components. Routes matching the URL will be executed.
      
      - parameter components: The array of components to evaluate.
      - parameter animated: Determines if the view controller action should be animated.
-    */
+     */
     public func evaluate(components: [String], animated: Bool = false) -> Bool {
+        return evaluate(components, associatedData: nil, animated: animated)
+    }
+
+    /**
+     Evaluate an array of components. Routes matching the URL will be executed.
+     
+     - parameter components: The array of components to evaluate.
+     - parameter associatedData: Extra data that needs to be passed through to each block in the chain.
+     - parameter animated: Determines if the view controller action should be animated.
+    */
+    public func evaluate(components: [String], associatedData: AssociatedData?, animated: Bool = false) -> Bool {
         var componentsWereHandled = false
         
         // if we have routes in flight, return false.  We can't do anything
@@ -167,7 +178,7 @@ extension Router {
         let valid = routes.count == components.count
         
         if valid && routes.count > 0 {
-            serializedRoute(routes, components: components, animated: animated)
+            serializedRoute(routes, components: components, associatedData: associatedData, animated: animated)
             
             componentsWereHandled = true
         }
@@ -223,7 +234,7 @@ extension Router {
 // MARK: - Route/Navigation synchronization
 
 extension Router {
-    internal func serializedRoute(routes: [Route], components: [String], animated: Bool) {
+    internal func serializedRoute(routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool) {
         if processing {
             return
         }
@@ -263,7 +274,7 @@ extension Router {
                 
                 // execute route on the main thread.
                 Dispatch().async(.Main) {
-                    route.execute(animated, variable: variable)
+                    route.execute(animated, variable: variable, associatedData: associatedData)
                     log(.Debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
                 }
             }
