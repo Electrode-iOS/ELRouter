@@ -109,7 +109,6 @@ extension Router {
 }
 
 // MARK: - Evaluating Routes
-
 extension Router {
     /**
      Can be used to determine if Routes are currently be processed.
@@ -165,6 +164,7 @@ extension Router {
      - parameter associatedData: Extra data that needs to be passed through to each block in the chain.
      - parameter animated: Determines if the view controller action should be animated.
     */
+    @objc
     public func evaluate(components: [String], associatedData: AssociatedData?, animated: Bool = false) -> Bool {
         var componentsWereHandled = false
         

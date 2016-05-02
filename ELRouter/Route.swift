@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import ELFoundation
 
+@objc
 public protocol AssociatedData { }
 
 public typealias RouteActionClosure = (variable: String?, associatedData: AssociatedData?) -> Any?
