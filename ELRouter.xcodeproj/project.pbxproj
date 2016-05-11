@@ -27,6 +27,10 @@
 		CAB6B5DE1C27DA1400242F6A /* NavigationSyncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* NavigationSyncing.swift */; };
 		CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6B5E61C27DAB000242F6A /* ELLog.framework */; };
 		CAB6B5ED1C27E08000242F6A /* ELRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB6B5EC1C27E08000242F6A /* ELRouter.swift */; };
+		CAED57441CC188740003E9C9 /* AssociatedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED57431CC188740003E9C9 /* AssociatedData.swift */; };
+		CAED57501CC563C80003E9C9 /* TypedRouteExecution.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED574F1CC563C80003E9C9 /* TypedRouteExecution.swift */; };
+		CAED57581CC694490003E9C9 /* RouteSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED57571CC694490003E9C9 /* RouteSpec.swift */; };
+		CAED575F1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = CAED575E1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m */; };
 		CAEFB34E1C0E16E200B94EE8 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */; };
 /* End PBXBuildFile section */
 
@@ -150,6 +154,11 @@
 		CAB204AC1C7F6FD700061469 /* NavigationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
 		CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELLog.xcodeproj; path = ../ELLog/ELLog.xcodeproj; sourceTree = "<group>"; };
 		CAB6B5EC1C27E08000242F6A /* ELRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ELRouter.swift; sourceTree = "<group>"; };
+		CAED57431CC188740003E9C9 /* AssociatedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedData.swift; sourceTree = "<group>"; };
+		CAED574F1CC563C80003E9C9 /* TypedRouteExecution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedRouteExecution.swift; sourceTree = "<group>"; };
+		CAED57571CC694490003E9C9 /* RouteSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteSpec.swift; sourceTree = "<group>"; };
+		CAED575D1CC939FC0003E9C9 /* ObjcTypedRouteExecution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjcTypedRouteExecution.h; sourceTree = "<group>"; };
+		CAED575E1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcTypedRouteExecution.m; sourceTree = "<group>"; };
 		CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Navigator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -191,7 +200,6 @@
 			children = (
 				22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */,
 				22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */,
-				22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */,
 			);
 			name = XCTestExceptions;
 			sourceTree = "<group>";
@@ -232,6 +240,8 @@
 				CA3930E01BD011E90021CD95 /* Info.plist */,
 				CA3931261BD014A60021CD95 /* Route.swift */,
 				CA39312D1BD054EE0021CD95 /* Router.swift */,
+				CAED57571CC694490003E9C9 /* RouteSpec.swift */,
+				CAED57431CC188740003E9C9 /* AssociatedData.swift */,
 				CAEFB34D1C0E16E200B94EE8 /* Navigator.swift */,
 				CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */,
 				CA39312B1BD015830021CD95 /* NavigationSyncing.swift */,
@@ -254,6 +264,7 @@
 			children = (
 				22C2FE961C6D433F005EB290 /* XCTestExceptions */,
 				CA3931401BD59A370021CD95 /* Info.plist */,
+				22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */,
 				17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */,
 				17E105571C2850D900C05CEA /* RouteTests.swift */,
 				1714F02D1C0E00AB0039ED7F /* RouterTests.swift */,
@@ -263,6 +274,9 @@
 				174962771C29AA8600FE8DEE /* MockNavigator.swift */,
 				17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */,
 				CAB204AC1C7F6FD700061469 /* NavigationTests.swift */,
+				CAED574F1CC563C80003E9C9 /* TypedRouteExecution.swift */,
+				CAED575D1CC939FC0003E9C9 /* ObjcTypedRouteExecution.h */,
+				CAED575E1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m */,
 			);
 			path = ELRouterTests;
 			sourceTree = "<group>";
@@ -336,7 +350,7 @@
 		CA3930D21BD011E90021CD95 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0720;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = theholygrail.io;
 				TargetAttributes = {
@@ -354,6 +368,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CA3930D11BD011E90021CD95;
 			productRefGroup = CA3930DC1BD011E90021CD95 /* Products */;
@@ -470,7 +485,9 @@
 			files = (
 				CAB6B5DE1C27DA1400242F6A /* NavigationSyncing.swift in Sources */,
 				CA3931271BD014A60021CD95 /* Route.swift in Sources */,
+				CAED57441CC188740003E9C9 /* AssociatedData.swift in Sources */,
 				CAB6B5ED1C27E08000242F6A /* ELRouter.swift in Sources */,
+				CAED57581CC694490003E9C9 /* RouteSpec.swift in Sources */,
 				CA39312E1BD054EE0021CD95 /* Router.swift in Sources */,
 				CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */,
 				CAEFB34E1C0E16E200B94EE8 /* Navigator.swift in Sources */,
@@ -488,8 +505,10 @@
 				1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */,
 				1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */,
 				17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */,
+				CAED575F1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m in Sources */,
 				22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */,
 				17E105591C2850D900C05CEA /* RouteTests.swift in Sources */,
+				CAED57501CC563C80003E9C9 /* TypedRouteExecution.swift in Sources */,
 				CAB204AD1C7F6FD700061469 /* NavigationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -651,11 +670,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					$inherited,
+					"$(PROJECT_DIR)/ELRouterTests",
+					"$(PROJECT_DIR)/ELRouter",
+				);
+				HEADER_SEARCH_PATHS = "\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"";
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -664,11 +691,19 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					$inherited,
+					"$(PROJECT_DIR)/ELRouterTests",
+					"$(PROJECT_DIR)/ELRouter",
+				);
+				HEADER_SEARCH_PATHS = "\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"";
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 			};
 			name = Release;
 		};
@@ -743,10 +778,19 @@
 		DB5F6F7D1C77CE7D0048EA81 /* QADeployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				DEFINES_MODULE = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					$inherited,
+					"$(PROJECT_DIR)/ELRouterTests",
+					"$(PROJECT_DIR)/ELRouter",
+				);
+				HEADER_SEARCH_PATHS = "\"$(TARGET_TEMP_DIR)/../$(PROJECT_NAME).build/DerivedSources\"";
 				INFOPLIST_FILE = ELRouterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 			};
 			name = QADeployment;
 		};

@@ -403,14 +403,14 @@ extension RouterTests {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("walmart.com", type: .Other).route("item", type: .Other).variable().route("something", type: .Other) { variable, _ in
+        router.register(Route("walmart.com", type: .Other).route("item", type: .Other, action: { variable, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
             handlerExpectation.fulfill()
             return nil
-            })
+        }).variable())
         
-        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345/something")!)
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345")!)
         
         // wait for the router to finish processing.
         do {
@@ -529,6 +529,31 @@ extension RouterTests {
         XCTAssertTrue(routeWasHandled)
     }
     
+    func test_evaluateURLString_hitsCompletionBlock() {
+        let completionRanExpectation = expectationWithDescription("route completion handler should run")
+
+        let router = Router()
+        router.register(Route("walmart.com", type: .Other))
+        
+        let routeWasHandled = router.evaluateURLString("scheme://walmart.com", animated: false) {
+            completionRanExpectation.fulfill()
+        }
+        
+        // wait for the router to finish processing.
+        do {
+            try waitForConditionsWithTimeout(2.0) { () -> Bool in
+                return router.processing == false
+            }
+        } catch {
+            // timeout occurred while processing.
+            XCTFail()
+        }
+        
+        waitForExpectationsWithTimeout(1.0, handler: nil)
+        
+        XCTAssertTrue(routeWasHandled)
+    }
+
     func test_evaluateURLString_returnsFalseForUnhandledURL() {
         let router = Router()
         
@@ -579,7 +604,7 @@ extension RouterTests {
 
 // MARK: - associatedData Tests
 
-extension String: AssociatedData { }
+extension NSString: AssociatedData { }
 
 extension RouterTests {
     // TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.

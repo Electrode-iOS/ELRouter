@@ -10,9 +10,7 @@ import Foundation
 import UIKit
 import ELFoundation
 
-public protocol AssociatedData { }
-
-public typealias RouteActionClosure = (variable: String?, associatedData: AssociatedData?) -> Any?
+public typealias RouteActionClosure = (variable: String?, inout associatedData: AssociatedData?) -> Any?
 
 @objc
 public enum RoutingType: UInt {
@@ -59,21 +57,21 @@ public class Route: NSObject {
     /// Action block
     public let action: RouteActionClosure?
     
-    public init(_ name: String, type: RoutingType, action: RouteActionClosure! = nil) {
-        self.name = name
-        self.type = type
+    public init(_ route: RouteEnum, parentRoute: Route! = nil, action: RouteActionClosure! = nil) {
+        self.name = route.spec.name
+        self.type = route.spec.type
         self.action = action
-        self.parentRoute = nil
+        self.parentRoute = parentRoute
     }
     
-    internal init(_ name: String, type: RoutingType, parentRoute: Route, action: RouteActionClosure! = nil) {
+    internal init(_ name: String, type: RoutingType, parentRoute: Route! = nil, action: RouteActionClosure! = nil) {
         self.name = name
         self.type = type
         self.action = action
         self.parentRoute = parentRoute
     }
     
-    internal init(type: RoutingType, parentRoute: Route, action: RouteActionClosure! = nil) {
+    internal init(type: RoutingType, parentRoute: Route! = nil, action: RouteActionClosure! = nil) {
         self.name = nil
         self.type = type
         self.parentRoute = parentRoute
@@ -94,6 +92,17 @@ extension Route {
         return variable
     }
     
+    public func route(route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
+        let route = Route(route, parentRoute: self, action: action)
+        route.parentRouter = parentRouter
+        subRoutes.append(route)
+        return route
+    }
+}
+
+// MARK: - Adding sub routes, for testability only!
+
+extension Route {
     public func route(name: String, type: RoutingType, action: RouteActionClosure! = nil) -> Route {
         let route = Route(name, type: type, parentRoute: self, action: action)
         route.parentRouter = parentRouter
@@ -105,6 +114,15 @@ extension Route {
 // MARK: - Executing Routes
 
 extension Route {
+    
+    /**
+     For testability only!
+    */
+    internal func execute(animated: Bool, variable: String? = nil) -> Any? {
+        var data: AssociatedData? = nil
+        return execute(animated, variable: variable, associatedData: &data)
+    }
+    
     /**
      Execute the route's action
      
@@ -112,7 +130,7 @@ extension Route {
      - parameter variable: The variable value extracted from the URL component.
      - parameter associatedData: Potentially extra data passed in from the outside.
     */
-    internal func execute(animated: Bool, variable: String? = nil, associatedData: AssociatedData? = nil) -> Any? {
+    internal func execute(animated: Bool, variable: String?, inout associatedData: AssociatedData?) -> Any? {
         // bail out when missing a valid action
         guard let action = action else {
             Router.lock.unlock()
@@ -129,7 +147,7 @@ extension Route {
                     parentRouter?.navigator?.selectedViewController = vc
                 }
             } else {
-                result = action(variable: variable, associatedData: associatedData)
+                result = action(variable: variable, associatedData: &associatedData)
                 
                 let navController = navigator.selectedViewController as? UINavigationController
                 let lastVC = navController?.topViewController
@@ -165,7 +183,7 @@ extension Route {
             }
         } else {
             // they don't have a navigator setup, so just run it.
-            result = action(variable: variable, associatedData: associatedData)
+            result = action(variable: variable, associatedData: &associatedData)
         }
         
         // if no navigation action actually happened, unlock so route execution can continue.

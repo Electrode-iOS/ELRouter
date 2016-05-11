@@ -8,8 +8,8 @@
 
 import XCTest
 import UIKit
-import ELRouter
 import ELFoundation
+@testable import ELRouter
 
 class TabBarControllerTests: XCTestCase {
     override func tearDown() {
@@ -38,7 +38,7 @@ class TabBarControllerTests: XCTestCase {
         
         router.updateNavigator()
         
-        router.evaluate(["tabTwo"])
+        router.evaluate(["tabTwo"], associatedData: nil)
         
         do {
             try waitForConditionsWithTimeout(2.0) { () -> Bool in
