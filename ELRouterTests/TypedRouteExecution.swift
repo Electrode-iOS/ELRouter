@@ -27,10 +27,6 @@ public enum WishListRoutes: Int, RouteEnum {
         case .DeleteFromList: return (name: "DeleteFromList", type: .Other, example: "DeleteFromList")
         }
     }
-    
-    /*func dataInstance() -> AssociatedData {
-        
-    }*/
 }
 
 
@@ -61,6 +57,8 @@ class TypedRouteExecution: XCTestCase {
 
         
         let routes = Route(WishListRoutes.Home) { variable, associatedData in
+            XCTAssertTrue(variable == "12345")
+
             if associatedData == nil {
                 homeData.fulfill()
             }
@@ -69,7 +67,11 @@ class TypedRouteExecution: XCTestCase {
             associatedData = newData
             
             return nil
+        }.variable { (variable, associatedData) -> Any? in
+            return nil
         }.route(WishListRoutes.AddToList) { variable, associatedData in
+            XCTAssertTrue(variable == "XYZ")
+            
             if let data = associatedData as? WMListItemSpec {
                 // we set blah to 2 in our previous bit of the chain.
                 if data.blah == 2 {
@@ -80,7 +82,11 @@ class TypedRouteExecution: XCTestCase {
                 }
             }
             return nil
+        }.variable { variable, associatedData in
+              return nil
         }.route(WishListRoutes.DeleteFromList) { variable, associatedData in
+            XCTAssertTrue(variable == nil)
+            
             if let data = associatedData as? WMListItemSpec {
                 // we set blah to 3 in our previous bit of the chain.
                 if data.blah == 3 {
@@ -91,8 +97,10 @@ class TypedRouteExecution: XCTestCase {
         }
         
         router.register(routes)
+        
+        // Home/AddToList/<var>/DeleteFromList/<var>
 
-        router.evaluate([WishListRoutes.Home, WishListRoutes.AddToList, WishListRoutes.DeleteFromList], associatedData: nil)
+        router.evaluate([WishListRoutes.Home, Variable("12345"), WishListRoutes.AddToList, Variable("XYZ"), WishListRoutes.DeleteFromList], associatedData: nil)
         
         do {
             try waitForConditionsWithTimeout(4.0) { () -> Bool in

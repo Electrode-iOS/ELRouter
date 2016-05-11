@@ -36,8 +36,22 @@ public protocol RouteEnum {
 
 public typealias RouteSpec = (name: String, type: RoutingType, example: String?)
 
+
 /**
  */
-func Variable(value: String) -> RouteSpec {
-    return (name: value, type: .Variable, example: nil)
+public func Variable(value: String) -> RouteEnum {
+    
+    class VariableRoute: RouteEnum {
+        var value: String
+        var spec: RouteSpec {
+            return (name: value, type: .Variable, example: nil)
+        }
+        
+        init(_ rawValue: String) {
+            value = rawValue
+        }
+    }
+    
+    let variable = VariableRoute(value)
+    return variable
 }
