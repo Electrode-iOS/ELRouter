@@ -65,35 +65,22 @@ class TypedRouteExecution: XCTestCase {
                 homeData.fulfill()
             }
             
-            // set up our next associated data type...
-            //if nextType == WMListItemSpec.self {
-                let newData = WMListItemSpec(blah: 2)
-                associatedData = newData
-            //}
+            let newData = WMListItemSpec(blah: 2)
+            associatedData = newData
             
             return nil
         }.route(WishListRoutes.AddToList) { variable, associatedData in
-            /*if nextType == WMListItemSpec.self {
-                addToListNextType.fulfill()
-            }*/
             if let data = associatedData as? WMListItemSpec {
                 // we set blah to 2 in our previous bit of the chain.
                 if data.blah == 2 {
                     addToListData.fulfill()
 
-                    // set up our next associated data type...
-                    //if nextType == WMListItemSpec.self {
-                        let newData = WMListItemSpec(blah: 3)
-                        associatedData = newData
-                    //}
+                    let newData = WMListItemSpec(blah: 3)
+                    associatedData = newData
                 }
             }
             return nil
         }.route(WishListRoutes.DeleteFromList) { variable, associatedData in
-            /*if nextType == nil {
-                // this should be nil since it's the last in the chain.
-                deleteFromListNextType.fulfill()
-            }*/
             if let data = associatedData as? WMListItemSpec {
                 // we set blah to 3 in our previous bit of the chain.
                 if data.blah == 3 {
@@ -105,19 +92,19 @@ class TypedRouteExecution: XCTestCase {
         
         router.register(routes)
 
-        
-        //let itemSpec = WishListRoutes.AddToList.spec.associatedDataType(blah: 1)
         router.evaluate([WishListRoutes.Home, WishListRoutes.AddToList, WishListRoutes.DeleteFromList], associatedData: nil)
         
         do {
             try waitForConditionsWithTimeout(4.0) { () -> Bool in
+                //print("processing = \(router.processing)")
                 return router.processing == false
             }
         } catch {
             // do nothing
+            XCTFail()
         }
 
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+        waitForExpectationsWithTimeout(0, handler: nil)
     }
 
     func testObjcRoute1() {
