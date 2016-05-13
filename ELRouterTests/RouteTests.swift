@@ -166,7 +166,8 @@ extension RouteTests {
             return "foo"
         }
         
-        let result = route.execute(false)
+        var associatedData: AssociatedData? = nil
+        let result = route.execute(false, variable: nil, associatedData: &associatedData)
         
         XCTAssertNotNil(result)
         XCTAssertTrue(result is String)
@@ -180,7 +181,8 @@ extension RouteTests {
             return nil
         }
         
-        route.execute(false, variable: "foo")
+        var associatedData: AssociatedData? = nil
+        route.execute(false, variable: "foo", associatedData: &associatedData)
     }
     
     func test_execute_pushesViewController() {

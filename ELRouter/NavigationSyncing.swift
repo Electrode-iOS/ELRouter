@@ -62,7 +62,9 @@ internal class NavSync: NSObject {
         
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
-            exceptionFailure("Attempted to push a ViewController while routes were being processed!")
+            if !isInUnitTest() {
+                exceptionFailure("Attempted to push a ViewController while routes were being processed!")
+            }
             return
         }
         
@@ -91,27 +93,40 @@ internal class NavSync: NSObject {
 
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
-            exceptionFailure("Attempted to present a ViewController while routes were being processed!")
+            if !isInUnitTest() {
+                exceptionFailure("Attempted to present a ViewController while routes were being processed!")
+            }
             return
         }
         
         if animated {
             Dispatch().async(routerQueue) {
                 Dispatch().async(.Main) {
-                    fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
-                    self.scheduledControllers.removeObject(viewController)
+                    fromController.swizzled_presentViewController(viewController, animated: animated) {
+                        self.scheduledControllers.removeObject(viewController)
+                        if let closure = completion {
+                            closure()
+                        }
+                    }
                 }
             }
         } else {
-            fromController.swizzled_presentViewController(viewController, animated: animated, completion: completion)
-            scheduledControllers.removeObject(viewController)
+            fromController.swizzled_presentViewController(viewController, animated: animated) {
+                self.scheduledControllers.removeObject(viewController)
+                if let closure = completion {
+                    closure()
+                }
+            }
         }
     }
     
     internal func performSegueWithIdentifier(identifier: String, sender: AnyObject?, fromController: UIViewController, fromRouter: Bool) {
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
-            exceptionFailure("Attempted to perform a segue while routes were being processed!")
+            if !isInUnitTest() {
+                exceptionFailure("Attempted to perform a segue while routes were being processed!")
+            }
+
             return
         }
 

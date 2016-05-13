@@ -10,19 +10,24 @@ import Foundation
 import ELFoundation
 import ELDispatch
 
-/// 
+public typealias RouteCompletion = () -> Void
+
+///
 @objc
 public class Router: NSObject {
     static public let sharedInstance = Router()
     public var navigator: Navigator? = nil
+    
     public var routes: [Route] {
         return masterRoute.subRoutes
     }
+    
     public weak var eventFirehose: RouterEventFirehose? {
         didSet {
             NavSync.sharedInstance.eventFirehose = eventFirehose
         }
     }
+    
     private let masterRoute: Route = Route("MASTER", type: .Other)
     private var translation = [String : String]()
 }
@@ -65,8 +70,10 @@ extension Router {
             let navigatorRoutes = routesByType(.Static)
             var controllers = [UIViewController]()
             
+            var associatedData: AssociatedData? = nil
+            
             for route in navigatorRoutes {
-                if let vc = route.execute(false) as? UINavigationController {
+                if let vc = route.execute(false, variable: nil, associatedData: &associatedData) as? UINavigationController {
                     controllers.append(vc)
                 }
             }
@@ -122,72 +129,49 @@ extension Router {
     }
     
     /**
-     Evaluate a URL String. Routes matching the URL will be executed.
+     Evaluate a URL String. Routes matching the URL will be executed. This function
+     is entended solely for externally-originating routes.
      
      - parameter url: The URL to evaluate.
      */
-    public func evaluateURLString(urlString: String, animated: Bool = false) -> Bool {
-        
-        if let url = NSURL(string: urlString) {
-            return evaluateURL(url, animated: animated)
-        }
-        else {
-            return false
-        }
-        
+    public func evaluateURLString(urlString: String, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        guard let url = NSURL(string: urlString) else { return false }
+        return evaluateURL(url, animated: animated, completion: completion)
     }
     
     /**
-     Evaluate a URL. Routes matching the URL will be executed.
-     
+     Evaluate a URL. Routes matching the URL will be executed. This function
+     is entended solely for externally-originating routes.
+
      - parameter url: The URL to evaluate.
     */
-    public func evaluateURL(url: NSURL, animated: Bool = false) -> Bool {
+    public func evaluateURL(url: NSURL, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         guard let components = url.deepLinkComponents else { return false }
-        return evaluate(components, animated: animated)
+        return evaluate(components, associatedData: url, animated: animated, completion: completion)
     }
-
+    
     /**
-     Evaluate an array of components. Routes matching the URL will be executed.
+     Evaluate an array of RouteSpecs. Routes matching the specs will be executed.
      
-     - parameter components: The array of components to evaluate.
+     - parameter components: The array of specs to evaluate.
      - parameter animated: Determines if the view controller action should be animated.
      */
-    public func evaluate(components: [String], animated: Bool = false) -> Bool {
-        return evaluate(components, associatedData: nil, animated: animated)
+    public func evaluate(routes: [RouteEnum], animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        return evaluate(routes, associatedData: nil, animated: animated, completion: completion)
     }
-
+    
     /**
-     Evaluate an array of components. Routes matching the URL will be executed.
+     Evaluate an array of RouteSpecs. Routes matching the specs will be executed.
      
      - parameter components: The array of components to evaluate.
      - parameter associatedData: Extra data that needs to be passed through to each block in the chain.
      - parameter animated: Determines if the view controller action should be animated.
-    */
-    @objc
-    public func evaluate(components: [String], associatedData: AssociatedData?, animated: Bool = false) -> Bool {
-        var componentsWereHandled = false
-        
-        // if we have routes in flight, return false.  We can't do anything
-        // until those have finished.
-        if processing {
-            return false
-        }
-        
-        let routes = routesForComponents(components)
-        let valid = routes.count == components.count
-        
-        if valid && routes.count > 0 {
-            serializedRoute(routes, components: components, associatedData: associatedData, animated: animated)
-            
-            componentsWereHandled = true
-        }
-        
-        return componentsWereHandled
+     */
+    public func evaluate(routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        let components = componentsFromRoutes(routes)
+        return evaluate(components, associatedData: associatedData, animated: animated, completion: completion)
     }
-    
-    internal static let lock = Spinlock()
-    private static var routesInFlight: [Route]? = nil
+
 }
 
 // MARK: - Getting Routes
@@ -229,15 +213,74 @@ extension Router {
     public func routesForComponents(components: [String]) -> [Route] {
         return masterRoute.routesForComponents(components)
     }
+    
+    internal func componentsFromRoutes(routes: [RouteEnum]) -> [String] {
+        var components = [String]()
+        for item in routes {
+            components.append(item.spec.name)
+        }
+        return components
+    }
 }
 
 // MARK: - Route/Navigation synchronization
 
 extension Router {
-    internal func serializedRoute(routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool) {
+    internal static let lock = Spinlock()
+    private static var routesInFlight: [Route]? = nil
+    
+    // this function is for internal use and testability, DO NOT MAKE IT PUBLIC.
+    internal func evaluate(components: [String], animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        return evaluate(components, associatedData: nil, animated: animated, completion: completion)
+    }
+
+    // this function is for internal use and testability, DO NOT MAKE IT PUBLIC.
+    internal func evaluate(components: [String], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        var componentsWereHandled = false
+        
+        // if we have routes in flight, return false.  We can't do anything
+        // until those have finished.
+        if processing {
+            return false
+        }
+        
+        let routes = routesForComponents(components)
+        let valid = routes.count == components.count
+        
+        if valid && routes.count > 0 {
+            serializedRoute(routes, components: components, associatedData: associatedData, animated: animated, completion: completion)
+            
+            componentsWereHandled = true
+        }
+        
+        return componentsWereHandled
+    }
+    
+    private func nextVariable(components components: [String], routes: [Route], index: Int) -> String? {
+        guard (components.count > index && routes.count > index && components.count == routes.count) else { return nil }
+        
+        let currentRoute = routes[index]
+        
+        if currentRoute.type == .Variable {
+            return components[index]
+        }
+        
+        if components.count > index + 1 {
+            let nextRoute = routes[index + 1]
+            if nextRoute.type == .Variable {
+                return components[index + 1]
+            }
+        }
+        
+        return nil
+    }
+    
+    internal func serializedRoute(routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool, completion: RouteCompletion? = nil) {
         if processing {
             return
         }
+        
+        var data: AssociatedData? = associatedData
         
         // set our in-flight routes to what we were given.
         synchronized(self) {
@@ -255,16 +298,7 @@ extension Router {
             for i in 0..<components.count {
                 let route = routes[i]
 
-                var variable: String? = nil
-                if route.type == .Variable {
-                    variable = components[i]
-                }
-                
-                if route.parentRoute?.type == .Variable {
-                    if i > 0 {
-                        variable = components[i-1]
-                    }
-                }
+                let variable = self.nextVariable(components: components, routes: routes, index: i)
                 
                 // acquire the lock.  if there's a nav event in progress
                 // this will wait until that event has finished.
@@ -273,10 +307,14 @@ extension Router {
                 log(.Debug, "Processing route: \((route.name ?? variable)!), \(route.type.description)")
                 
                 // execute route on the main thread.
-                Dispatch().async(.Main) {
-                    route.execute(animated, variable: variable, associatedData: associatedData)
+                Dispatch().sync(.Main) {
+                    route.execute(animated, variable: variable, associatedData: &data)
                     log(.Debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
                 }
+            }
+            
+            if let completionClosure = completion {
+                completionClosure()
             }
             
             // clear our in-flight routes now that we're done.

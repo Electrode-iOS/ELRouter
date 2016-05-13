@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import ELRouter
+@testable import ELRouter
 
 class RouteCollectionTypeTests: XCTestCase {
     func test_filterByName_returnsRoutesForValidName() {
