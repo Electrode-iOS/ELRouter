@@ -62,10 +62,13 @@ internal class NavSync: NSObject {
         
         // if routes are in process and a manual nav event was attempted, it's ignore it and continue on.
         if !fromRouter && Router.sharedInstance.processing {
-            if !isInUnitTest() {
-                exceptionFailure("Attempted to push a ViewController while routes were being processed!")
+            // if the navController has no view controllers, this is coming from the rootViewController initializer, so let it pass.
+            if navController.viewControllers.count > 0 {
+                if !isInUnitTest() {
+                    exceptionFailure("Attempted to push a ViewController while routes were being processed!")
+                }
+                return
             }
-            return
         }
         
         if animated {
@@ -135,55 +138,16 @@ internal class NavSync: NSObject {
 }
 
 extension UINavigationController {
-    public override class func initialize() {
-        struct Static {
-            static var token: dispatch_once_t = 0
-        }
-        
-        // make sure this isn't a subclass
-        if self !== UINavigationController.self {
-            return
-        }
-        
-        dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: #selector(UINavigationController.pushViewController(_:animated:)), replacement: #selector(UINavigationController.swizzled_pushViewController(_:animated:)))
-            
-            // TODO: figure out if we need to handle popViewController, popToRootViewController and popToViewController.
-        }
-    }
-    
-    // MARK: - Method Swizzling
-    
     internal func swizzled_pushViewController(viewController: UIViewController, animated: Bool) {
         NavSync.sharedInstance.push(viewController, animated: animated, navController: self, fromRouter: false)
     }
-
+    
     internal func router_pushViewController(viewController: UIViewController, animated: Bool) {
         NavSync.sharedInstance.push(viewController, animated: animated, navController: self, fromRouter: true)
     }
 }
 
 extension UIViewController {
-    public override class func initialize() {
-        struct Static {
-            static var token: dispatch_once_t = 0
-        }
-        
-        // make sure this isn't a subclass
-        if self !== UIViewController.self {
-            return
-        }
-        
-        dispatch_once(&Static.token) {
-            unsafeSwizzle(self, original: #selector(UIViewController.viewDidAppear(_:)), replacement: #selector(UIViewController.swizzled_viewDidAppear(_:)))
-            unsafeSwizzle(self, original: #selector(UIViewController.presentViewController(_:animated:completion:)), replacement: #selector(UIViewController.swizzled_presentViewController(_:animated:completion:)))
-            
-            // TODO: figure out if we need to handle dismissViewControllerAnimated
-        }
-    }
-    
-    // MARK: - Method Swizzling
-    
     internal func swizzled_viewDidAppear(animated: Bool) {
         // release whatever lock is present
         NavSync.sharedInstance.appeared(self, animated: animated)
@@ -199,5 +163,19 @@ extension UIViewController {
     
     internal func router_performSegueWithIdentifier(identifier: String, sender: AnyObject?) {
         NavSync.sharedInstance.performSegueWithIdentifier(identifier, sender: sender, fromController: self, fromRouter: true)
+    }
+}
+
+// MARK: Swizzle Injection
+
+internal func injectRouterSwizzles() {
+    struct Static {
+        static var token: dispatch_once_t = 0
+    }
+    
+    dispatch_once(&Static.token) {
+        UINavigationController.swizzleInstanceMethods(#selector(UINavigationController.pushViewController(_:animated:)), swizzledSelector: #selector(UINavigationController.swizzled_pushViewController(_:animated:)))
+        UIViewController.swizzleInstanceMethods(#selector(UIViewController.viewDidAppear(_:)), swizzledSelector: #selector(UIViewController.swizzled_viewDidAppear(_:)))
+        UIViewController.swizzleInstanceMethods(#selector(UIViewController.presentViewController(_:animated:completion:)), swizzledSelector: #selector(UIViewController.swizzled_presentViewController(_:animated:completion:)))
     }
 }
