@@ -174,8 +174,8 @@ internal func injectRouterSwizzles() {
     }
     
     dispatch_once(&Static.token) {
-        UINavigationController.swizzleInstanceMethods(#selector(UINavigationController.pushViewController(_:animated:)), swizzledSelector: #selector(UINavigationController.swizzled_pushViewController(_:animated:)))
-        UIViewController.swizzleInstanceMethods(#selector(UIViewController.viewDidAppear(_:)), swizzledSelector: #selector(UIViewController.swizzled_viewDidAppear(_:)))
-        UIViewController.swizzleInstanceMethods(#selector(UIViewController.presentViewController(_:animated:completion:)), swizzledSelector: #selector(UIViewController.swizzled_presentViewController(_:animated:completion:)))
+        UINavigationController.swizzleInstanceMethod(#selector(UINavigationController.pushViewController(_:animated:)), swizzledSelector: #selector(UINavigationController.swizzled_pushViewController(_:animated:)))
+        UIViewController.swizzleInstanceMethod(#selector(UIViewController.viewDidAppear(_:)), swizzledSelector: #selector(UIViewController.swizzled_viewDidAppear(_:)))
+        UIViewController.swizzleInstanceMethod(#selector(UIViewController.presentViewController(_:animated:completion:)), swizzledSelector: #selector(UIViewController.swizzled_presentViewController(_:animated:completion:)))
     }
 }
