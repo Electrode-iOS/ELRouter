@@ -12,7 +12,7 @@ import Foundation
  The AssociatedData protocol is used for conformance on passing data
  through a chain of routes.
  */
-//@objc
+@objc
 public protocol AssociatedData { }
 
 /**
