@@ -30,6 +30,11 @@ public class Router: NSObject {
     
     private let masterRoute: Route = Route("MASTER", type: .Other)
     private var translation = [String : String]()
+
+    public override init() {
+        super.init()
+        injectRouterSwizzles()
+    }
 }
 
 // MARK: - Translation API
