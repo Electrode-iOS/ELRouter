@@ -18,17 +18,17 @@ class RouterTests: XCTestCase {
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
                 
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { (variable) in
+        router.register(Route("tabThree", type: .Static) { _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
@@ -44,15 +44,15 @@ class RouterTests: XCTestCase {
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
         
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             return nil
         })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             return nil
         })
         
-        router.register(Route("tabThree", type: .Static) { (variable) in
+        router.register(Route("tabThree", type: .Static) { _, _ in
             return nil
         })
         
@@ -84,19 +84,19 @@ class RouterTests: XCTestCase {
         let tabTwoExpectation = expectationWithDescription("tabTwo static route executes")
         let tabThreeExpectation = expectationWithDescription("tabThree static route executes")
 
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             tabOneExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { (variable) in
+        router.register(Route("tabThree", type: .Static) { _, _ in
             tabThreeExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
@@ -110,19 +110,19 @@ class RouterTests: XCTestCase {
     func test_updateNavigator_doesNotExecuteStaticRoutesWithNilNavigator() {
         let router = Router()
         
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             XCTAssertTrue(false)
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             XCTAssertTrue(false)
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { (variable) in
+        router.register(Route("tabThree", type: .Static) { _, _ in
             XCTAssertTrue(false)
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
