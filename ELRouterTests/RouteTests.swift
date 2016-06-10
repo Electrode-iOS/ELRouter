@@ -26,7 +26,7 @@ class RouteTests: XCTestCase {
     }
     
     func test_initialization_withNameAndAction() {
-        let route = Route("testName", type: .Other) { _ in
+        let route = Route("testName", type: .Other) { _, _ in
             return nil
         }
         
@@ -56,7 +56,7 @@ class RouteTests: XCTestCase {
     
     func test_initialization_withTypeAndAction() {
         let parentRoute = Route("parent", type: .Other)
-        let route = Route(type: .Other, parentRoute: parentRoute) { _ in
+        let route = Route(type: .Other, parentRoute: parentRoute) { _, _ in
             return nil
         }
         
@@ -72,7 +72,7 @@ class RouteTests: XCTestCase {
     
     func test_initialization_withNamedAndParentRoute() {
         let parentRoute = Route("parent", type: .Other)
-        let route = Route("sub", type: .Other, parentRoute: parentRoute) { _ in
+        let route = Route("sub", type: .Other, parentRoute: parentRoute) { _, _ in
             return nil
         }
         
@@ -222,7 +222,7 @@ extension RouteTests {
 //    }
     
     func test_execute_returnsStaticValue() {
-        let route = Route("executeTest", type:  .Static) { variable in
+        let route = Route("executeTest", type:  .Static) { _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             vc.title = "Static Test"
             return vc
@@ -243,7 +243,7 @@ extension RouteTests {
         let navVC = UINavigationController(rootViewController: vc)
         navigator.setViewControllers([navVC], animated: false)
         navigator.selectedViewController = navVC
-        let route = Route("segueTest", type:  .Segue) { variable in
+        let route = Route("segueTest", type:  .Segue) { _, _ in
             return "fooSegue"
         }
         route.parentRouter = router
@@ -258,7 +258,7 @@ extension RouteTests {
         let navigator = MockNavigator()
         router.navigator = navigator
         let vc = UIViewController(nibName: nil, bundle: nil)
-        let route = Route("selectTest", type: .Static) { _ in
+        let route = Route("selectTest", type: .Static) { _, _ in
             return vc
         }
         route.parentRouter = router

@@ -24,13 +24,13 @@ class TabBarControllerTests: XCTestCase {
         let tabOneExpectation = expectationWithDescription("tab one created")
         let tabTwoExpectation = expectationWithDescription("tab two created")
 
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             tabOneExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
@@ -64,19 +64,19 @@ class TabBarControllerTests: XCTestCase {
         let tabTwoExpectation = expectationWithDescription("tab two created")
         let tabThreeExpectation = expectationWithDescription("tab three created")
 
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             tabOneExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { (variable) in
+        router.register(Route("tabThree", type: .Static) { _, _ in
             tabThreeExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
@@ -108,19 +108,19 @@ class TabBarControllerTests: XCTestCase {
         
         let tabTwoExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("tabOne", type: .Static) { (variable) in
+        router.register(Route("tabOne", type: .Static) { _, _ in
             XCTAssertTrue(true, "Tab one handler should not be run when evaluating tab two")
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
             })
         
-        router.register(Route("tabTwo", type: .Static) { (variable) in
+        router.register(Route("tabTwo", type: .Static) { _, _ in
             tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
             })
         
-        router.register(Route("tabThree", type: .Static) { (variable) in
+        router.register(Route("tabThree", type: .Static) { _, _ in
             XCTAssertTrue(true, "Tab two handler should not be run when evaluating tab three")
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)

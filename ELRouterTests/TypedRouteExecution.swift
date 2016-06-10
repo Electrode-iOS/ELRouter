@@ -10,7 +10,10 @@ import XCTest
 import ELRouter
 
 
-public struct WMListItemSpec: AssociatedData {
+public class WMListItemSpec: AssociatedData {
+    init(blah argBlah: Int) {
+        blah = argBlah
+    }
     var blah: Int = 1
 }
 
