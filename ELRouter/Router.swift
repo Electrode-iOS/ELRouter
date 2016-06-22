@@ -30,6 +30,11 @@ public class Router: NSObject {
     
     private let masterRoute: Route = Route("MASTER", type: .Other)
     private var translation = [String : String]()
+
+    public override init() {
+        super.init()
+        injectRouterSwizzles()
+    }
 }
 
 // MARK: - Translation API
@@ -124,7 +129,6 @@ extension Router {
 }
 
 // MARK: - Evaluating Routes
-
 extension Router {
     /**
      Can be used to determine if Routes are currently be processed.
@@ -154,11 +158,15 @@ extension Router {
 
      - parameter url: The URL to evaluate.
     */
-    public func evaluateURL(url: NSURL, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    public func evaluateURL(url: NSURL, associatedData: AssociatedData? = nil, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         guard let components = url.deepLinkComponents else { return false }
-        return evaluate(components, associatedData: url, animated: animated, completion: completion)
+        var passedData: AssociatedData = url
+        if let validAssociatedData = associatedData {
+            passedData = validAssociatedData
+        }
+        return evaluate(components, associatedData: passedData, animated: animated, completion: completion)
     }
-    
+
     /**
      Evaluate an array of RouteSpecs. Routes matching the specs will be executed.
      

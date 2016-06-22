@@ -1,6 +1,9 @@
-# ELRouter [![Build Status](https://travis-ci.org/Electrode-iOS/ELRouter.svg)](https://travis-ci.org/Electrode-iOS/ELRouter)
+# ELRouter 
 
-ELRouter.framework. A **work in progress** of a URL router for UIKit.
+[![Version](https://img.shields.io/badge/version-v1.0.1-blue.svg)](https://github.com/Electrode-iOS/ELRouter/releases/latest)
+[![Build Status](https://travis-ci.org/Electrode-iOS/ELRouter.svg)](https://travis-ci.org/Electrode-iOS/ELRouter)
+
+ELRouter.framework. A URL router for UIKit.
 
 ## Requirements
 
