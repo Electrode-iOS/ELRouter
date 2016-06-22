@@ -109,6 +109,14 @@ extension Router {
         }
         
         if currentRoute.name != nil {
+            if routesByName(currentRoute.name!).count != 0 {
+                let message = "A route already exists named \(currentRoute.name!)!"
+                if isInUnitTest() {
+                    exceptionFailure(message)
+                } else {
+                    assertionFailure(message)
+                }
+            }
             currentRoute.parentRouter = self
             masterRoute.subRoutes.append(currentRoute)
         }

@@ -86,6 +86,15 @@ public class Route: NSObject {
 
 extension Route {
     public func variable(action: RouteActionClosure! = nil) -> Route {
+        if routeByType(.Variable) != nil {
+            let message = "A variable route already exists on \(self.name)!"
+            if isInUnitTest() {
+                exceptionFailure(message)
+            } else {
+                assertionFailure(message)
+            }
+        }
+        
         let variable = Route(type: .Variable, parentRoute: self, action: action)
         variable.parentRouter = parentRouter
         subRoutes.append(variable)
@@ -93,10 +102,7 @@ extension Route {
     }
     
     public func route(route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
-        let route = Route(route, parentRoute: self, action: action)
-        route.parentRouter = parentRouter
-        subRoutes.append(route)
-        return route
+        return self.route(route.spec.name, type: route.spec.type, action: action)
     }
 }
 
@@ -104,6 +110,15 @@ extension Route {
 
 extension Route {
     public func route(name: String, type: RoutingType, action: RouteActionClosure! = nil) -> Route {
+        if let existing = routeByName(name) {
+            let message = "A route already exists named \(existing.name!)!"
+            if isInUnitTest() {
+                exceptionFailure(message)
+            } else {
+                assertionFailure(message)
+            }
+        }
+
         let route = Route(name, type: type, parentRoute: self, action: action)
         route.parentRouter = parentRouter
         subRoutes.append(route)
