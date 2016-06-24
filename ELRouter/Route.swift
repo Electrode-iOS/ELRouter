@@ -275,38 +275,10 @@ extension Route {
                 // oh, it's a route.  add that shit.
                 results.append(route)
                 currentRoute = route
-            } else {
-                // is it a variable?
-                
-                // we're more likely to have multiple variables, so check them against the
-                // next component in the set.
-                let variables = currentRoute.routesByType(.Variable)
-                var nextComponent: String? = nil
-                
-                if i < components.count - 1 {
-                    nextComponent = components[i+1]
-                }
-                
-                // if there are multiple variables specified, dig in to see if any match the next component.
-                var matchingVariableFound = false
-                
-                if let nextComponent = nextComponent {
-                    for item in variables {
-                        if item.routeByName(nextComponent) != nil || i == components.count - 1 {
-                            results.append(item)
-                            currentRoute = item
-                            matchingVariableFound = true
-                        }
-                    }
-                }
-                
-                // if there's only 1 variable specified here, just register it
-                // if there's no nextComponent.
-                if variables.count == 1 && !matchingVariableFound && nextComponent == nil {
-                    let item = variables[0]
-                    results.append(item)
-                    currentRoute = item
-                }
+            } else if let variableRoute = currentRoute.routeByType(.Variable) {
+                // it IS a variable.
+                results.append(variableRoute)
+                currentRoute = variableRoute
             }
         }
         
