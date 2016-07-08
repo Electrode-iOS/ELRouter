@@ -195,11 +195,23 @@ extension Router {
 
 extension Router {
     /**
+     Get all routes for a particular RouteEnum
+    
+     - parameter routeEnum: The enum of the routes to get
+ 
+    */
+    public func routesByEnum(routeEnum: RouteEnum) -> [Route] {
+        return routes.filterByName(routeEnum.spec.name)
+    }
+    
+    /**
      Get all routes of a particular name.
+     
+     This function is marked internal to prevent API abuse
      
      - parameter name: The name of the routes to get.
     */
-    public func routesByName(name: String) -> [Route] {
+    internal func routesByName(name: String) -> [Route] {
         return routes.filterByName(name)
     }
     
