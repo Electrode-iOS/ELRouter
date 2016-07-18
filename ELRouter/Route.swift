@@ -160,6 +160,9 @@ extension Route {
                 result = staticValue
                 if let vc = staticValue as? UIViewController {
                     parentRouter?.navigator?.selectedViewController = vc
+                    if let nav = vc as? UINavigationController {
+                        nav.popToRootViewControllerAnimated(animated)
+                    }
                 }
             } else {
                 result = action(variable: variable, associatedData: &associatedData)
