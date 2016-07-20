@@ -740,6 +740,53 @@ extension RouterTests {
         
         XCTAssertTrue(didRun)
     }
+    
+    func test_evaluate_aliases() {
+        let router = Router()
+        var didRun = false
+        
+        // Route 1
+        let route1 = Route("foo", type: .Other) { variable, associatedData in
+            print("first one")
+            return nil
+        }
+        
+        route1.aliases.append("bar")
+            
+        route1.variable { (variable, associatedData) -> Any? in
+            print(variable)
+            return nil
+        }.variable { (variable, associatedData) -> Any? in
+            print(variable)
+            didRun = true
+            return nil
+        }
+        router.register(route1)
+        
+        // check the main name.
+        router.evaluateURLString("walmart://foo/1234/5678")
+        do {
+            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
+                return didRun == true
+            })
+        } catch {
+            print("OMG!!!")
+        }
+        XCTAssertTrue(didRun)
+        
+        // check the alias
+        didRun = false
+        router.evaluateURLString("walmart://bar/1234/5678")
+        do {
+            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
+                return didRun == true
+            })
+        } catch {
+            print("OMG!!!")
+        }
+        XCTAssertTrue(didRun)
+        
+    }
 
     // TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.
 //    func test_evaulate_duplicatedRoute() {

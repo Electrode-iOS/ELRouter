@@ -44,8 +44,10 @@ public class Route: NSObject {
     /// The name of the route, ie: "reviews"
     public let name: String?
     public let type: RoutingType
+
     public var userInfo = [String: AnyObject]()
     
+    public internal(set) var aliases = [String]()
     public internal(set) var subRoutes = [Route]()
 
     // this used to be weak, however due to the nature of how things are registered,
@@ -299,7 +301,13 @@ extension CollectionType where Generator.Element == Route {
      - parameter name: The name of the routes to filter by.
     */
     public func filterByName(name: String) -> [Route] {
-        return filter { $0.name == name }
+        return filter {
+            if $0.name == name {
+                return true
+            } else {
+                return $0.aliases.contains(name)
+            }
+        }
     }
     
     /**
