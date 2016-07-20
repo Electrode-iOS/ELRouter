@@ -19,6 +19,7 @@ public enum RoutingType: UInt {
     case Push
     case Modal
     case Variable
+    case Alias
     case Other // ??
     
     var description: String {
@@ -33,6 +34,8 @@ public enum RoutingType: UInt {
             return "Modal"
         case .Variable:
             return "Variable"
+        case .Alias:
+            return "Alias"
         case .Other:
             return "Other"
         }
@@ -44,6 +47,7 @@ public class Route: NSObject {
     /// The name of the route, ie: "reviews"
     public let name: String?
     public let type: RoutingType
+
     public var userInfo = [String: AnyObject]()
     
     public internal(set) var subRoutes = [Route]()
@@ -196,7 +200,7 @@ extension Route {
                         navActionOccurred = true
                     }
                     
-                case .Other, .Variable: break
+                case .Other, .Alias, .Variable: break
                 }
             }
         } else {
@@ -275,9 +279,19 @@ extension Route {
             let component = components[i]
             
             if let route = currentRoute.routeByName(component) {
-                // oh, it's a route.  add that shit.
-                results.append(route)
-                currentRoute = route
+                // is it an alias?
+                if route.type == .Alias {
+                    if let aliasedRoute = route.execute(false) as? Route {
+                        results.append(aliasedRoute)
+                        currentRoute = aliasedRoute
+                    } else {
+                        exceptionFailure("\(route.name) did not return a Route object to represent it's alias.")
+                    }
+                } else {
+                    // oh, it's a normal route.  add that shit.
+                    results.append(route)
+                    currentRoute = route
+                }
             } else if let variableRoute = currentRoute.routeByType(.Variable) {
                 // it IS a variable.
                 results.append(variableRoute)

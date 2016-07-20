@@ -6,7 +6,9 @@
 //  Copyright © 2015 Walmart. All rights reserved.
 //
 
-import XCTest
+// Need to convert this stuff to functional tests.
+
+/*import XCTest
 import UIKit
 import ELFoundation
 @testable import ELRouter
@@ -138,4 +140,4 @@ class TabBarControllerTests: XCTestCase {
             XCTAssertFalse(evaluated)
         }
     }
-}
+}*/

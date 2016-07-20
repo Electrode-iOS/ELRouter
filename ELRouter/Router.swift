@@ -205,12 +205,23 @@ extension Router {
     }
     
     /**
-     Get all routes of a particular name.
+     Get a route of a particular name.
      
      This function is marked internal to prevent API abuse
      
      - parameter name: The name of the routes to get.
     */
+    internal func routeByName(name: String) -> Route? {
+        return masterRoute.routeByName(name)
+    }
+    
+    /**
+     Get all routes matching a particular name.
+     
+     This function is marked internal to prevent API abuse
+     
+     - parameter name: The name of the routes to get.
+     */
     internal func routesByName(name: String) -> [Route] {
         return routes.filterByName(name)
     }
