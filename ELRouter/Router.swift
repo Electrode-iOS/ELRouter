@@ -195,11 +195,20 @@ extension Router {
 
 extension Router {
     /**
-     Get all routes of a particular name.
+     Get route by a particular name.
      
      - parameter name: The name of the routes to get.
     */
-    public func routesByName(name: String) -> [Route] {
+    public func routeByName(name: String) -> Route? {
+        return masterRoute.routeByName(name)
+    }
+    
+    /**
+     Get all routes matching a particular name.
+     
+     - parameter name: The name of the routes to get.
+     */
+    internal func routesByName(name: String) -> [Route] {
         return routes.filterByName(name)
     }
     

@@ -749,11 +749,7 @@ extension RouterTests {
         let route1 = Route("foo", type: .Other) { variable, associatedData in
             print("first one")
             return nil
-        }
-        
-        route1.aliases.append("bar")
-            
-        route1.variable { (variable, associatedData) -> Any? in
+        }.variable { (variable, associatedData) -> Any? in
             print(variable)
             return nil
         }.variable { (variable, associatedData) -> Any? in
@@ -763,6 +759,12 @@ extension RouterTests {
         }
         router.register(route1)
         
+        let aliasedRoute = Route("bar", type: .Alias) { variable, associatedData in
+            return router.routeByName("foo")
+        }
+
+        router.register(aliasedRoute)
+        
         // check the main name.
         router.evaluateURLString("walmart://foo/1234/5678")
         do {
@@ -770,20 +772,21 @@ extension RouterTests {
                 return didRun == true
             })
         } catch {
-            print("OMG!!!")
+            print("OMG1!!!")
         }
         XCTAssertTrue(didRun)
         
         // check the alias
         didRun = false
-        router.evaluateURLString("walmart://bar/1234/5678")
+        let evaluated = router.evaluateURLString("walmart://bar/1234/5678")
         do {
             try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
                 return didRun == true
             })
         } catch {
-            print("OMG!!!")
+            print("OMG2!!!")
         }
+        XCTAssertTrue(evaluated)
         XCTAssertTrue(didRun)
         
     }

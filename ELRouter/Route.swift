@@ -19,6 +19,7 @@ public enum RoutingType: UInt {
     case Push
     case Modal
     case Variable
+    case Alias
     case Other // ??
     
     var description: String {
@@ -33,6 +34,8 @@ public enum RoutingType: UInt {
             return "Modal"
         case .Variable:
             return "Variable"
+        case .Alias:
+            return "Alias"
         case .Other:
             return "Other"
         }
@@ -47,7 +50,6 @@ public class Route: NSObject {
 
     public var userInfo = [String: AnyObject]()
     
-    public internal(set) var aliases = [String]()
     public internal(set) var subRoutes = [Route]()
 
     // this used to be weak, however due to the nature of how things are registered,
@@ -198,7 +200,7 @@ extension Route {
                         navActionOccurred = true
                     }
                     
-                case .Other, .Variable: break
+                case .Other, .Alias, .Variable: break
                 }
             }
         } else {
@@ -277,9 +279,19 @@ extension Route {
             let component = components[i]
             
             if let route = currentRoute.routeByName(component) {
-                // oh, it's a route.  add that shit.
-                results.append(route)
-                currentRoute = route
+                // is it an alias?
+                if route.type == .Alias {
+                    if let aliasedRoute = route.execute(false) as? Route {
+                        results.append(aliasedRoute)
+                        currentRoute = aliasedRoute
+                    } else {
+                        exceptionFailure("\(route.name) did not return a Route object to represent it's alias.")
+                    }
+                } else {
+                    // oh, it's a normal route.  add that shit.
+                    results.append(route)
+                    currentRoute = route
+                }
             } else if let variableRoute = currentRoute.routeByType(.Variable) {
                 // it IS a variable.
                 results.append(variableRoute)
@@ -301,13 +313,7 @@ extension CollectionType where Generator.Element == Route {
      - parameter name: The name of the routes to filter by.
     */
     public func filterByName(name: String) -> [Route] {
-        return filter {
-            if $0.name == name {
-                return true
-            } else {
-                return $0.aliases.contains(name)
-            }
-        }
+        return filter { $0.name == name }
     }
     
     /**
