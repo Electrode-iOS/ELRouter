@@ -10,9 +10,25 @@ import XCTest
 @testable import ELRouter
 import ELFoundation
 
+enum TestRoutes: RouteEnum {
+    case Home
+    case ScreenOne
+    case ScreenTwo
+    
+    var spec: RouteSpec {
+        switch self {
+        case .Home: return (name: "home", type: .Static, example: "home://")
+        case .ScreenOne: return (name: "screen-one", type: .Static, example: "screenone://")
+        case .ScreenTwo: return (name: "screen-two", type: .Static, example: "screentwo://")
+        }
+    }
+}
+
 // MARK: - translate Tests
 
 class RouterTests: XCTestCase {
+    let longTimeout: NSTimeInterval = 15.0
+    
     func test_updateNavigator_setsTabBarViewControllersBasedOnStaticRoutes() {
         let router = Router()
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
@@ -104,7 +120,7 @@ class RouterTests: XCTestCase {
         
         router.updateNavigator()
         
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
     }
     
     func test_updateNavigator_doesNotExecuteStaticRoutesWithNilNavigator() {
@@ -306,18 +322,13 @@ extension RouterTests {
         let router = Router()
         router.register(Route("walmart.com", type: .Other))
         
-        let routeWasHandled = router.evaluate(["walmart.com"])
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
+        let handlerExpectation = expectationWithDescription("route handler should run")
 
+        let routeWasHandled = router.evaluate(["walmart.com"]) {
+            handlerExpectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
         XCTAssertTrue(routeWasHandled)
     }
     
@@ -325,16 +336,6 @@ extension RouterTests {
         let router = Router()
         
         let routeWasHandled = router.evaluate(["walmart.com"])
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
 
         XCTAssertFalse(routeWasHandled)
     }
@@ -347,18 +348,13 @@ extension RouterTests {
         let router = Router()
         router.register(Route("walmart.com", type: .Other))
         let url = NSURL(string: "scheme://walmart.com")!
-        let routeWasHandled = router.evaluateURL(url)
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
+        let handlerExpectation = expectationWithDescription("route handler should run")
+        let routeWasHandled = router.evaluateURL(url) {
+            handlerExpectation.fulfill()
         }
-
+        
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
         XCTAssertTrue(routeWasHandled)
     }
     
@@ -368,16 +364,6 @@ extension RouterTests {
         
         let routeWasHandled = router.evaluateURL(url)
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
-
         XCTAssertFalse(routeWasHandled)
     }
     
@@ -387,44 +373,24 @@ extension RouterTests {
         
         let routeWasHandled = router.evaluateURL(url)
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
-
         XCTAssertFalse(routeWasHandled)
     }
     
-// TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.
     func test_evaluateURL_executesActionWithMultipleURLComponents() {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
-        
+
         router.register(Route("walmart.com", type: .Other).route("item", type: .Other, action: { variable, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
-            handlerExpectation.fulfill()
             return nil
         }).variable())
         
-        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345")!)
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/item/12345")!) {
+            handlerExpectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
     }
     
     func test_evaluateURL_executesActionWithSingleVariableComponent() {
@@ -434,78 +400,60 @@ extension RouterTests {
         router.register(Route("walmart.com", type: .Other).variable() { variable, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
-            
-            handlerExpectation.fulfill()
             return nil
         })
         
-        router.evaluateURL(NSURL(string: "scheme://walmart.com/12345")!)
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
+        router.evaluateURL(NSURL(string: "scheme://walmart.com/12345")!) {
+            handlerExpectation.fulfill()
         }
-
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+        
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
     }
     
     func test_evaluateURL_executesActionWithSingleRouteComponent() {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
+        var didExecuteLastRoute = false
         
         router.register(Route("walmart.com", type: .Other) { variable, _ in
-            handlerExpectation.fulfill()
+            didExecuteLastRoute = true
             return nil
             })
         
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
-        let executed = router.evaluateURL(NSURL(string: "scheme://walmart.com")!)
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
+        let executed = router.evaluateURL(NSURL(string: "scheme://walmart.com")!) {
+            if didExecuteLastRoute {
+                handlerExpectation.fulfill()
             }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
         }
+        
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
 
         XCTAssert(executed, "This should've failed")
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+        XCTAssertTrue(didExecuteLastRoute)
     }
     
-    // TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.
     func test_evaulate_executesActionWithBasicOtherRoute() {
         let router = Router()
         let handlerRanExpectation = expectationWithDescription("route handler should run")
+        var didExecuteLastRoute = false
         
         let route = Route("foo", type: .Other) { variable, _ in
-            handlerRanExpectation.fulfill()
+            didExecuteLastRoute = true
             return nil
         }
         
         router.register(route)
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
         
-        router.evaluate(["foo"])
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
+        router.evaluate(["foo"]) {
+            if didExecuteLastRoute {
+                handlerRanExpectation.fulfill()
             }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
         }
-
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+  
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
     }
 }
 
@@ -514,20 +462,16 @@ extension RouterTests {
 extension RouterTests {
     func test_evaluateURLString_returnsTrueForHandledURL() {
         let router = Router()
+        let completionRanExpectation = expectationWithDescription("route completion handler should run")
+        
         router.register(Route("walmart.com", type: .Other))
         
-        let routeWasHandled = router.evaluateURLString("scheme://walmart.com")
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
+        let routeWasHandled = router.evaluateURLString("scheme://walmart.com") {
+            completionRanExpectation.fulfill()
         }
-
+        
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
+  
         XCTAssertTrue(routeWasHandled)
     }
     
@@ -541,17 +485,7 @@ extension RouterTests {
             completionRanExpectation.fulfill()
         }
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
-        
-        waitForExpectationsWithTimeout(1.0, handler: nil)
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
         
         XCTAssertTrue(routeWasHandled)
     }
@@ -559,18 +493,10 @@ extension RouterTests {
     func test_evaluateURLString_returnsFalseForUnhandledURL() {
         let router = Router()
         
+        // This is not evident, but the completion block will not be called when the route
+        // fails to run, therefore you cannot rely on it for testing this scenario
         let routeWasHandled = router.evaluateURLString("scheme://walmart.com")
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
-
         XCTAssertFalse(routeWasHandled)
     }
     
@@ -579,16 +505,6 @@ extension RouterTests {
         
         let routeWasHandled = router.evaluateURLString("      ")
         
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
-            }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
-        }
-
         XCTAssertFalse(routeWasHandled)
     }
 }
@@ -609,19 +525,20 @@ extension RouterTests {
 extension NSString: AssociatedData { }
 
 extension RouterTests {
-    // TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.
     func test_evaulate_executesActionWithAssociatedData() {
         let router = Router()
-        let handlerRanExpectation = expectationWithDescription("route handler should run")
-        let handlerHasDataExpectation = expectationWithDescription("route handler should run")
+       // let handlerRanExpectation = expectationWithDescription("route handler should run")
+       // let handlerHasDataExpectation = expectationWithDescription("route handler should run")
+        var capturedString = ""
         
         let route = Route("foo", type: .Other) { variable, associatedData in
-            handlerRanExpectation.fulfill()
+            //handlerRanExpectation.fulfill()
             
+            // Only capture the data here, don't use this to trigger
+            // end of route execution because due to threading issues
+            // parts of the next test could run when you are not expecting it to
             if let data = associatedData as? String {
-                if data == "blah" {
-                    handlerHasDataExpectation.fulfill()
-                }
+                capturedString = data
             }
             
             return nil
@@ -630,19 +547,21 @@ extension RouterTests {
         router.register(route)
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
         
-        router.evaluate(["foo"], associatedData: "blah")
-        
-        // wait for the router to finish processing.
-        do {
-            try waitForConditionsWithTimeout(2.0) { () -> Bool in
-                return router.processing == false
+        var didComplete = false
+        router.evaluate(["foo"], associatedData: "blah") {
+            if capturedString == "blah" {
+                didComplete = true
             }
-        } catch {
-            // timeout occurred while processing.
-            XCTFail()
         }
         
-        waitForExpectationsWithTimeout(2.0, handler: nil)
+        do {
+            try waitForConditionsWithTimeout(longTimeout) { () -> Bool in
+                return didComplete
+            }
+        } catch {
+            // do nothing
+            XCTFail()
+        }
     }
 }
 
@@ -712,49 +631,60 @@ extension RouterTests {
     
     func test_evaluate_doubleVarRoute() {
         let router = Router()
-        var didRun = false
+        var didExectuteLastRoute = false
         
         // Route 1
         let route1 = Route("foo", type: .Other) { variable, associatedData in
-            print("first one")
+            print("test_evaluate_doubleVarRoute foo route")
             return nil
         }.variable { (variable, associatedData) -> Any? in
+            print("test_evaluate_doubleVarRoute first variable route")
             print(variable)
             return nil
         }.variable { (variable, associatedData) -> Any? in
+            print("test_evaluate_doubleVarRoute second variable route")
             print(variable)
-            didRun = true
+            didExectuteLastRoute = true
             return nil
         }
         router.register(route1)
         
-        router.evaluateURLString("walmart://foo/1234/5678")
+        var didComplete = false
+        router.evaluateURLString("walmart://foo/1234/5678") {
+            didComplete = didExectuteLastRoute
+        }
         
         do {
-            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
-                return didRun == true
+            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
+                return didComplete
             })
         } catch {
             print("OMG!!!")
         }
         
-        XCTAssertTrue(didRun)
+        XCTAssertTrue(didComplete)
     }
     
     func test_evaluate_aliases() {
         let router = Router()
-        var didRun = false
+        let originalRouteExpectation = expectationWithDescription("original route completion handler should run")
+        var didExecuteLastRoute = false
+
+        var stagingMessage = ""
         
         // Route 1
         let route1 = Route("foo", type: .Other) { variable, associatedData in
-            print("first one")
+            print(stagingMessage)
+            print("test_evaluate_aliases foo route")
             return nil
         }.variable { (variable, associatedData) -> Any? in
+            print("test_evaluate_aliases first variable route")
             print(variable)
             return nil
         }.variable { (variable, associatedData) -> Any? in
+            print("test_evaluate_aliases second variable route")
             print(variable)
-            didRun = true
+            didExecuteLastRoute = true
             return nil
         }
         router.register(route1)
@@ -765,33 +695,30 @@ extension RouterTests {
 
         router.register(aliasedRoute)
         
+        stagingMessage = "Original route called"
         // check the main name.
-        router.evaluateURLString("walmart://foo/1234/5678")
-        do {
-            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
-                return didRun == true
-            })
-        } catch {
-            print("OMG1!!!")
+        router.evaluateURLString("walmart://foo/1234/5678") {
+            originalRouteExpectation.fulfill()
         }
-        XCTAssertTrue(didRun)
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
+        XCTAssertTrue(didExecuteLastRoute)
         
         // check the alias
-        didRun = false
-        let evaluated = router.evaluateURLString("walmart://bar/1234/5678")
-        do {
-            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
-                return didRun == true
-            })
-        } catch {
-            print("OMG2!!!")
+        let aliasRouteExpectation = expectationWithDescription("alias route completion handler should run")
+
+        stagingMessage = "Alias route called"
+        didExecuteLastRoute = false
+        let evaluated = router.evaluateURLString("walmart://bar/1234/5678") {
+            aliasRouteExpectation.fulfill()
         }
+        waitForExpectationsWithTimeout(longTimeout, handler: nil)
+    
         XCTAssertTrue(evaluated)
-        XCTAssertTrue(didRun)
+        XCTAssertTrue(didExecuteLastRoute)
         
     }
 
-    // TODO: Test sometimes fails when run within the suite but passes when run on its own and I don't have a solution at this time.
+// TODO: Duplicated Routes are not allowed. Get an obj-c tryBlock added so we can catch NSException
 //    func test_evaulate_duplicatedRoute() {
 //        let router = Router()
 //        
@@ -823,7 +750,6 @@ extension RouterTests {
 //        XCTAssertTrue(route1Result)
 //        XCTAssertTrue(route2Result)
 //    }
-
 }
 
 // MARK: - serializedRoute Tests
@@ -844,4 +770,38 @@ extension RouterTests {
 //        
 //        XCTAssertNil(navigator.testNavigationController?.topViewController?.presentedViewController)
 //    }
+}
+
+// MARK: Enum Tests
+
+extension RouterTests {
+
+    // Test routeByEnum success
+    func testRouteByEnumFoundEnum() {
+        let router = Router()
+
+        let homeRoute = Route(TestRoutes.Home) { (_, _) in
+            return nil
+        }
+        router.register(homeRoute)
+        
+        if let foundRoute = router.routeByEnum(TestRoutes.Home) {
+            XCTAssert(foundRoute == homeRoute, "Routes do not match")
+        } else {
+            XCTFail("Route not found")
+        }
+    }
+    
+    // Test routeByEnum failure to find a route
+    func testRouteByEnumMissingEnum() {
+        let router = Router()
+        
+        let homeRoute = Route(TestRoutes.Home) { (_, _) in
+            return nil
+        }
+        router.register(homeRoute)
+        
+        if let foundRoute = router.routeByEnum(TestRoutes.ScreenOne) {
+            XCTFail("Should not have found a route, but found \(foundRoute))")
+        }    }
 }

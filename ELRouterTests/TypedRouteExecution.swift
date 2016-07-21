@@ -57,13 +57,19 @@ class TypedRouteExecution: XCTestCase {
         let addToListData = expectationWithDescription("addToList route receives associatedData")
         //let deleteFromListNextType = expectationWithDescription("deleteFromList route receives a nextType")
         let deleteFromListData = expectationWithDescription("deleteFromList route receives associatedData")
-
+        
+        let comepletedAllRoutes = expectationWithDescription("All routes completed")
         
         let routes = Route(WishListRoutes.Home) { variable, associatedData in
+            print ("WishListRoutes.Home route")
             XCTAssertTrue(variable == "12345")
-
+            XCTAssertNil(associatedData)
+            
+            
             if associatedData == nil {
                 homeData.fulfill()
+            } else {
+                XCTFail()
             }
             
             let newData = WMListItemSpec(blah: 2)
@@ -71,30 +77,44 @@ class TypedRouteExecution: XCTestCase {
             
             return nil
         }.variable { (variable, associatedData) -> Any? in
+            print ("First variable route")
             return nil
         }.route(WishListRoutes.AddToList) { variable, associatedData in
+            print ("WishListRoutes.AddToList route")
             XCTAssertTrue(variable == "XYZ")
             
             if let data = associatedData as? WMListItemSpec {
                 // we set blah to 2 in our previous bit of the chain.
+                XCTAssert(data.blah == 2, "Associated data should have a value of 2")
                 if data.blah == 2 {
                     addToListData.fulfill()
 
                     let newData = WMListItemSpec(blah: 3)
                     associatedData = newData
+                } else {
+                    XCTFail()
                 }
+            } else {
+                XCTFail()
             }
             return nil
         }.variable { variable, associatedData in
+            print ("Second variable route")
               return nil
         }.route(WishListRoutes.DeleteFromList) { variable, associatedData in
+            print ("WishListRoutes.DeleteFromList")
             XCTAssertTrue(variable == nil)
             
             if let data = associatedData as? WMListItemSpec {
                 // we set blah to 3 in our previous bit of the chain.
+                XCTAssert(data.blah == 3, "Associated data should have a value of 3")
                 if data.blah == 3 {
                     deleteFromListData.fulfill()
+                } else {
+                    XCTFail()
                 }
+            } else {
+                XCTFail()
             }
             return nil
         }
@@ -103,19 +123,11 @@ class TypedRouteExecution: XCTestCase {
         
         // Home/AddToList/<var>/DeleteFromList/<var>
 
-        router.evaluate([WishListRoutes.Home, Variable("12345"), WishListRoutes.AddToList, Variable("XYZ"), WishListRoutes.DeleteFromList], associatedData: nil)
-        
-        do {
-            try waitForConditionsWithTimeout(4.0) { () -> Bool in
-                //print("processing = \(router.processing)")
-                return router.processing == false
-            }
-        } catch {
-            // do nothing
-            XCTFail()
+        router.evaluate([WishListRoutes.Home, Variable("12345"), WishListRoutes.AddToList, Variable("XYZ"), WishListRoutes.DeleteFromList], associatedData: nil) {
+            comepletedAllRoutes.fulfill()
         }
-
-        waitForExpectationsWithTimeout(0, handler: nil)
+        
+        waitForExpectationsWithTimeout(15, handler: nil)
     }
 
     func testObjcRoute1() {

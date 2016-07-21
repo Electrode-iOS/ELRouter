@@ -130,10 +130,12 @@ extension Router {
 
 // MARK: - Evaluating Routes
 extension Router {
-    /**
-     Can be used to determine if Routes are currently be processed.
-     */
-    public var processing: Bool {
+    // This must not be used externally to determine if routes are processing
+    // Due to threading, this may evaluate late compared in successive
+    // execute commands due to thread switching to main on route evaluation
+    // It is better to use the RouteCompletion block on the evaluate
+    // function
+    var processing: Bool {
         var result = false
         synchronized(self) { () -> Void in
             result = (Router.routesInFlight != nil)
@@ -195,14 +197,19 @@ extension Router {
 
 extension Router {
     /**
-     Get all routes for a particular RouteEnum
+     Get the route for a particular RouteEnum
     
-     - parameter routeEnum: The enum of the routes to get
- 
+     - parameter routeEnum: The enum of the route to get
     */
-    public func routesByEnum(routeEnum: RouteEnum) -> [Route] {
-        return routes.filterByName(routeEnum.spec.name)
-    }
+    public func routeByEnum(routeEnum: RouteEnum) -> Route? {
+        let filteredRoutes = routes.filterByName(routeEnum.spec.name)
+        // Brandon's design is such that a route should only match 1
+        if filteredRoutes.count == 1 {
+            return filteredRoutes[0]
+        }
+        
+        return nil
+     }
     
     /**
      Get a route of a particular name.
@@ -267,6 +274,14 @@ extension Router {
 
 extension Router {
     internal static let lock = Spinlock()
+    
+    // TODO: Consider making this a non-static, as it is fragile
+    // If the thread processing the routes is killed (say a unit test terminates early)
+    // then this static is never nilled out, and the processing computed variable
+    // will always be true
+    // I believe (this is a guess) that the author's intention was to make sure
+    // that two routers could not execute routes at the same time
+    // I suggest we find a more Swifty way to handle this concern
     private static var routesInFlight: [Route]? = nil
     
     // this function is for internal use and testability, DO NOT MAKE IT PUBLIC.
@@ -281,6 +296,7 @@ extension Router {
         // if we have routes in flight, return false.  We can't do anything
         // until those have finished.
         if processing {
+            log(.Debug, "Already processing route. Aborting.")
             return false
         }
         
@@ -317,6 +333,7 @@ extension Router {
     
     internal func serializedRoute(routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool, completion: RouteCompletion? = nil) {
         if processing {
+            log(.Debug, "Already processing route. Aborting.")
             return
         }
         
@@ -353,14 +370,17 @@ extension Router {
                 }
             }
             
-            if let completionClosure = completion {
-                completionClosure()
-            }
-            
             // clear our in-flight routes now that we're done.
             synchronized(self) {
                 Router.routesInFlight = nil
             }
+            
+            // The completion block needs to run last, because
+            // user code may trigger termination of the thread
+            // If that happens, the static routesInFlight variable won't
+            // be nilled out, and then all future routes will fail
+            completion?()
+            
         }
     }
 }
