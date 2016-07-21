@@ -103,12 +103,14 @@ class TypedRouteExecution: XCTestCase {
         
         // Home/AddToList/<var>/DeleteFromList/<var>
 
-        router.evaluate([WishListRoutes.Home, Variable("12345"), WishListRoutes.AddToList, Variable("XYZ"), WishListRoutes.DeleteFromList], associatedData: nil)
+        var didComplete = false
+        router.evaluate([WishListRoutes.Home, Variable("12345"), WishListRoutes.AddToList, Variable("XYZ"), WishListRoutes.DeleteFromList], associatedData: nil) {
+            didComplete = true
+        }
         
         do {
-            try waitForConditionsWithTimeout(4.0) { () -> Bool in
-                //print("processing = \(router.processing)")
-                return router.processing == false
+            try waitForConditionsWithTimeout(5.0) { () -> Bool in
+                return didComplete
             }
         } catch {
             // do nothing
