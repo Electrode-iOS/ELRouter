@@ -10,6 +10,20 @@ import XCTest
 @testable import ELRouter
 import ELFoundation
 
+enum TestRoutes: RouteEnum {
+    case Home
+    case ScreenOne
+    case ScreenTwo
+    
+    var spec: RouteSpec {
+        switch self {
+        case .Home: return (name: "home", type: .Static, example: "home://")
+        case .ScreenOne: return (name: "screen-one", type: .Static, example: "screenone://")
+        case .ScreenTwo: return (name: "screen-two", type: .Static, example: "screentwo://")
+        }
+    }
+}
+
 // MARK: - translate Tests
 
 class RouterTests: XCTestCase {
@@ -844,4 +858,45 @@ extension RouterTests {
 //        
 //        XCTAssertNil(navigator.testNavigationController?.topViewController?.presentedViewController)
 //    }
+}
+
+// MARK: Enum Tests
+
+extension RouterTests {
+
+    // Test routeByEnum success
+    func testRouteByEnumFoundEnum() {
+        let router = Router()
+
+        let homeRoute = Route(TestRoutes.Home) { (_, _) in
+            return nil
+        }
+        router.register(homeRoute)
+        
+        do {
+            let foundHomeRoute = try router.routeByEnum(TestRoutes.Home)
+            XCTAssert(foundHomeRoute == homeRoute, "Routes do not match")
+        } catch {
+            XCTFail("\(error)")
+        }
+    }
+    
+    // Test routeByEnum failure to find a route
+    func testRouteByEnumMissingEnum() {
+        let router = Router()
+        
+        let homeRoute = Route(TestRoutes.Home) { (_, _) in
+            return nil
+        }
+        router.register(homeRoute)
+        
+        do {
+            let _ = try router.routeByEnum(TestRoutes.ScreenOne)
+            XCTFail("Should not have reached this code)")
+        } catch RouterError.RouteNotFound {
+            // succcess
+        } catch {
+            XCTFail("\(error)")
+        }
+    }
 }

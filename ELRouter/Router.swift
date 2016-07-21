@@ -12,6 +12,13 @@ import ELDispatch
 
 public typealias RouteCompletion = () -> Void
 
+// Swift will automatically assign Int values,
+// but if we annotate them in comments, it may be easier
+// to debug
+@objc enum RouterError: Int, ErrorType {
+    case RouteNotFound // 0
+}
+
 ///
 @objc
 public class Router: NSObject {
@@ -195,13 +202,19 @@ extension Router {
 
 extension Router {
     /**
-     Get all routes for a particular RouteEnum
+     Get the route for a particular RouteEnum
     
-     - parameter routeEnum: The enum of the routes to get
- 
+     - parameter routeEnum: The enum of the route to get
     */
-    public func routesByEnum(routeEnum: RouteEnum) -> [Route] {
-        return routes.filterByName(routeEnum.spec.name)
+    public func routeByEnum(routeEnum: RouteEnum) throws -> Route {
+        let filteredRoutes = routes.filterByName(routeEnum.spec.name)
+        // Brandon's design is such that a route should only match 1
+        switch filteredRoutes.count {
+        case 1:
+            return filteredRoutes[0]
+        default:
+            throw(RouterError.RouteNotFound)
+        }
     }
     
     /**
