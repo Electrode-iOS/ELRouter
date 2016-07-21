@@ -786,7 +786,7 @@ extension RouterTests {
                 return didRun == true
             })
         } catch {
-            print("OMG1!!!")
+            print("check the main name error \(error)")
         }
         XCTAssertTrue(didRun)
         
@@ -798,7 +798,7 @@ extension RouterTests {
                 return didRun == true
             })
         } catch {
-            print("OMG2!!!")
+            print("check the alias error \(error)")
         }
         XCTAssertTrue(evaluated)
         XCTAssertTrue(didRun)
