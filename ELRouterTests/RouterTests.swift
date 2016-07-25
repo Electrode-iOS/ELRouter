@@ -782,7 +782,7 @@ extension RouterTests {
         // check the main name.
         router.evaluateURLString("walmart://foo/1234/5678")
         do {
-            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
+            try waitForConditionsWithTimeout(5.0, conditionsCheck: { () -> Bool in
                 return didRun == true
             })
         } catch {
@@ -792,14 +792,20 @@ extension RouterTests {
         
         // check the alias
         didRun = false
+        let startTime = NSDate()
         let evaluated = router.evaluateURLString("walmart://bar/1234/5678")
         do {
-            try waitForConditionsWithTimeout(2.0, conditionsCheck: { () -> Bool in
+            try waitForConditionsWithTimeout(5.0, conditionsCheck: { () -> Bool in
                 return didRun == true
             })
         } catch {
             print("check the alias error \(error)")
         }
+    
+        let endTime = NSDate()
+        let deltaTime = endTime.timeIntervalSinceDate(startTime)
+        print("startTime: \(startTime), endTime: \(endTime), deltaTime:\(deltaTime)")
+
         XCTAssertTrue(evaluated)
         XCTAssertTrue(didRun)
         
