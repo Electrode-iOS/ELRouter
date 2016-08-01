@@ -304,6 +304,7 @@ extension Router {
         // if we have routes in flight, return false.  We can't do anything
         // until those have finished.
         if processing {
+            log(.Debug, "Already processing route. Aborting.")
             return false
         }
         
@@ -340,6 +341,7 @@ extension Router {
     
     internal func serializedRoute(routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool, completion: RouteCompletion? = nil) {
         if processing {
+            log(.Debug, "Already processing route. Aborting.")
             return
         }
         
