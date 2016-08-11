@@ -26,7 +26,7 @@ class RouteTests: XCTestCase {
     }
     
     func test_initialization_withNameAndAction() {
-        let route = Route("testName", type: .Other) { _, _ in
+        let route = Route("testName", type: .Other) { _, _, _ in
             return nil
         }
         
@@ -56,7 +56,7 @@ class RouteTests: XCTestCase {
     
     func test_initialization_withTypeAndAction() {
         let parentRoute = Route("parent", type: .Other)
-        let route = Route(type: .Other, parentRoute: parentRoute) { _, _ in
+        let route = Route(type: .Other, parentRoute: parentRoute) { _, _, _ in
             return nil
         }
         
@@ -72,7 +72,7 @@ class RouteTests: XCTestCase {
     
     func test_initialization_withNamedAndParentRoute() {
         let parentRoute = Route("parent", type: .Other)
-        let route = Route("sub", type: .Other, parentRoute: parentRoute) { _, _ in
+        let route = Route("sub", type: .Other, parentRoute: parentRoute) { _, _, _ in
             return nil
         }
         
@@ -162,12 +162,12 @@ extension RouteTests {
 
 extension RouteTests {
     func test_execute_returnsActionResult() {
-        let route = Route("executeTest", type: .Other) { variable, _ in
+        let route = Route("executeTest", type: .Other) { variable, _, _ in
             return "foo"
         }
         
         var associatedData: AssociatedData? = nil
-        let result = route.execute(false, variable: nil, associatedData: &associatedData)
+        let result = route.execute(false, variable: nil, remainingComponents: [String](), associatedData: &associatedData)
         
         XCTAssertNotNil(result)
         XCTAssertTrue(result is String)
@@ -175,14 +175,14 @@ extension RouteTests {
     }
     
     func test_execute_passesVariableToActionClosure() {
-        let route = Route("executeTest", type:  .Static) { variable, _ in
+        let route = Route("executeTest", type:  .Static) { variable, _, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable, "foo")
             return nil
         }
         
         var associatedData: AssociatedData? = nil
-        route.execute(false, variable: "foo", associatedData: &associatedData)
+        route.execute(false, variable: "foo", remainingComponents: [String](), associatedData: &associatedData)
     }
     
     /* Broken Test
@@ -223,7 +223,7 @@ extension RouteTests {
 //    }
     
     func test_execute_returnsStaticValue() {
-        let route = Route("executeTest", type:  .Static) { _, _ in
+        let route = Route("executeTest", type:  .Static) { _, _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             vc.title = "Static Test"
             return vc
@@ -244,7 +244,7 @@ extension RouteTests {
         let navVC = UINavigationController(rootViewController: vc)
         navigator.setViewControllers([navVC], animated: false)
         navigator.selectedViewController = navVC
-        let route = Route("segueTest", type:  .Segue) { _, _ in
+        let route = Route("segueTest", type:  .Segue) { _, _, _ in
             return "fooSegue"
         }
         route.parentRouter = router
@@ -259,7 +259,7 @@ extension RouteTests {
         let navigator = MockNavigator()
         router.navigator = navigator
         let vc = UIViewController(nibName: nil, bundle: nil)
-        let route = Route("selectTest", type: .Static) { _, _ in
+        let route = Route("selectTest", type: .Static) { _, _, _ in
             return vc
         }
         route.parentRouter = router

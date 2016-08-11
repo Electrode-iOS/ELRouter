@@ -34,17 +34,17 @@ class RouterTests: XCTestCase {
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
                 
-        router.register(Route("tabOne", type: .Static) { _, _ in
+        router.register(Route("tabOne", type: .Static) { _, _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { _, _ in
+        router.register(Route("tabTwo", type: .Static) { _, _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { _, _ in
+        router.register(Route("tabThree", type: .Static) { _, _, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
@@ -60,15 +60,15 @@ class RouterTests: XCTestCase {
         let tabBarController = UITabBarController(nibName: nil, bundle: nil)
         router.navigator = tabBarController
         
-        router.register(Route("tabOne", type: .Static) { _, _ in
+        router.register(Route("tabOne", type: .Static) { _, _, _ in
             return nil
         })
         
-        router.register(Route("tabTwo", type: .Static) { _, _ in
+        router.register(Route("tabTwo", type: .Static) { _, _, _ in
             return nil
         })
         
-        router.register(Route("tabThree", type: .Static) { _, _ in
+        router.register(Route("tabThree", type: .Static) { _, _, _ in
             return nil
         })
         
@@ -100,19 +100,19 @@ class RouterTests: XCTestCase {
         let tabTwoExpectation = expectationWithDescription("tabTwo static route executes")
         let tabThreeExpectation = expectationWithDescription("tabThree static route executes")
 
-        router.register(Route("tabOne", type: .Static) { _, _ in
+        router.register(Route("tabOne", type: .Static) { _, _, _ in
             tabOneExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { _, _ in
+        router.register(Route("tabTwo", type: .Static) { _, _, _ in
             tabTwoExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { _, _ in
+        router.register(Route("tabThree", type: .Static) { _, _, _ in
             tabThreeExpectation.fulfill()
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
@@ -126,19 +126,19 @@ class RouterTests: XCTestCase {
     func test_updateNavigator_doesNotExecuteStaticRoutesWithNilNavigator() {
         let router = Router()
         
-        router.register(Route("tabOne", type: .Static) { _, _ in
+        router.register(Route("tabOne", type: .Static) { _, _, _ in
             XCTAssertTrue(false)
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabTwo", type: .Static) { _, _ in
+        router.register(Route("tabTwo", type: .Static) { _, _, _ in
             XCTAssertTrue(false)
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
         })
         
-        router.register(Route("tabThree", type: .Static) { _, _ in
+        router.register(Route("tabThree", type: .Static) { _, _, _ in
             XCTAssertTrue(false)
             let vc = UIViewController(nibName: nil, bundle: nil)
             return UINavigationController(rootViewController: vc)
@@ -380,7 +380,7 @@ extension RouterTests {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
 
-        router.register(Route("walmart.com", type: .Other).route("item", type: .Other, action: { variable, _ in
+        router.register(Route("walmart.com", type: .Other).route("item", type: .Other, action: { variable, _, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
             return nil
@@ -397,7 +397,7 @@ extension RouterTests {
         let router = Router()
         let handlerExpectation = expectationWithDescription("route handler should run")
         
-        router.register(Route("walmart.com", type: .Other).variable() { variable, _ in
+        router.register(Route("walmart.com", type: .Other).variable() { variable, _, _ in
             XCTAssertNotNil(variable)
             XCTAssertEqual(variable!, "12345")
             return nil
@@ -415,7 +415,7 @@ extension RouterTests {
         let handlerExpectation = expectationWithDescription("route handler should run")
         var didExecuteLastRoute = false
         
-        router.register(Route("walmart.com", type: .Other) { variable, _ in
+        router.register(Route("walmart.com", type: .Other) { variable, _, _ in
             didExecuteLastRoute = true
             return nil
             })
@@ -439,7 +439,7 @@ extension RouterTests {
         let handlerRanExpectation = expectationWithDescription("route handler should run")
         var didExecuteLastRoute = false
         
-        let route = Route("foo", type: .Other) { variable, _ in
+        let route = Route("foo", type: .Other) { variable, _, _ in
             didExecuteLastRoute = true
             return nil
         }
@@ -531,7 +531,7 @@ extension RouterTests {
        // let handlerHasDataExpectation = expectationWithDescription("route handler should run")
         var capturedString = ""
         
-        let route = Route("foo", type: .Other) { variable, associatedData in
+        let route = Route("foo", type: .Other) { variable, _, associatedData in
             //handlerRanExpectation.fulfill()
             
             // Only capture the data here, don't use this to trigger
@@ -571,13 +571,13 @@ extension RouterTests {
         let router = Router()
         
         // Route 1
-        let route1 = Route("foo", type: .Other) { variable, associatedData in
+        let route1 = Route("foo", type: .Other) { variable, _, associatedData in
             return nil
             }.variable()
         router.register(route1)
         
         // Route 2
-        let route2 = Route("foo", type: .Other) { variable, associatedData in
+        let route2 = Route("foo", type: .Other) { _, _, _ in
             return nil
         }.variable().variable()
         
@@ -591,18 +591,18 @@ extension RouterTests {
         let router = Router()
         
         // Route 1
-        let route1 = Route("foo", type: .Other) { variable, associatedData in
+        let route1 = Route("foo", type: .Other) { _, _, _ in
             return nil
         }
         router.register(route1)
         
-        route1.route("foo", type: .Other) { _, _ in
+        route1.route("foo", type: .Other) { _, _, _ in
             return nil
         }
         
         // this should throw because of dupes.
         XCTAssertThrows({
-            route1.route("foo", type: .Other) { _, _ in
+            route1.route("foo", type: .Other) { _, _, _ in
                 return nil
             }
         }, nil)
@@ -612,18 +612,18 @@ extension RouterTests {
         let router = Router()
         
         // Route 1
-        let route1 = Route("foo", type: .Other) { variable, associatedData in
+        let route1 = Route("foo", type: .Other) { variable, remainingComponents, associatedData in
             return nil
         }
         router.register(route1)
         
-        route1.variable().route("foo", type: .Other) { _, _ in
+        route1.variable().route("foo", type: .Other) { _, _, _ in
             return nil
         }
         
         // this should throw because of dupes.
         XCTAssertThrows({
-            route1.variable().route("bar", type: .Other) { _, _ in
+            route1.variable().route("bar", type: .Other) { _, _, _ in
                 return nil
             }
         }, nil)
@@ -634,14 +634,14 @@ extension RouterTests {
         var didExectuteLastRoute = false
         
         // Route 1
-        let route1 = Route("foo", type: .Other) { variable, associatedData in
+        let route1 = Route("foo", type: .Other) { _, _, _ in
             print("test_evaluate_doubleVarRoute foo route")
             return nil
-        }.variable { (variable, associatedData) -> Any? in
+        }.variable { variable, _, _ in
             print("test_evaluate_doubleVarRoute first variable route")
             print(variable)
             return nil
-        }.variable { (variable, associatedData) -> Any? in
+        }.variable { variable, _, _ in
             print("test_evaluate_doubleVarRoute second variable route")
             print(variable)
             didExectuteLastRoute = true
@@ -665,59 +665,54 @@ extension RouterTests {
         XCTAssertTrue(didComplete)
     }
     
-    func test_evaluate_aliases() {
+    func test_evaluate_redirect() {
         let router = Router()
-        let originalRouteExpectation = expectationWithDescription("original route completion handler should run")
-        var didExecuteLastRoute = false
-
-        var stagingMessage = ""
+        var didExectuteLastRoute = false
         
         // Route 1
-        let route1 = Route("foo", type: .Other) { variable, associatedData in
-            print(stagingMessage)
-            print("test_evaluate_aliases foo route")
+        let route1 = Route("foo", type: .Other) { _, remainingComponents, _ in
+            print("test_evaluate_doubleVarRoute foo route")
+            print(remainingComponents)
             return nil
-        }.variable { (variable, associatedData) -> Any? in
-            print("test_evaluate_aliases first variable route")
-            print(variable)
-            return nil
-        }.variable { (variable, associatedData) -> Any? in
-            print("test_evaluate_aliases second variable route")
-            print(variable)
-            didExecuteLastRoute = true
-            return nil
+        }.variable { variable, remainingComponents, _ in
+                print("test_evaluate_doubleVarRoute first variable route")
+                print(variable)
+                print(remainingComponents)
+                return nil
+        }.variable { variable, remainingComponents, _ in
+                print("test_evaluate_doubleVarRoute second variable route")
+                print(variable)
+                print(remainingComponents)
+                didExectuteLastRoute = true
+                return nil
         }
         router.register(route1)
         
-        let aliasedRoute = Route("bar", type: .Alias) { variable, associatedData in
-            return router.routeByName("foo")
+        let redirect = Route("booya", type: .Redirect) {_, remainingComponents, _ in
+            var newComponents = ["foo"]
+            newComponents.appendContentsOf(remainingComponents)
+            return newComponents
         }
+        
+        router.register(redirect)
+        
+        var didComplete = false
+        router.evaluateURLString("walmart://booya/1234/5678") {
+            didComplete = didExectuteLastRoute
+        }
+        
+        do {
+            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
+                return didComplete
+            })
+        } catch {
+            print("OMG!!!")
+        }
+        
+        XCTAssertTrue(didComplete)
 
-        router.register(aliasedRoute)
-        
-        stagingMessage = "Original route called"
-        // check the main name.
-        router.evaluateURLString("walmart://foo/1234/5678") {
-            originalRouteExpectation.fulfill()
-        }
-        waitForExpectationsWithTimeout(longTimeout, handler: nil)
-        XCTAssertTrue(didExecuteLastRoute)
-        
-        // check the alias
-        let aliasRouteExpectation = expectationWithDescription("alias route completion handler should run")
-
-        stagingMessage = "Alias route called"
-        didExecuteLastRoute = false
-        let evaluated = router.evaluateURLString("walmart://bar/1234/5678") {
-            aliasRouteExpectation.fulfill()
-        }
-        waitForExpectationsWithTimeout(longTimeout, handler: nil)
-    
-        XCTAssertTrue(evaluated)
-        XCTAssertTrue(didExecuteLastRoute)
-        
     }
-
+    
 // TODO: Duplicated Routes are not allowed. Get an obj-c tryBlock added so we can catch NSException
 //    func test_evaulate_duplicatedRoute() {
 //        let router = Router()
@@ -780,7 +775,7 @@ extension RouterTests {
     func testRouteByEnumFoundEnum() {
         let router = Router()
 
-        let homeRoute = Route(TestRoutes.Home) { (_, _) in
+        let homeRoute = Route(TestRoutes.Home) { _, _, _ in
             return nil
         }
         router.register(homeRoute)
@@ -796,7 +791,7 @@ extension RouterTests {
     func testRouteByEnumMissingEnum() {
         let router = Router()
         
-        let homeRoute = Route(TestRoutes.Home) { (_, _) in
+        let homeRoute = Route(TestRoutes.Home) { _, _, _ in
             return nil
         }
         router.register(homeRoute)

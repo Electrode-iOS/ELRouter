@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import ELFoundation
 
-public typealias RouteActionClosure = (variable: String?, inout associatedData: AssociatedData?) -> Any?
+public typealias RouteActionClosure = (variable: String?, remainingComponents: [String], inout associatedData: AssociatedData?) -> Any?
 
 @objc
 public enum RoutingType: UInt {
@@ -19,7 +19,7 @@ public enum RoutingType: UInt {
     case Push
     case Modal
     case Variable
-    case Alias
+    case Redirect
     case Other // ??
     
     var description: String {
@@ -34,8 +34,8 @@ public enum RoutingType: UInt {
             return "Modal"
         case .Variable:
             return "Variable"
-        case .Alias:
-            return "Alias"
+        case .Redirect:
+            return "Redirect"
         case .Other:
             return "Other"
         }
@@ -139,7 +139,7 @@ extension Route {
     */
     internal func execute(animated: Bool, variable: String? = nil) -> Any? {
         var data: AssociatedData? = nil
-        return execute(animated, variable: variable, associatedData: &data)
+        return execute(animated, variable: variable, remainingComponents: [String](), associatedData: &data)
     }
     
     /**
@@ -149,7 +149,7 @@ extension Route {
      - parameter variable: The variable value extracted from the URL component.
      - parameter associatedData: Potentially extra data passed in from the outside.
     */
-    internal func execute(animated: Bool, variable: String?, inout associatedData: AssociatedData?) -> Any? {
+    internal func execute(animated: Bool, variable: String?, remainingComponents: [String], inout associatedData: AssociatedData?) -> Any? {
         // bail out when missing a valid action
         guard let action = action else {
             Router.lock.unlock()
@@ -169,7 +169,7 @@ extension Route {
                     }
                 }
             } else {
-                result = action(variable: variable, associatedData: &associatedData)
+                result = action(variable: variable, remainingComponents: remainingComponents, associatedData: &associatedData)
                 
                 let navController = navigator.selectedViewController as? UINavigationController
                 let lastVC = navController?.topViewController
@@ -200,12 +200,12 @@ extension Route {
                         navActionOccurred = true
                     }
                     
-                case .Other, .Alias, .Variable: break
+                case .Other, .Redirect, .Variable: break
                 }
             }
         } else {
             // they don't have a navigator setup, so just run it.
-            result = action(variable: variable, associatedData: &associatedData)
+            result = action(variable: variable, remainingComponents: remainingComponents, associatedData: &associatedData)
         }
         
         // if no navigation action actually happened, unlock so route execution can continue.
@@ -279,19 +279,8 @@ extension Route {
             let component = components[i]
             
             if let route = currentRoute.routeByName(component) {
-                // is it an alias?
-                if route.type == .Alias {
-                    if let aliasedRoute = route.execute(false) as? Route {
-                        results.append(aliasedRoute)
-                        currentRoute = aliasedRoute
-                    } else {
-                        exceptionFailure("\(route.name) did not return a Route object to represent it's alias.")
-                    }
-                } else {
-                    // oh, it's a normal route.  add that shit.
-                    results.append(route)
-                    currentRoute = route
-                }
+                results.append(route)
+                currentRoute = route
             } else if let variableRoute = currentRoute.routeByType(.Variable) {
                 // it IS a variable.
                 results.append(variableRoute)

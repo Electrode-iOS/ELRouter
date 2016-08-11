@@ -55,3 +55,25 @@ public func Variable(value: String) -> RouteEnum {
     let variable = VariableRoute(value)
     return variable
 }
+
+internal struct Redirection: RouteEnum {
+    var name: String
+    var spec: RouteSpec {
+        // type and exampleURL are irrelevant, name is the only important piece here.
+        return (name: name, type: .Other, example: nil)
+    }
+    
+    init(name value: String) {
+        name = value
+    }
+}
+
+internal func routeEnumsFromComponents(components: [String]) -> [RouteEnum] {
+    var result = [RouteEnum]()
+    
+    components.forEach { (component) in
+        result.append(Redirection(name: component))
+    }
+    
+    return result
+}

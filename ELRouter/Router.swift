@@ -78,7 +78,7 @@ extension Router {
             var associatedData: AssociatedData? = nil
             
             for route in navigatorRoutes {
-                if let vc = route.execute(false, variable: nil, associatedData: &associatedData) as? UINavigationController {
+                if let vc = route.execute(false, variable: nil, remainingComponents: [String](), associatedData: &associatedData) as? UINavigationController {
                     controllers.append(vc)
                 }
             }
@@ -185,12 +185,26 @@ extension Router {
      - parameter components: The array of components to evaluate.
      - parameter associatedData: Extra data that needs to be passed through to each block in the chain.
      - parameter animated: Determines if the view controller action should be animated.
+     - parameter completion: closure to be called after evaluation.
      */
     public func evaluate(routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         let components = componentsFromRoutes(routes)
         return evaluate(components, associatedData: associatedData, animated: animated, completion: completion)
     }
 
+    /**
+     Use to redirect from a currently executing route to another.  This should be called within one of your route handling blocks.
+
+     - parameter components: The array of components to evaluate.
+     - parameter associatedData: Extra data that needs to be passed through to each block in the chain.
+     - parameter animated: Determines if the view controller action should be animated.
+     - parameter completion: closure to be called after evaluation.
+     */
+    public func redirect(routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) {
+        Dispatch().async(.Main) { 
+            self.evaluate(routes, associatedData: associatedData, animated: animated, completion: completion)
+        }
+    }
 }
 
 // MARK: - Getting Routes
@@ -303,7 +317,12 @@ extension Router {
         let routes = routesForComponents(components)
         let valid = routes.count == components.count
         
-        if valid && routes.count > 0 {
+        var isRedirect = false
+        if let last = routes.last where last.type == .Redirect {
+            isRedirect = true
+        }
+        
+        if (valid && routes.count > 0) || (isRedirect) {
             serializedRoute(routes, components: components, associatedData: associatedData, animated: animated, completion: completion)
             
             componentsWereHandled = true
@@ -352,6 +371,8 @@ extension Router {
         
         // process routes in the background.
         Dispatch().async(.Background) {
+            var isRedirect = false
+            
             for i in 0..<components.count {
                 let route = routes[i]
 
@@ -363,10 +384,27 @@ extension Router {
                 
                 log(.Debug, "Processing route: \((route.name ?? variable)!), \(route.type.description)")
                 
+                var remainingComponents = [String]()
+                if i + 1 < components.count {
+                    remainingComponents = Array(components[i + 1..<components.count])
+                }
+                
                 // execute route on the main thread.
                 Dispatch().sync(.Main) {
-                    route.execute(animated, variable: variable, associatedData: &data)
+                    let result = route.execute(animated, variable: variable, remainingComponents: remainingComponents, associatedData: &data)
                     log(.Debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
+                    if route.type == .Redirect {
+                        if let redirectComponents = result as? [String] {
+                            isRedirect = true
+                            log(.Debug, "Redirecting to: \(redirectComponents.joinWithSeparator("/"))")
+                            self.redirect(routeEnumsFromComponents(redirectComponents), associatedData: associatedData, animated: animated, completion: completion)
+                        }
+                    }
+                }
+                
+                if isRedirect {
+                    // stop processing if it's a redirect.
+                    break
                 }
             }
             
@@ -379,7 +417,11 @@ extension Router {
             // user code may trigger termination of the thread
             // If that happens, the static routesInFlight variable won't
             // be nilled out, and then all future routes will fail
-            completion?()
+            if isRedirect == false {
+                // only run the completion if it's NOT a redirect.  the new route
+                // we were redirected to will instead run the completion.
+                completion?()
+            }
             
         }
     }

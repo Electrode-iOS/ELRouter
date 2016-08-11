@@ -60,7 +60,7 @@ class TypedRouteExecution: XCTestCase {
         
         let comepletedAllRoutes = expectationWithDescription("All routes completed")
         
-        let routes = Route(WishListRoutes.Home) { variable, associatedData in
+        let routes = Route(WishListRoutes.Home) { variable, _, associatedData in
             print ("WishListRoutes.Home route")
             XCTAssertTrue(variable == "12345")
             XCTAssertNil(associatedData)
@@ -76,10 +76,10 @@ class TypedRouteExecution: XCTestCase {
             associatedData = newData
             
             return nil
-        }.variable { (variable, associatedData) -> Any? in
+        }.variable { (variable, _, associatedData) -> Any? in
             print ("First variable route")
             return nil
-        }.route(WishListRoutes.AddToList) { variable, associatedData in
+        }.route(WishListRoutes.AddToList) { variable, _, associatedData in
             print ("WishListRoutes.AddToList route")
             XCTAssertTrue(variable == "XYZ")
             
@@ -98,10 +98,10 @@ class TypedRouteExecution: XCTestCase {
                 XCTFail()
             }
             return nil
-        }.variable { variable, associatedData in
+        }.variable { variable, _, associatedData in
             print ("Second variable route")
               return nil
-        }.route(WishListRoutes.DeleteFromList) { variable, associatedData in
+        }.route(WishListRoutes.DeleteFromList) { variable, _, associatedData in
             print ("WishListRoutes.DeleteFromList")
             XCTAssertTrue(variable == nil)
             
