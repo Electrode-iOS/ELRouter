@@ -406,7 +406,7 @@ extension Router {
                     }
                 }
                 
-                if isRedirect {
+                if isRedirect || self.processing == false {
                     // stop processing if it's a redirect.
                     break
                 }
