@@ -712,7 +712,57 @@ extension RouterTests {
         XCTAssertTrue(didComplete)
 
     }
-    
+
+    func test_evaluate_forced_redirect() {
+        let router = Router()
+        var didExectuteLastRoute = false
+        
+        // Route 1
+        let route1 = Route("foo", type: .Other) { _, remainingComponents, _ in
+            print("test_evaluate_doubleVarRoute foo route")
+            print(remainingComponents)
+            return nil
+        }.variable { variable, remainingComponents, _ in
+                print("test_evaluate_doubleVarRoute first variable route")
+                print(variable)
+                print(remainingComponents)
+                return nil
+        }.variable { variable, remainingComponents, _ in
+                print("test_evaluate_doubleVarRoute second variable route")
+                print(variable)
+                print(remainingComponents)
+                didExectuteLastRoute = true
+                return nil
+        }
+        router.register(route1)
+        
+        var didComplete = false
+        let redirect = Route("booya", type: .Other) {_, remainingComponents, _ in
+            var newComponents = ["foo"]
+            newComponents.appendContentsOf(remainingComponents)
+            
+            router.redirect(routeEnumsFromComponents(newComponents), associatedData: nil, animated: false) {
+                didComplete = didExectuteLastRoute
+            }
+            return nil
+        }.variable().variable() // put some dummy vars on here to emulate real-life.
+        
+        router.register(redirect)
+        
+        router.evaluateURLString("walmart://booya/1234/5678")
+        
+        do {
+            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
+                return didComplete
+            })
+        } catch {
+            print("OMG!!!")
+        }
+        
+        XCTAssertTrue(didComplete)
+        
+    }
+
 // TODO: Duplicated Routes are not allowed. Get an obj-c tryBlock added so we can catch NSException
 //    func test_evaulate_duplicatedRoute() {
 //        let router = Router()

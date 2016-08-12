@@ -201,7 +201,11 @@ extension Router {
      - parameter completion: closure to be called after evaluation.
      */
     public func redirect(routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) {
-        Dispatch().async(.Main) { 
+        synchronized(self) {
+            Router.routesInFlight = nil
+        }
+
+        Dispatch().async(.Main) {
             self.evaluate(routes, associatedData: associatedData, animated: animated, completion: completion)
         }
     }
