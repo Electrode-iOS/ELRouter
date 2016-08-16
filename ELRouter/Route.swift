@@ -108,6 +108,26 @@ extension Route {
     public func route(route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
         return self.route(route.spec.name, type: route.spec.type, action: action)
     }
+    
+    /** 
+     Create a subroute based on an existing Route object.  This effectively copies the existing
+     route that is passed in, it does not copy any subroutes though.  Just name/type/action.
+     */
+    public func route(route: Route) -> Route {
+        if route.type == .Variable || routeByName(route.name!) != nil {
+            // throw an error
+            let message = "A variable or route with the same name already exists on \(self.name)!"
+            if isInUnitTest() {
+                exceptionFailure(message)
+            } else {
+                assertionFailure(message)
+            }
+        }
+        
+        let newRoute = Route(route.name!, type: route.type, parentRoute: self, action: route.action)
+        newRoute.parentRouter = parentRouter
+        return newRoute
+    }
 }
 
 // MARK: - Adding sub routes, for testability only!
