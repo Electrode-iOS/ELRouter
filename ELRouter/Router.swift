@@ -204,8 +204,8 @@ extension Router {
         synchronized(self) {
             Router.routesInFlight = nil
         }
-
-        Dispatch().async(.Main) {
+        
+        Dispatch().after(.Main, delay: 0.1) { 
             self.evaluate(routes, associatedData: associatedData, animated: animated, completion: completion)
         }
     }

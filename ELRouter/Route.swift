@@ -126,6 +126,7 @@ extension Route {
         
         let newRoute = Route(route.name!, type: route.type, parentRoute: self, action: route.action)
         newRoute.parentRouter = parentRouter
+        subRoutes.append(newRoute)
         return newRoute
     }
 }
