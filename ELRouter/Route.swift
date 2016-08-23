@@ -186,7 +186,10 @@ extension Route {
                 if let vc = staticValue as? UIViewController {
                     parentRouter?.navigator?.selectedViewController = vc
                     if let nav = vc as? UINavigationController {
-                        nav.popToRootViewControllerAnimated(animated)
+                        if nav.viewControllers.count > 1 {
+                            nav.popToRootViewControllerAnimated(animated)
+                            navActionOccurred = true
+                        }
                     }
                 }
             } else {
