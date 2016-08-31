@@ -1,6 +1,6 @@
 # ELRouter 
 
-[![Version](https://img.shields.io/badge/version-v2.0.0-blue.svg)](https://github.com/Electrode-iOS/ELRouter/releases/latest)
+[![Version](https://img.shields.io/badge/version-v3.0.0-blue.svg)](https://github.com/Electrode-iOS/ELRouter/releases/latest)
 [![Build Status](https://travis-ci.org/Electrode-iOS/ELRouter.svg)](https://travis-ci.org/Electrode-iOS/ELRouter)
 
 ELRouter.framework. A URL router for UIKit.
@@ -15,46 +15,13 @@ Install by adding `ELRouter.xcodeproj` to your project and configuring your targ
 
 ## Usage
 
-
-### Static Routes
-
-Use static routes to manage URL routing with a `UITabBarController`.
-
-```
-// configure router to use UITabBarController for static navigation
-let router = Router.sharedInstance
-router.navigator = UITabBarController(nibName: nil, bundle: nil)
-
-// register routes for opening tabs
-router.register(Route("home", type: .Static) { variable in
-    let vc = HomeTabViewController(nibName: nil, bundle: nil)
-    return UINavigationController(rootViewController: vc)
-})
-
-router.register(Route("more", type: .Static) { variable in
-    let vc = MoreTabViewController(nibName: nil, bundle: nil)
-    return UINavigationController(rootViewController: vc)
-})
-
-// force static routes to eval
-router.updateNavigator()
-
-// evaluate a matching URL
-let url = NSURL(string: "myapp://more")
-router.evaluateURL(url)
-```
-
-## Contributions
-
-We appreciate your contributions to all of our projects and look forward to interacting with you via Pull Requests, the issue tracker, via Twitter, etc.  We're happy to help you, and to have you help us.  We'll strive to answer every PR and issue and be very transparent in what we do.
-
-When contributing code, please refer to our style guide [Dennis](https://github.com/Electrode-iOS/Dennis).
+TBD
 
 ## License
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Walmart, and other Contributors
+Copyright (c) 2015-2016 Walmart, and other Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

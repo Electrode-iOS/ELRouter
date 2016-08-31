@@ -1,3 +1,21 @@
+# [3.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.0.0)
+
+## Breaking
+
+- Removed `.Alias` route type
+
+## New Features
+
+- Added `route(route: Route) -> Route` function to copy an existing route.
+- Added `.Redirect` route type.
+
+## Fixes
+
+- Fixed bug where a popToRoot on a vc that was already at the root would hang the routing system temporarily.
+- Added hacky fix for lock being held
+- Short circut if we’ve stopped processing mid-way through.
+- Fixed redirect func so it could be called from outside of ELRouter and work properly.
+
 # [2.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v2.0.0)
 
 ## Breaking 
