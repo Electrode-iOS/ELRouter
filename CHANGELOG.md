@@ -1,3 +1,7 @@
+# [3.1.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.1.0)
+
+- Added support for Xcode 8, Swift 2.3, and iOS 10
+
 # [3.0.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.0.1)
 
 ## Fixes
