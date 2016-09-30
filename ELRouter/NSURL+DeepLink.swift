@@ -21,7 +21,7 @@ public extension NSURL {
         }
 
         // now add the path components, leaving the encoded parts intact
-        if let urlComponents = NSURLComponents(string: absoluteString),
+        if let urlComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false),
                percentEncodedPath = urlComponents.percentEncodedPath
         {
             // Note that the percentEncodedPath property of NSURLComponents does not add any encoding, it just returns any
