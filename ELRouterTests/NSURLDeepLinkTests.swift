@@ -21,7 +21,18 @@ class NSURLDeepLinkTests: XCTestCase {
         XCTAssertEqual(components![1], "bar")
         XCTAssertEqual(components![2], "foo")
     }
-    
+
+    func test_deepLinkComponents_encodedPathPartsAreRetained() {
+        let url = NSURL(string: "scheme://webview/https%3A%2F%2Fwww.foo.com%2Fbar")!
+        
+        let components = url.deepLinkComponents
+        
+        XCTAssertNotNil(components)
+        XCTAssertEqual(components!.count, 2)
+        XCTAssertEqual(components![0], "webview")
+        XCTAssertEqual(components![1], "https%3A%2F%2Fwww.foo.com%2Fbar")
+    }
+
     func test_deepLinkComponents_hostIsIncludedInComponents() {
         let url = NSURL(string: "scheme://walmart.com")!
         let host = url.host!

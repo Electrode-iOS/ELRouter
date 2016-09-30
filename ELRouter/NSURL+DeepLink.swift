@@ -10,8 +10,8 @@ import Foundation
 
 public extension NSURL {
     public var deepLinkComponents: [String]? {
-        guard let pathComponents = pathComponents else { return nil }
-        
+        guard let _ = pathComponents else { return nil }
+
         // a deep link doesn't have the notion of a host, construct it as such
         var components = [String]()
         
@@ -19,10 +19,23 @@ public extension NSURL {
         if let host = host {
             components.append(host)
         }
-        
-        // out "/" and append our components
-        components.appendContentsOf(pathComponents.filter { !($0 == "/") })
-        
+
+        // now add the path components, leaving the encoded parts intact
+        let optionalAbsoluteString: String? = absoluteString // gotta do this for backward compatability with iOS 9, where absoluteString is not optional like it is in iOS 10
+        if let validAbsoluteString = optionalAbsoluteString,
+               urlComponents = NSURLComponents(string: validAbsoluteString),
+               percentEncodedPath = urlComponents.percentEncodedPath
+        {
+            // Note that the percentEncodedPath property of NSURLComponents does not add any encoding, it just returns any
+            // encoding that is already in the path. Unencoded slashes will remain unencoded but escaped slashes will remain
+            // escaped, which is what we want here.
+            let pathComponents = percentEncodedPath.componentsSeparatedByString("/")
+            // remove any empty strings, such as the one in the first element that results from the initial slash
+            let pathComponentsAfterSlash = pathComponents.filter() { !$0.isEmpty }
+            // append to our components
+            components += pathComponentsAfterSlash
+        }
+
         return components
     }
     
