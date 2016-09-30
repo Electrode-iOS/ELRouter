@@ -21,8 +21,9 @@ public extension NSURL {
         }
 
         // now add the path components, leaving the encoded parts intact
-        if let validRelativeString = relativeString,
-               urlComponents = NSURLComponents(string: validRelativeString),
+        let optionalAbsoluteString: String? = absoluteString // gotta do this for backward compatability with iOS 9, where absoluteString is not optional like it is in iOS 10
+        if let validAbsoluteString = optionalAbsoluteString,
+               urlComponents = NSURLComponents(string: validAbsoluteString),
                percentEncodedPath = urlComponents.percentEncodedPath
         {
             // Note that the percentEncodedPath property of NSURLComponents does not add any encoding, it just returns any
