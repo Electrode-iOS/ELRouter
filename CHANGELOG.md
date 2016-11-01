@@ -1,3 +1,11 @@
+# [3.1.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.1.1)
+
+- Changed `deepLinkComponents` to not decode escaped slashes when determining path components, but to pass encoded parts on instead.
+
+# [3.1.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.1.0)
+
+- Added support for Xcode 8, Swift 2.3, and iOS 10
+
 # [3.1.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.1.0)
 
 - Added support for Xcode 8, Swift 2.3, and iOS 10
