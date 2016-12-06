@@ -84,11 +84,8 @@ public class Route: NSObject {
     
     private weak var staticValue: AnyObject? = nil
     internal weak var parentRouter: Router?
-}
 
-// MARK: - Adding sub routes
-
-extension Route {
+    // MARK: - Adding sub routes
     public func variable(action: RouteActionClosure! = nil) -> Route {
         if routeByType(.Variable) != nil {
             let message = "A variable route already exists on \(self.name)!"
@@ -129,11 +126,8 @@ extension Route {
         subRoutes.append(newRoute)
         return newRoute
     }
-}
 
-// MARK: - Adding sub routes, for testability only!
-
-extension Route {
+    // MARK: - Adding sub routes, for testability only!
     public func route(name: String, type: RoutingType, action: RouteActionClosure! = nil) -> Route {
         if let existing = routeByName(name) {
             let message = "A route already exists named \(existing.name!)!"
@@ -149,12 +143,8 @@ extension Route {
         subRoutes.append(route)
         return route
     }
-}
 
-// MARK: - Executing Routes
-
-extension Route {
-    
+    // MARK: - Executing Routes
     /**
      For testability only!
     */
@@ -240,11 +230,8 @@ extension Route {
         
         return result
     }
-}
 
-// MARK: - Finding Routes
-
-extension Route {
+    // MARK: - Finding Routes
     /**
      Get all subroutes of a particular name.
      
