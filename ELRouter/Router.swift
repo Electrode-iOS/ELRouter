@@ -35,11 +35,8 @@ public class Router: NSObject {
         super.init()
         injectRouterSwizzles()
     }
-}
 
-// MARK: - Translation API
-
-extension Router {
+    // MARK: - Translation API
     public func translate(from: String, to: String) {
         let existing = translation[from]
         if existing != nil {
@@ -48,11 +45,8 @@ extension Router {
         
         translation[from] = to
     }
-}
 
-// MARK: - Managing the Navigator
-
-extension Router {
+    // MARK: - Managing the Navigator
     /// Attempt to detect what the navigator value should be.
     public func detectNavigator() {
         let windows = UIApplication.sharedApplication().windows
@@ -93,11 +87,8 @@ extension Router {
             navigator.setViewControllers(controllers, animated: false)
         }
     }
-}
 
-// MARK: - Registering Routes
-
-extension Router {
+    // MARK: - Registering Routes
     /**
      Registers a top level route.
      
@@ -126,10 +117,8 @@ extension Router {
             masterRoute.subRoutes.append(currentRoute)
         }
     }
-}
 
-// MARK: - Evaluating Routes
-extension Router {
+    // MARK: - Evaluating Routes
     // This must not be used externally to determine if routes are processing
     // Due to threading, this may evaluate late compared in successive
     // execute commands due to thread switching to main on route evaluation
@@ -209,11 +198,8 @@ extension Router {
             self.evaluate(routes, associatedData: associatedData, animated: animated, completion: completion)
         }
     }
-}
 
-// MARK: - Getting Routes
-
-extension Router {
+    // MARK: - Getting Routes
     /**
      Get the route for a particular RouteEnum
     
@@ -286,11 +272,8 @@ extension Router {
         }
         return components
     }
-}
 
-// MARK: - Route/Navigation synchronization
-
-extension Router {
+    // MARK: - Route/Navigation synchronization
     internal static let lock = Spinlock()
     
     // TODO: Consider making this a non-static, as it is fragile

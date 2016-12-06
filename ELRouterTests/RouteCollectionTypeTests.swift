@@ -31,9 +31,7 @@ class RouteCollectionTypeTests: XCTestCase {
         let filteredRoutes = routes.filterByName("bogusName")
         XCTAssertTrue(filteredRoutes.isEmpty)
     }
-}
 
-extension RouteCollectionTypeTests {
     func test_filterByType_returnsRoutesForValidType() {
         let routeName = "routesByType"
         let routes = [Route(routeName, type: .Other), Route(routeName, type: .Other), Route(routeName, type: .Static)]
