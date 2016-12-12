@@ -1,3 +1,7 @@
+# [4.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.0.0)
+
+- Migrate to Swift 3
+
 # [3.1.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v3.1.1)
 
 - Changed `deepLinkComponents` to not decode escaped slashes when determining path components, but to pass encoded parts on instead.
