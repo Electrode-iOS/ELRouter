@@ -13,7 +13,7 @@ class RoutingTypeTests: XCTestCase {
     func test_description() {
         XCTAssertEqual(RoutingType.modal.description, "Modal")
         XCTAssertEqual(RoutingType.segue.description, "Segue")
-        XCTAssertEqual(RoutingType.fixed.description, "Static")
+        XCTAssertEqual(RoutingType.fixed.description, "Fixed")
         XCTAssertEqual(RoutingType.push.description, "Push")
         XCTAssertEqual(RoutingType.variable.description, "Variable")
         XCTAssertEqual(RoutingType.other.description, "Other")
