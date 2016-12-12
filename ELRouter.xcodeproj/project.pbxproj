@@ -11,10 +11,11 @@
 		1714F02E1C0E00AB0039ED7F /* RouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F02D1C0E00AB0039ED7F /* RouterTests.swift */; };
 		1714F0621C0E35B20039ED7F /* NSURLDeepLinkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */; };
 		174962781C29AA8600FE8DEE /* MockNavigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 174962771C29AA8600FE8DEE /* MockNavigator.swift */; };
-		177EC14A1C03CD2E00DD5BB7 /* ELFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177EC1431C03CD1E00DD5BB7 /* ELFoundation.framework */; };
 		17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */; };
 		17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */; };
 		17E105591C2850D900C05CEA /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105571C2850D900C05CEA /* RouteTests.swift */; };
+		197B02BD1DFF41BA00301C7E /* ELFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197B02A61DFF419B00301C7E /* ELFoundation.framework */; };
+		197B02BE1DFF41BA00301C7E /* ELLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197B02B41DFF41AA00301C7E /* ELLog.framework */; };
 		22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */; };
 		CA3930DF1BD011E90021CD95 /* ELRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* ELRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
@@ -24,7 +25,6 @@
 		CA3931531BD6A7040021CD95 /* NSURL+DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */; };
 		CAB204AD1C7F6FD700061469 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB204AC1C7F6FD700061469 /* NavigationTests.swift */; };
 		CAB6B5DE1C27DA1400242F6A /* NavigationSyncing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312B1BD015830021CD95 /* NavigationSyncing.swift */; };
-		CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6B5E61C27DAB000242F6A /* ELLog.framework */; };
 		CAB6B5ED1C27E08000242F6A /* ELRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB6B5EC1C27E08000242F6A /* ELRouter.swift */; };
 		CAED57441CC188740003E9C9 /* AssociatedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED57431CC188740003E9C9 /* AssociatedData.swift */; };
 		CAED57501CC563C80003E9C9 /* TypedRouteExecution.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAED574F1CC563C80003E9C9 /* TypedRouteExecution.swift */; };
@@ -34,33 +34,68 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		177EC1421C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
+		197B02A51DFF419B00301C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
+			containerPortal = 197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CACF2A0A1A9614D20084EFAE;
 			remoteInfo = ELFoundation;
 		};
-		177EC1441C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
+		197B02A71DFF419B00301C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
+			containerPortal = 197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CACF2A151A9614D20084EFAE;
 			remoteInfo = ELFoundationTests;
 		};
-		177EC1461C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
+		197B02A91DFF419B00301C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
+			containerPortal = 197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA8CD55A1B7A9DCA00DA8BF7;
 			remoteInfo = ELFoundation_osx;
 		};
-		177EC1481C03CD1E00DD5BB7 /* PBXContainerItemProxy */ = {
+		197B02AB1DFF419B00301C7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
+			containerPortal = 197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = CA8CD5631B7A9DCB00DA8BF7;
 			remoteInfo = ELFoundation_osxTests;
+		};
+		197B02B31DFF41AA00301C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA8D47BB1AAE6FF50028B74D;
+			remoteInfo = ELLog;
+		};
+		197B02B51DFF41AA00301C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA8D47C61AAE6FF50028B74D;
+			remoteInfo = ELLogTests;
+		};
+		197B02B71DFF41AA00301C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CA2410631AF966F600AA4410;
+			remoteInfo = ELLog_osx;
+		};
+		197B02B91DFF41B200301C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CA8D47BA1AAE6FF50028B74D;
+			remoteInfo = ELLog;
+		};
+		197B02BB1DFF41B200301C7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CACF2A091A9614D20084EFAE;
+			remoteInfo = ELFoundation;
 		};
 		CA3931421BD59A370021CD95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -69,41 +104,6 @@
 			remoteGlobalIDString = CA3930DA1BD011E90021CD95;
 			remoteInfo = ELRouter;
 		};
-		CA75A5BC1C51A643009BC537 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CA8D47BA1AAE6FF50028B74D;
-			remoteInfo = ELLog;
-		};
-		CA75A5C01C51A643009BC537 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CACF2A091A9614D20084EFAE;
-			remoteInfo = ELFoundation;
-		};
-		CAB6B5E51C27DAB000242F6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CA8D47BB1AAE6FF50028B74D;
-			remoteInfo = ELLog;
-		};
-		CAB6B5E71C27DAB000242F6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CA8D47C61AAE6FF50028B74D;
-			remoteInfo = ELLogTests;
-		};
-		CAB6B5E91C27DAB000242F6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CA2410631AF966F600AA4410;
-			remoteInfo = ELLog_osx;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -111,10 +111,11 @@
 		1714F02D1C0E00AB0039ED7F /* RouterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouterTests.swift; sourceTree = "<group>"; };
 		1714F0611C0E35B20039ED7F /* NSURLDeepLinkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLDeepLinkTests.swift; sourceTree = "<group>"; };
 		174962771C29AA8600FE8DEE /* MockNavigator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNavigator.swift; sourceTree = "<group>"; };
-		177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELFoundation.xcodeproj; path = ../ELFoundation/ELFoundation.xcodeproj; sourceTree = "<group>"; };
 		17D31FEB1C2AEC9C00080F2A /* RoutingTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoutingTypeTests.swift; sourceTree = "<group>"; };
 		17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteCollectionTypeTests.swift; sourceTree = "<group>"; };
 		17E105571C2850D900C05CEA /* RouteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RouteTests.swift; sourceTree = "<group>"; };
+		197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELFoundation.xcodeproj; path = Carthage/Checkouts/ELFoundation/ELFoundation.xcodeproj; sourceTree = "<group>"; };
+		197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELLog.xcodeproj; path = Carthage/Checkouts/ELLog/ELLog.xcodeproj; sourceTree = "<group>"; };
 		22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ELRouterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCTestCase+Exceptions.h"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.h"; sourceTree = "<group>"; };
 		22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+Exceptions.m"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.m"; sourceTree = "<group>"; };
@@ -129,7 +130,6 @@
 		CA3931401BD59A370021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA3931521BD6A7040021CD95 /* NSURL+DeepLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSURL+DeepLink.swift"; sourceTree = "<group>"; };
 		CAB204AC1C7F6FD700061469 /* NavigationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTests.swift; sourceTree = "<group>"; };
-		CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELLog.xcodeproj; path = ../ELLog/ELLog.xcodeproj; sourceTree = "<group>"; };
 		CAB6B5EC1C27E08000242F6A /* ELRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ELRouter.swift; sourceTree = "<group>"; };
 		CAED57431CC188740003E9C9 /* AssociatedData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AssociatedData.swift; sourceTree = "<group>"; };
 		CAED574F1CC563C80003E9C9 /* TypedRouteExecution.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypedRouteExecution.swift; sourceTree = "<group>"; };
@@ -144,8 +144,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */,
-				177EC14A1C03CD2E00DD5BB7 /* ELFoundation.framework in Frameworks */,
+				197B02BD1DFF41BA00301C7E /* ELFoundation.framework in Frameworks */,
+				197B02BE1DFF41BA00301C7E /* ELLog.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,13 +160,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		177EC13C1C03CD1E00DD5BB7 /* Products */ = {
+		197B029F1DFF419B00301C7E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				177EC1431C03CD1E00DD5BB7 /* ELFoundation.framework */,
-				177EC1451C03CD1E00DD5BB7 /* ELFoundationTests.xctest */,
-				177EC1471C03CD1E00DD5BB7 /* ELFoundation.framework */,
-				177EC1491C03CD1E00DD5BB7 /* ELFoundation_osxTests.xctest */,
+				197B02A61DFF419B00301C7E /* ELFoundation.framework */,
+				197B02A81DFF419B00301C7E /* ELFoundationTests.xctest */,
+				197B02AA1DFF419B00301C7E /* ELFoundation.framework */,
+				197B02AC1DFF419B00301C7E /* ELFoundation_osxTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		197B02AE1DFF41AA00301C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				197B02B41DFF41AA00301C7E /* ELLog.framework */,
+				197B02B61DFF41AA00301C7E /* ELLogTests.xctest */,
+				197B02B81DFF41AA00301C7E /* ELLog.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,8 +229,8 @@
 		CA3930E61BD013530021CD95 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */,
-				177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */,
+				197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */,
+				197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */,
 			);
 			name = Modules;
 			sourceTree = "<group>";
@@ -245,16 +255,6 @@
 				CAED575E1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m */,
 			);
 			path = ELRouterTests;
-			sourceTree = "<group>";
-		};
-		CAB6B5E01C27DAB000242F6A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CAB6B5E61C27DAB000242F6A /* ELLog.framework */,
-				CAB6B5E81C27DAB000242F6A /* ELLogTests.xctest */,
-				CAB6B5EA1C27DAB000242F6A /* ELLog.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,8 +283,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				CA75A5BD1C51A643009BC537 /* PBXTargetDependency */,
-				CA75A5C11C51A643009BC537 /* PBXTargetDependency */,
+				197B02BA1DFF41B200301C7E /* PBXTargetDependency */,
+				197B02BC1DFF41B200301C7E /* PBXTargetDependency */,
 			);
 			name = ELRouter;
 			productName = ELRouter;
@@ -342,12 +342,12 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 177EC13C1C03CD1E00DD5BB7 /* Products */;
-					ProjectRef = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
+					ProductGroup = 197B029F1DFF419B00301C7E /* Products */;
+					ProjectRef = 197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */;
 				},
 				{
-					ProductGroup = CAB6B5E01C27DAB000242F6A /* Products */;
-					ProjectRef = CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */;
+					ProductGroup = 197B02AE1DFF41AA00301C7E /* Products */;
+					ProjectRef = 197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -359,53 +359,53 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		177EC1431C03CD1E00DD5BB7 /* ELFoundation.framework */ = {
+		197B02A61DFF419B00301C7E /* ELFoundation.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ELFoundation.framework;
-			remoteRef = 177EC1421C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
+			remoteRef = 197B02A51DFF419B00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		177EC1451C03CD1E00DD5BB7 /* ELFoundationTests.xctest */ = {
+		197B02A81DFF419B00301C7E /* ELFoundationTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ELFoundationTests.xctest;
-			remoteRef = 177EC1441C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
+			remoteRef = 197B02A71DFF419B00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		177EC1471C03CD1E00DD5BB7 /* ELFoundation.framework */ = {
+		197B02AA1DFF419B00301C7E /* ELFoundation.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ELFoundation.framework;
-			remoteRef = 177EC1461C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
+			remoteRef = 197B02A91DFF419B00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		177EC1491C03CD1E00DD5BB7 /* ELFoundation_osxTests.xctest */ = {
+		197B02AC1DFF419B00301C7E /* ELFoundation_osxTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ELFoundation_osxTests.xctest;
-			remoteRef = 177EC1481C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
+			remoteRef = 197B02AB1DFF419B00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CAB6B5E61C27DAB000242F6A /* ELLog.framework */ = {
+		197B02B41DFF41AA00301C7E /* ELLog.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ELLog.framework;
-			remoteRef = CAB6B5E51C27DAB000242F6A /* PBXContainerItemProxy */;
+			remoteRef = 197B02B31DFF41AA00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CAB6B5E81C27DAB000242F6A /* ELLogTests.xctest */ = {
+		197B02B61DFF41AA00301C7E /* ELLogTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ELLogTests.xctest;
-			remoteRef = CAB6B5E71C27DAB000242F6A /* PBXContainerItemProxy */;
+			remoteRef = 197B02B51DFF41AA00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CAB6B5EA1C27DAB000242F6A /* ELLog.framework */ = {
+		197B02B81DFF41AA00301C7E /* ELLog.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = ELLog.framework;
-			remoteRef = CAB6B5E91C27DAB000242F6A /* PBXContainerItemProxy */;
+			remoteRef = 197B02B71DFF41AA00301C7E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -465,20 +465,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		197B02BA1DFF41B200301C7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ELLog;
+			targetProxy = 197B02B91DFF41B200301C7E /* PBXContainerItemProxy */;
+		};
+		197B02BC1DFF41B200301C7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ELFoundation;
+			targetProxy = 197B02BB1DFF41B200301C7E /* PBXContainerItemProxy */;
+		};
 		CA3931431BD59A370021CD95 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CA3930DA1BD011E90021CD95 /* ELRouter */;
 			targetProxy = CA3931421BD59A370021CD95 /* PBXContainerItemProxy */;
-		};
-		CA75A5BD1C51A643009BC537 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ELLog;
-			targetProxy = CA75A5BC1C51A643009BC537 /* PBXContainerItemProxy */;
-		};
-		CA75A5C11C51A643009BC537 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ELFoundation;
-			targetProxy = CA75A5C01C51A643009BC537 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
