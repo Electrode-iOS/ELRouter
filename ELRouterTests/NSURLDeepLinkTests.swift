@@ -40,11 +40,4 @@ class NSURLDeepLinkTests: XCTestCase {
         
         XCTAssertEqual(components![0], host)
     }
-    
-    func test_deepLinkComponents_returnsNilForBadURL() {
-        let url = URL(string: "://")!
-        let components = url.deepLinkComponents
-
-        XCTAssertNil(components)
-    }
 }
