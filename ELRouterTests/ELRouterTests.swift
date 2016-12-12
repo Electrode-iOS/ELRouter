@@ -12,10 +12,10 @@ import ELRouter
 class ELRouterTests: XCTestCase {
     
     func testNSURLPathBehavior() {
-        let url = NSURL(string: "walmart://something/1234/abcd?blah1=1,blah2=2")
+        let url = URL(string: "walmart://something/1234/abcd?blah1=1,blah2=2")
         print(url!.pathComponents)
 
-        let url2 = NSURL(string: "walmart://:something/1234/abcd?blah1=1,blah2=2")
+        let url2 = URL(string: "walmart://:something/1234/abcd?blah1=1,blah2=2")
         print(url2!.pathComponents)
     }
 }

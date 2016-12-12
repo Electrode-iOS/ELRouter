@@ -11,7 +11,7 @@ import ELRouter
 
 class NSURLDeepLinkTests: XCTestCase {
     func test_deepLinkComponents_componentOutputMatchesOriginalURL() {
-        let url = NSURL(string: "scheme://walmart.com:1234/bar/foo?a=b&b=c")!
+        let url = URL(string: "scheme://walmart.com:1234/bar/foo?a=b&b=c")!
         
         let components = url.deepLinkComponents
         
@@ -23,7 +23,7 @@ class NSURLDeepLinkTests: XCTestCase {
     }
 
     func test_deepLinkComponents_encodedPathPartsAreRetained() {
-        let url = NSURL(string: "scheme://webview/https%3A%2F%2Fwww.foo.com%2Fbar")!
+        let url = URL(string: "scheme://webview/https%3A%2F%2Fwww.foo.com%2Fbar")!
         
         let components = url.deepLinkComponents
         
@@ -34,17 +34,10 @@ class NSURLDeepLinkTests: XCTestCase {
     }
 
     func test_deepLinkComponents_hostIsIncludedInComponents() {
-        let url = NSURL(string: "scheme://walmart.com")!
+        let url = URL(string: "scheme://walmart.com")!
         let host = url.host!
         let components = url.deepLinkComponents
         
         XCTAssertEqual(components![0], host)
-    }
-    
-    func test_deepLinkComponents_returnsNilForBadURL() {
-        let url = NSURL(string: "://")!
-        let components = url.deepLinkComponents
-
-        XCTAssertNil(components)
     }
 }

@@ -15,7 +15,7 @@ import ELRouter
     var selectedViewController: UIViewController? {
         willSet(newValue) {
             if let controller = newValue {
-                if let index = viewControllers?.indexOf(controller) {
+                if let index = viewControllers?.index(of: controller) {
                     selectedIndex = index
                 }
             }
@@ -31,7 +31,7 @@ import ELRouter
         selectedViewController = navigationConroller
     }
     
-    func setViewControllers(viewControllers: [UIViewController]?, animated: Bool) {
+    func setViewControllers(_ viewControllers: [UIViewController]?, animated: Bool) {
         self.viewControllers = viewControllers
         
         selectedViewController = viewControllers?.first

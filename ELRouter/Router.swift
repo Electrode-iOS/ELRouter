@@ -8,36 +8,38 @@
 
 import Foundation
 import ELFoundation
-import ELDispatch
 
 public typealias RouteCompletion = () -> Void
 
 ///
 @objc
-public class Router: NSObject {
-    static public let sharedInstance = Router()
-    public var navigator: Navigator? = nil
+open class Router: NSObject {
+    static let sharedInstance = Router()
+    var navigator: Navigator? = nil
     
-    public var routes: [Route] {
+    var routes: [Route] {
         return masterRoute.subRoutes
     }
     
-    public weak var eventFirehose: RouterEventFirehose? {
+    open weak var eventFirehose: RouterEventFirehose? {
         didSet {
             NavSync.sharedInstance.eventFirehose = eventFirehose
         }
     }
     
-    private let masterRoute: Route = Route("MASTER", type: .Other)
-    private var translation = [String : String]()
+    fileprivate let masterRoute: Route = Route("MASTER", type: .other)
+    fileprivate var translation = [String : String]()
 
     public override init() {
         super.init()
-        injectRouterSwizzles()
+        UINavigationController.swizzleInstanceMethod(#selector(UINavigationController.pushViewController(_:animated:)), swizzledSelector: #selector(UINavigationController.swizzled_pushViewController(_:animated:)))
+        UIViewController.swizzleInstanceMethod(#selector(UIViewController.viewDidAppear(_:)), swizzledSelector: #selector(UIViewController.swizzled_viewDidAppear(_:)))
+        UIViewController.swizzleInstanceMethod(#selector(UIViewController.present), swizzledSelector: #selector(UIViewController.swizzled_presentViewController(_:animated:completion:)))
     }
 
     // MARK: - Translation API
-    public func translate(from: String, to: String) {
+
+    open func translate(_ from: String, to: String) {
         let existing = translation[from]
         if existing != nil {
             exceptionFailure("A translation for \(from) exists already!")
@@ -48,8 +50,8 @@ public class Router: NSObject {
 
     // MARK: - Managing the Navigator
     /// Attempt to detect what the navigator value should be.
-    public func detectNavigator() {
-        let windows = UIApplication.sharedApplication().windows
+    open func detectNavigator() {
+        let windows = UIApplication.shared.windows
         for window in windows {
             if let nav = window.rootViewController as? Navigator {
                 navigator = nav
@@ -59,14 +61,14 @@ public class Router: NSObject {
     }
     
     /// Update the view controllers that are managed by the navigator
-    public func updateNavigator() {
+    open func updateNavigator() {
         if navigator == nil {
             // try to detect the navigator if we don't have one.
             detectNavigator()
         }
         
         if let navigator = navigator {
-            let navigatorRoutes = routesByType(.Static)
+            let navigatorRoutes = routes(forType: .fixed)
             var controllers = [UIViewController]()
             
             var associatedData: AssociatedData? = nil
@@ -80,7 +82,7 @@ public class Router: NSObject {
             // if we have controllers present already, add them to the beginning 
             // of the array.
             if let existingControllers = navigator.viewControllers {
-                controllers.insertContentsOf(existingControllers, at: 0)
+                controllers.insert(contentsOf: existingControllers, at: 0)
             }
             
             // set our new list.
@@ -94,7 +96,7 @@ public class Router: NSObject {
      
      - parameter route: The Route being registered.
     */
-    public func register(route: Route) {
+    open func register(_ route: Route) {
         var currentRoute = route
         
         // we may given the final link in a chain, walk back up to the top and
@@ -105,7 +107,7 @@ public class Router: NSObject {
         }
         
         if currentRoute.name != nil {
-            if routesByName(currentRoute.name!).count != 0 {
+            if routes(forName: currentRoute.name!).count != 0 {
                 let message = "A route already exists named \(currentRoute.name!)!"
                 if isInUnitTest() {
                     exceptionFailure(message)
@@ -138,8 +140,8 @@ public class Router: NSObject {
      
      - parameter url: The URL to evaluate.
      */
-    public func evaluateURLString(urlString: String, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
-        guard let url = NSURL(string: urlString) else { return false }
+    @discardableResult open func evaluateURLString(_ urlString: String, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        guard let url = URL(string: urlString) else { return false }
         return evaluateURL(url, animated: animated, completion: completion)
     }
     
@@ -149,9 +151,9 @@ public class Router: NSObject {
 
      - parameter url: The URL to evaluate.
     */
-    public func evaluateURL(url: NSURL, associatedData: AssociatedData? = nil, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    @discardableResult open func evaluateURL(_ url: URL, associatedData: AssociatedData? = nil, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         guard let components = url.deepLinkComponents else { return false }
-        var passedData: AssociatedData = url
+        var passedData: AssociatedData = url as AssociatedData
         if let validAssociatedData = associatedData {
             passedData = validAssociatedData
         }
@@ -164,7 +166,7 @@ public class Router: NSObject {
      - parameter components: The array of specs to evaluate.
      - parameter animated: Determines if the view controller action should be animated.
      */
-    public func evaluate(routes: [RouteEnum], animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    @discardableResult open func evaluate(_ routes: [RouteEnum], animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         return evaluate(routes, associatedData: nil, animated: animated, completion: completion)
     }
     
@@ -176,7 +178,7 @@ public class Router: NSObject {
      - parameter animated: Determines if the view controller action should be animated.
      - parameter completion: closure to be called after evaluation.
      */
-    public func evaluate(routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    @discardableResult open func evaluate(_ routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         let components = componentsFromRoutes(routes)
         return evaluate(components, associatedData: associatedData, animated: animated, completion: completion)
     }
@@ -189,12 +191,13 @@ public class Router: NSObject {
      - parameter animated: Determines if the view controller action should be animated.
      - parameter completion: closure to be called after evaluation.
      */
-    public func redirect(routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) {
+    open func redirect(_ routes: [RouteEnum], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) {
         synchronized(self) {
             Router.routesInFlight = nil
         }
         
-        Dispatch().after(.Main, delay: 0.1) { 
+        
+        DispatchQueue.main.asyncAfter(delay: .milliseconds(1)) {
             self.evaluate(routes, associatedData: associatedData, animated: animated, completion: completion)
         }
     }
@@ -205,7 +208,7 @@ public class Router: NSObject {
     
      - parameter routeEnum: The enum of the route to get
     */
-    public func routeByEnum(routeEnum: RouteEnum) -> Route? {
+    open func route(forEnum routeEnum: RouteEnum) -> Route? {
         let filteredRoutes = routes.filterByName(routeEnum.spec.name)
         // Brandon's design is such that a route should only match 1
         if filteredRoutes.count == 1 {
@@ -222,8 +225,8 @@ public class Router: NSObject {
      
      - parameter name: The name of the routes to get.
     */
-    internal func routeByName(name: String) -> Route? {
-        return masterRoute.routeByName(name)
+    internal func route(forName name: String) -> Route? {
+        return masterRoute.route(forName: name)
     }
     
     /**
@@ -233,7 +236,7 @@ public class Router: NSObject {
      
      - parameter name: The name of the routes to get.
      */
-    internal func routesByName(name: String) -> [Route] {
+    internal func routes(forName name: String) -> [Route] {
         return routes.filterByName(name)
     }
     
@@ -242,7 +245,7 @@ public class Router: NSObject {
      
      - parameter type: The routing type of the routes to get.
     */
-    public func routesByType(type: RoutingType) -> [Route] {
+    open func routes(forType type: RoutingType) -> [Route] {
         return routes.filterByType(type)
     }
     
@@ -251,7 +254,7 @@ public class Router: NSObject {
      
      - parameter url: The url to match against.
     */
-    public func routesForURL(url: NSURL) -> [Route] {
+    open func routes(matchingURL url: URL) -> [Route] {
         guard let components = url.deepLinkComponents else { return [Route]() }
         return routesForComponents(components)
     }
@@ -261,11 +264,11 @@ public class Router: NSObject {
      
      - parameter components: The array of component strings to match against.
     */
-    public func routesForComponents(components: [String]) -> [Route] {
-        return masterRoute.routesForComponents(components)
+    open func routesForComponents(_ components: [String]) -> [Route] {
+        return masterRoute.routes(forComponents: components)
     }
     
-    internal func componentsFromRoutes(routes: [RouteEnum]) -> [String] {
+    internal func componentsFromRoutes(_ routes: [RouteEnum]) -> [String] {
         var components = [String]()
         for item in routes {
             components.append(item.spec.name)
@@ -283,15 +286,15 @@ public class Router: NSObject {
     // I believe (this is a guess) that the author's intention was to make sure
     // that two routers could not execute routes at the same time
     // I suggest we find a more Swifty way to handle this concern
-    private static var routesInFlight: [Route]? = nil
+    fileprivate static var routesInFlight: [Route]? = nil
     
     // this function is for internal use and testability, DO NOT MAKE IT PUBLIC.
-    internal func evaluate(components: [String], animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    @discardableResult internal func evaluate(_ components: [String], animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         return evaluate(components, associatedData: nil, animated: animated, completion: completion)
     }
 
     // this function is for internal use and testability, DO NOT MAKE IT PUBLIC.
-    internal func evaluate(components: [String], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    @discardableResult internal func evaluate(_ components: [String], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         var componentsWereHandled = false
         
         // if we have routes in flight, return false.  We can't do anything
@@ -305,7 +308,7 @@ public class Router: NSObject {
         let valid = routes.count == components.count
         
         var isRedirect = false
-        if let last = routes.last where last.type == .Redirect {
+        if let last = routes.last, last.type == .redirect {
             isRedirect = true
         }
         
@@ -318,18 +321,18 @@ public class Router: NSObject {
         return componentsWereHandled
     }
     
-    private func nextVariable(components components: [String], routes: [Route], index: Int) -> String? {
+    fileprivate func nextVariable(_ components: [String], routes: [Route], index: Int) -> String? {
         guard (components.count > index && routes.count > index && components.count == routes.count) else { return nil }
         
         let currentRoute = routes[index]
         
-        if currentRoute.type == .Variable {
+        if currentRoute.type == .variable {
             return components[index]
         }
         
         if components.count > index + 1 {
             let nextRoute = routes[index + 1]
-            if nextRoute.type == .Variable {
+            if nextRoute.type == .variable {
                 return components[index + 1]
             }
         }
@@ -337,7 +340,7 @@ public class Router: NSObject {
         return nil
     }
     
-    internal func serializedRoute(routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool, completion: RouteCompletion? = nil) {
+    internal func serializedRoute(_ routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool, completion: RouteCompletion? = nil) {
         if processing {
             log(.Debug, "Already processing route. Aborting.")
             return
@@ -353,17 +356,17 @@ public class Router: NSObject {
         let navController = navigator?.selectedViewController as? UINavigationController
         // clear any presenting controllers.
         if let presentedViewController = navController?.topViewController?.presentedViewController {
-            presentedViewController.dismissViewControllerAnimated(animated, completion: nil)
+            presentedViewController.dismiss(animated: animated, completion: nil)
         }
         
         // process routes in the background.
-        Dispatch().async(.Background) {
+        DispatchQueue.global(qos: .background).async {
             var isRedirect = false
             
             for i in 0..<components.count {
                 let route = routes[i]
 
-                let variable = self.nextVariable(components: components, routes: routes, index: i)
+                let variable = self.nextVariable(components, routes: routes, index: i)
                 
                 // acquire the lock.  if there's a nav event in progress
                 // this will wait until that event has finished.
@@ -377,13 +380,14 @@ public class Router: NSObject {
                 }
                 
                 // execute route on the main thread.
-                Dispatch().sync(.Main) {
+                
+                DispatchQueue.main.sync {
                     let result = route.execute(animated, variable: variable, remainingComponents: remainingComponents, associatedData: &data)
                     log(.Debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
-                    if route.type == .Redirect {
+                    if route.type == .redirect {
                         if let redirectComponents = result as? [String] {
                             isRedirect = true
-                            log(.Debug, "Redirecting to: \(redirectComponents.joinWithSeparator("/"))")
+                            log(.Debug, "Redirecting to: \(redirectComponents.joined(separator: "/"))")
                             self.redirect(routeEnumsFromComponents(redirectComponents), associatedData: associatedData, animated: animated, completion: completion)
                         }
                     }

@@ -39,12 +39,12 @@ public typealias RouteSpec = (name: String, type: RoutingType, example: String?)
 
 /**
  */
-public func Variable(value: String) -> RouteEnum {
+public func Variable(_ value: String) -> RouteEnum {
     
     class VariableRoute: RouteEnum {
         var value: String
         var spec: RouteSpec {
-            return (name: value, type: .Variable, example: nil)
+            return (name: value, type: .variable, example: nil)
         }
         
         init(_ rawValue: String) {
@@ -60,7 +60,7 @@ internal struct Redirection: RouteEnum {
     var name: String
     var spec: RouteSpec {
         // type and exampleURL are irrelevant, name is the only important piece here.
-        return (name: name, type: .Other, example: nil)
+        return (name: name, type: .other, example: nil)
     }
     
     init(name value: String) {
@@ -68,7 +68,7 @@ internal struct Redirection: RouteEnum {
     }
 }
 
-internal func routeEnumsFromComponents(components: [String]) -> [RouteEnum] {
+internal func routeEnumsFromComponents(_ components: [String]) -> [RouteEnum] {
     var result = [RouteEnum]()
     
     components.forEach { (component) in
