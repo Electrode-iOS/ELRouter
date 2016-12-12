@@ -15,10 +15,10 @@ import Foundation
 import ELLog
 
 @objc
-public class ELRouter: NSObject {
-    public static let logging = Logger()
+open class ELRouter: NSObject {
+    open static let logging = Logger()
 }
 
-internal func log(level: LogLevel, _ message: String) {
+internal func log(_ level: LogLevel, _ message: String) {
     ELRouter.logging.log(level, message: "\(ELRouter.self): " + message)
 }

@@ -11,11 +11,11 @@ import XCTest
 
 class RoutingTypeTests: XCTestCase {
     func test_description() {
-        XCTAssertEqual(RoutingType.Modal.description, "Modal")
-        XCTAssertEqual(RoutingType.Segue.description, "Segue")
-        XCTAssertEqual(RoutingType.Static.description, "Static")
-        XCTAssertEqual(RoutingType.Push.description, "Push")
-        XCTAssertEqual(RoutingType.Variable.description, "Variable")
-        XCTAssertEqual(RoutingType.Other.description, "Other")
+        XCTAssertEqual(RoutingType.modal.description, "Modal")
+        XCTAssertEqual(RoutingType.segue.description, "Segue")
+        XCTAssertEqual(RoutingType.fixed.description, "Static")
+        XCTAssertEqual(RoutingType.push.description, "Push")
+        XCTAssertEqual(RoutingType.variable.description, "Variable")
+        XCTAssertEqual(RoutingType.other.description, "Other")
     }
 }

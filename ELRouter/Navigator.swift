@@ -15,7 +15,7 @@ public protocol Navigator {
     var selectedIndex: Int { get set }
     
     var viewControllers: [UIViewController]? { get set }
-    func setViewControllers(viewControllers: [UIViewController]?, animated: Bool)
+    func setViewControllers(_ viewControllers: [UIViewController]?, animated: Bool)
 }
 
 

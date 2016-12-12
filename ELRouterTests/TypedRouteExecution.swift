@@ -9,8 +9,7 @@
 import XCTest
 import ELRouter
 
-
-public class WMListItemSpec: AssociatedData {
+open class WMListItemSpec: AssociatedData {
     init(blah argBlah: Int) {
         blah = argBlah
     }
@@ -19,15 +18,15 @@ public class WMListItemSpec: AssociatedData {
 
 @objc
 public enum WishListRoutes: Int, RouteEnum {
-    case Home
-    case AddToList
-    case DeleteFromList
+    case home
+    case addToList
+    case deleteFromList
     
     public var spec: RouteSpec {
         switch self {
-        case .Home: return (name: "Home", type: .Other, example: "home")
-        case .AddToList: return (name: "AddToList", type: .Other, example: "addToList/variable")
-        case .DeleteFromList: return (name: "DeleteFromList", type: .Other, example: "DeleteFromList")
+        case .home: return (name: "Home", type: .other, example: "home")
+        case .addToList: return (name: "AddToList", type: .other, example: "addToList/variable")
+        case .deleteFromList: return (name: "DeleteFromList", type: .other, example: "DeleteFromList")
         }
     }
 }
@@ -52,15 +51,15 @@ class TypedRouteExecution: XCTestCase {
         let router = Router()
         
         //let homeNextType = expectationWithDescription("home route receives a nextType")
-        let homeData = expectationWithDescription("home route receives associatedData")
+        let homeData = expectation(description: "home route receives associatedData")
         //let addToListNextType = expectationWithDescription("addToList route receives a nextType")
-        let addToListData = expectationWithDescription("addToList route receives associatedData")
+        let addToListData = expectation(description: "addToList route receives associatedData")
         //let deleteFromListNextType = expectationWithDescription("deleteFromList route receives a nextType")
-        let deleteFromListData = expectationWithDescription("deleteFromList route receives associatedData")
+        let deleteFromListData = expectation(description: "deleteFromList route receives associatedData")
         
-        let comepletedAllRoutes = expectationWithDescription("All routes completed")
+        let comepletedAllRoutes = expectation(description: "All routes completed")
         
-        let routes = Route(WishListRoutes.Home) { variable, _, associatedData in
+        let routes = Route(WishListRoutes.home) { variable, _, associatedData in
             print ("WishListRoutes.Home route")
             XCTAssertTrue(variable == "12345")
             XCTAssertNil(associatedData)
@@ -79,7 +78,7 @@ class TypedRouteExecution: XCTestCase {
         }.variable { (variable, _, associatedData) -> Any? in
             print ("First variable route")
             return nil
-        }.route(WishListRoutes.AddToList) { variable, _, associatedData in
+        }.route(WishListRoutes.addToList) { variable, _, associatedData in
             print ("WishListRoutes.AddToList route")
             XCTAssertTrue(variable == "XYZ")
             
@@ -101,7 +100,7 @@ class TypedRouteExecution: XCTestCase {
         }.variable { variable, _, associatedData in
             print ("Second variable route")
               return nil
-        }.route(WishListRoutes.DeleteFromList) { variable, _, associatedData in
+        }.route(WishListRoutes.deleteFromList) { variable, _, associatedData in
             print ("WishListRoutes.DeleteFromList")
             XCTAssertTrue(variable == nil)
             
@@ -123,11 +122,11 @@ class TypedRouteExecution: XCTestCase {
         
         // Home/AddToList/<var>/DeleteFromList/<var>
 
-        router.evaluate([WishListRoutes.Home, Variable("12345"), WishListRoutes.AddToList, Variable("XYZ"), WishListRoutes.DeleteFromList], associatedData: nil) {
+        router.evaluate([WishListRoutes.home, Variable("12345"), WishListRoutes.addToList, Variable("XYZ"), WishListRoutes.deleteFromList], associatedData: nil) {
             comepletedAllRoutes.fulfill()
         }
         
-        waitForExpectationsWithTimeout(15, handler: nil)
+        waitForExpectations(timeout: 15, handler: nil)
     }
 
     func testObjcRoute1() {

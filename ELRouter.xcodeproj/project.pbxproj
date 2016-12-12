@@ -16,7 +16,6 @@
 		17E105581C2850D900C05CEA /* RouteCollectionTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105561C2850D900C05CEA /* RouteCollectionTypeTests.swift */; };
 		17E105591C2850D900C05CEA /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105571C2850D900C05CEA /* RouteTests.swift */; };
 		22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */; };
-		CA339E231C233ED200F1CFBF /* ELDispatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA339E201C233EB800F1CFBF /* ELDispatch.framework */; };
 		CA3930DF1BD011E90021CD95 /* ELRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* ELRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
 		CA39312E1BD054EE0021CD95 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312D1BD054EE0021CD95 /* Router.swift */; };
@@ -63,20 +62,6 @@
 			remoteGlobalIDString = CA8CD5631B7A9DCB00DA8BF7;
 			remoteInfo = ELFoundation_osxTests;
 		};
-		CA339E1F1C233EB800F1CFBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CA0CEA691A8A877200DF93E9;
-			remoteInfo = ELDispatch;
-		};
-		CA339E211C233EB800F1CFBF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CA0CEA741A8A877200DF93E9;
-			remoteInfo = ELDispatchTests;
-		};
 		CA3931421BD59A370021CD95 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CA3930D21BD011E90021CD95 /* Project object */;
@@ -90,13 +75,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = CA8D47BA1AAE6FF50028B74D;
 			remoteInfo = ELLog;
-		};
-		CA75A5BE1C51A643009BC537 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = CA0CEA681A8A877200DF93E9;
-			remoteInfo = ELDispatch;
 		};
 		CA75A5C01C51A643009BC537 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -140,7 +118,6 @@
 		22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ELRouterTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCTestCase+Exceptions.h"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.h"; sourceTree = "<group>"; };
 		22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+Exceptions.m"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.m"; sourceTree = "<group>"; };
-		CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELDispatch.xcodeproj; path = ../ELDispatch/ELDispatch.xcodeproj; sourceTree = "<group>"; };
 		CA3930DB1BD011E90021CD95 /* ELRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ELRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3930DE1BD011E90021CD95 /* ELRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELRouter.h; sourceTree = "<group>"; };
 		CA3930E01BD011E90021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,7 +145,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAB6B5EB1C27DB0100242F6A /* ELLog.framework in Frameworks */,
-				CA339E231C233ED200F1CFBF /* ELDispatch.framework in Frameworks */,
 				177EC14A1C03CD2E00DD5BB7 /* ELFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -202,15 +178,6 @@
 				22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */,
 			);
 			name = XCTestExceptions;
-			sourceTree = "<group>";
-		};
-		CA339E1B1C233EB800F1CFBF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CA339E201C233EB800F1CFBF /* ELDispatch.framework */,
-				CA339E221C233EB800F1CFBF /* ELDispatchTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		CA3930D11BD011E90021CD95 = {
@@ -253,7 +220,6 @@
 			isa = PBXGroup;
 			children = (
 				CAB6B5DF1C27DAB000242F6A /* ELLog.xcodeproj */,
-				CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */,
 				177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */,
 			);
 			name = Modules;
@@ -318,7 +284,6 @@
 			);
 			dependencies = (
 				CA75A5BD1C51A643009BC537 /* PBXTargetDependency */,
-				CA75A5BF1C51A643009BC537 /* PBXTargetDependency */,
 				CA75A5C11C51A643009BC537 /* PBXTargetDependency */,
 			);
 			name = ELRouter;
@@ -356,11 +321,11 @@
 				TargetAttributes = {
 					CA3930DA1BD011E90021CD95 = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 					CA39313B1BD59A370021CD95 = {
 						CreatedOnToolsVersion = 7.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -376,10 +341,6 @@
 			productRefGroup = CA3930DC1BD011E90021CD95 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = CA339E1B1C233EB800F1CFBF /* Products */;
-					ProjectRef = CA339E1A1C233EB800F1CFBF /* ELDispatch.xcodeproj */;
-				},
 				{
 					ProductGroup = 177EC13C1C03CD1E00DD5BB7 /* Products */;
 					ProjectRef = 177EC13B1C03CD1E00DD5BB7 /* ELFoundation.xcodeproj */;
@@ -424,20 +385,6 @@
 			fileType = wrapper.cfbundle;
 			path = ELFoundation_osxTests.xctest;
 			remoteRef = 177EC1481C03CD1E00DD5BB7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CA339E201C233EB800F1CFBF /* ELDispatch.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = ELDispatch.framework;
-			remoteRef = CA339E1F1C233EB800F1CFBF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CA339E221C233EB800F1CFBF /* ELDispatchTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = ELDispatchTests.xctest;
-			remoteRef = CA339E211C233EB800F1CFBF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		CAB6B5E61C27DAB000242F6A /* ELLog.framework */ = {
@@ -527,11 +474,6 @@
 			isa = PBXTargetDependency;
 			name = ELLog;
 			targetProxy = CA75A5BC1C51A643009BC537 /* PBXContainerItemProxy */;
-		};
-		CA75A5BF1C51A643009BC537 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = ELDispatch;
-			targetProxy = CA75A5BE1C51A643009BC537 /* PBXContainerItemProxy */;
 		};
 		CA75A5C11C51A643009BC537 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -652,7 +594,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -673,7 +615,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.walmartlabs.ELRouter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -696,7 +638,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -718,7 +660,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -789,7 +731,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = QADeployment;
 		};
@@ -810,7 +752,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ELRouterTests/ELRouterTests-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = QADeployment;
 		};
