@@ -190,7 +190,7 @@ extension RouteTests {
         let router = Router()
         let navigator = MockNavigator()
         router.navigator = navigator
-        let route = Route("executeTest", type:  .Push) { variable, _ in
+        let route = Route("executeTest", type:  .push) { variable, _ in
             let vc = UIViewController(nibName: nil, bundle: nil)
             vc.title = "Push Test"
             return vc
@@ -208,7 +208,7 @@ extension RouteTests {
 //        let router = Router()
 //        let navigator = MockNavigator()
 //        router.navigator = navigator
-//        let route = Route("executeTest", type:  .Modal) { variable in
+//        let route = Route("executeTest", type:  .modal) { variable in
 //            let vc = UIViewController(nibName: nil, bundle: nil)
 //            vc.title = "Modal Test"
 //            return vc
