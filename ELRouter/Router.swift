@@ -14,8 +14,8 @@ public typealias RouteCompletion = () -> Void
 ///
 @objc
 open class Router: NSObject {
-    static let sharedInstance = Router()
-    var navigator: Navigator? = nil
+    public static let sharedInstance = Router()
+    public var navigator: Navigator? = nil
     
     var routes: [Route] {
         return masterRoute.subRoutes
