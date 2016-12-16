@@ -102,7 +102,7 @@ open class Route: NSObject {
         return variable
     }
     
-    open func route(_ route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
+    @discardableResult open func route(_ route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
         return self.route(route.spec.name, type: route.spec.type, action: action)
     }
     
