@@ -1,3 +1,7 @@
+# [4.0.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.0.1)
+
+- Make `navigator` and `sharedInstance` properties public
+
 # [4.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.0.0)
 
 - Migrate to Swift 3
