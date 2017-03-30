@@ -2,7 +2,6 @@ language: objective-c
 osx_image: xcode8.1
 
 install: 
-  - git clone https://github.com/Electrode-iOS/ELFoundation.git ../ELFoundation -b carthage
-  - git clone https://github.com/Electrode-iOS/ELLog.git ../ELLog
+  - carthage bootstrap --no-build
 script:
    - xcodebuild -project ELRouter.xcodeproj -scheme ELRouter -sdk iphonesimulator test -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1' CODE_SIGNING_REQUIRED=NO
