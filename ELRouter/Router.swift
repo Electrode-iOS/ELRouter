@@ -120,6 +120,82 @@ open class Router: NSObject {
         }
     }
 
+
+    /// Deregisters a top level route matched by the name of the spec.
+    /// This method isn't suitable for removing routes with type `.fixed`.
+    ///
+    /// - Parameter route: The Route description being removed.
+    open func deregister(_ route: RouteEnum) {
+        let existingRoutes = routes(forName: route.spec.name)
+        for existingRoute in existingRoutes {
+            if existingRoute.type == .fixed {
+                log(.Info, "Use Router.deregister(fixedRoute: atIndex:) to deregister fixed routes")
+            } else {
+                masterRoute.subRoutes.removeElement(existingRoute)
+            }
+        }
+    }
+
+
+    /// Deregisters a top level `.fixed` route matched by the name and immediately removes its view controller from `navigator.viewControllers`.
+    /// Use this function to manipulate `.fixed` routes after `Router.updateNavigator()` is called.
+    ///
+    /// - Parameters:
+    ///   - route: The route description being removed.
+    ///   - index: Index of corresponding `UIViewController` instance to be removed from `navigator.viewControllers`.
+    open func deregister(fixedRoute route: RouteEnum, atIndex index: Int) {
+        let name = route.spec.name
+        let routes = self.routes(forName: name).filterByType(.fixed)
+        if routes.count > 1 {
+            log(.Info, "Multiple routes detected with .fixed type with name \(name). Only one view controller will be removed from tab bar, at index \(index)")
+        }
+
+        for routeToRemove in routes {
+            masterRoute.subRoutes.removeElement(routeToRemove)
+        }
+
+        guard var viewControllers  = navigator?.viewControllers else {
+            log(.Info, "Navigator's view controllers not initialized")
+            return
+        }
+
+        if viewControllers.indices.contains(index) {
+            viewControllers.remove(at: index)
+            navigator?.viewControllers = viewControllers
+        } else {
+            log(.Info, "Given index \(index) out of bounds of navigator's view controllers array.")
+        }
+    }
+
+
+
+    /// Registers a top level `.fixed` route and immediately adds its view controller to `navigator.viewControllers`.
+    /// Use this function to manipulate `.fixed` routes after `Router.updateNavigator()` is called.
+    ///
+    /// - Parameters:
+    ///   - route: The Route description being registered.
+    ///   - index: Index of `UIViewController` instance to be added to `navigator.viewControllers`. If index is not in bounds of existing view controllers array, it will be appended.
+    open func register(fixedRoute route: Route, atIndex index: Int) {
+        guard let navigator = navigator else {
+            log(.Info, "Navigator not initialized.")
+            return
+        }
+
+        guard var viewControllers = navigator.viewControllers else {
+            log(.Info, "Navigator's view controllers not initialized.")
+            return
+        }
+
+        register(route)
+
+        var associatedData: AssociatedData? = nil
+        if let viewController = route.execute(false, variable: nil, remainingComponents: [String](), associatedData: &associatedData) as? UINavigationController {
+            let finalIndex = viewControllers.indices.contains(index) ? index : viewControllers.endIndex
+            viewControllers.insert(viewController, at: finalIndex)
+            navigator.setViewControllers(viewControllers, animated: false)
+        }
+    }
+
     // MARK: - Evaluating Routes
     // This must not be used externally to determine if routes are processing
     // Due to threading, this may evaluate late compared in successive
