@@ -546,21 +546,16 @@ extension RouterTests {
         
         router.register(route)
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
-        
-        var didComplete = false
+
+        let completionExpectation = expectation(description: "Route should capture associated data in \(longTimeout) seconds")
         router.evaluate(["foo"], associatedData: "blah" as AssociatedData) {
             if capturedString == "blah" {
-                didComplete = true
+                completionExpectation.fulfill()
             }
         }
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout) { () -> Bool in
-                return didComplete
-            }
-        } catch {
-            // do nothing
-            XCTFail()
+
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
     }
 }
@@ -648,21 +643,17 @@ extension RouterTests {
             return nil
         }
         router.register(route1)
-        
-        var didComplete = false
+
+        let executionExpectation = expectation(description: "Second variable route should be executed in \(longTimeout) seconds")
         router.evaluateURLString("walmart://foo/1234/5678") {
-            didComplete = didExectuteLastRoute
+            if didExectuteLastRoute {
+                executionExpectation.fulfill()
+            }
         }
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
-                return didComplete
-            })
-        } catch {
-            print("OMG!!!")
+
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
-        
-        XCTAssertTrue(didComplete)
     }
     
     func test_evaluate_redirect() {
@@ -696,21 +687,15 @@ extension RouterTests {
         
         router.register(redirect)
         
-        var didComplete = false
+        let executionExpectation = expectation(description: "Second variable route should be executed in \(longTimeout) seconds")
         router.evaluateURLString("walmart://booya/1234/5678") {
-            didComplete = didExectuteLastRoute
+            if didExectuteLastRoute {
+                executionExpectation.fulfill()
+            }
         }
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
-                return didComplete
-            })
-        } catch {
-            print("OMG!!!")
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
-        
-        XCTAssertTrue(didComplete)
-
     }
 
     func test_evaluate_forced_redirect() {
@@ -735,14 +720,16 @@ extension RouterTests {
                 return nil
         }
         router.register(route1)
-        
-        var didComplete = false
+
+        let completionExpectation = expectation(description: "Route execution should complete in \(longTimeout) seconds")
         let redirect = Route("booya", type: .other) {_, remainingComponents, _ in
             var newComponents = ["foo"]
             newComponents.append(contentsOf: remainingComponents)
             
             router.redirect(routeEnumsFromComponents(newComponents), associatedData: nil, animated: false) {
-                didComplete = didExectuteLastRoute
+                if didExectuteLastRoute {
+                    completionExpectation.fulfill()
+                }
             }
             return nil
         }.variable().variable() // put some dummy vars on here to emulate real-life.
@@ -750,17 +737,10 @@ extension RouterTests {
         router.register(redirect)
         
         router.evaluateURLString("walmart://booya/1234/5678")
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
-                return didComplete
-            })
-        } catch {
-            print("OMG!!!")
+
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
-        
-        XCTAssertTrue(didComplete)
-        
     }
 
 // TODO: Duplicated Routes are not allowed. Get an obj-c tryBlock added so we can catch NSException
