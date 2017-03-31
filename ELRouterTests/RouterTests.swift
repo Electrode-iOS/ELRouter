@@ -14,12 +14,18 @@ enum TestRoutes: RouteEnum {
     case home
     case screenOne
     case screenTwo
+    case pushedScreenOne
+    case pushedScreenTwo
+    case fixedScreen
     
     var spec: RouteSpec {
         switch self {
         case .home: return (name: "home", type: .fixed, example: "home://")
         case .screenOne: return (name: "screen-one", type: .fixed, example: "screenone://")
         case .screenTwo: return (name: "screen-two", type: .fixed, example: "screentwo://")
+        case .pushedScreenOne: return (name: "pushed-screen-one", type: .push, example: "pushedScreenOne://")
+        case .pushedScreenTwo: return (name: "pushed-screen-two", type: .push, example: "pushedScreenTwo://")
+        case .fixedScreen: return (name: "fixed-screen", type: .fixed, example: "fixedScreen://")
         }
     }
 }
@@ -315,6 +321,177 @@ extension RouterTests {
     }
 }
 
+// MARK - register(fixedRoute: atIndex:)
+extension RouterTests {
+
+    func test_registerFixedRouteAtIndex_namedRouteDoesntGetAppendedIfCalledBeforeUpdateNavigator() {
+
+        let router = Router()
+
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+
+        router.register(fixedRoute: Route(TestRoutes.home.spec.name, type: .fixed) { _, _, _ in
+            return UINavigationController(rootViewController: UIViewController())
+        }, atIndex: 0)
+
+        XCTAssertNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertNil(router.navigator?.viewControllers)
+    }
+
+    func test_registerFixedRouteAtIndex_namedRouteGetsAppendedToRoutes() {
+        let router = Router()
+
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+
+        router.register(Route(TestRoutes.fixedScreen.spec.name, type: .fixed) { _, _, _ in
+            return UINavigationController(rootViewController: UIViewController())
+        })
+
+        router.updateNavigator()
+
+        router.register(fixedRoute: Route(TestRoutes.home.spec.name, type: .fixed) { _, _, _ in
+            return UINavigationController(rootViewController: UIViewController())
+        }, atIndex: 0)
+
+        XCTAssertNotNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertEqual(router.navigator?.viewControllers?.count, 2)
+    }
+
+
+    func test_registerFixedRouteAtIndex_viewControllerIsAppendedWhenIndexIsOutOfBounds() {
+
+        class TestNavigationController: UINavigationController {}
+
+        let router = Router()
+
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+
+        router.register(Route(TestRoutes.fixedScreen.spec.name, type: .fixed) { _, _, _ in
+            return UINavigationController(rootViewController: UIViewController())
+        })
+
+        router.updateNavigator()
+
+        router.register(fixedRoute: Route(TestRoutes.home.spec.name, type: .fixed) { _, _, _ in
+            return TestNavigationController(rootViewController: UIViewController())
+        }, atIndex: 5)
+
+        XCTAssertNotNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertEqual(router.navigator?.viewControllers?.count, 2)
+        XCTAssertTrue(router.navigator?.viewControllers?.last is TestNavigationController)
+    }
+}
+
+// MARK - deregister Tests
+
+extension RouterTests {
+    func test_deregister_namedRouteGetsRemovedFromRoutes() {
+        let router = Router()
+        let routeSpec = TestRoutes.pushedScreenOne
+
+        router.register(Route(routeSpec))
+        XCTAssertFalse(router.routes.isEmpty)
+
+        router.deregister(routeSpec)
+        XCTAssertTrue(router.routes.isEmpty)
+    }
+
+    func test_deregister_fixedRouteDoesntGetRemovedFromRoutes() {
+        let router = Router()
+        let routeSpec = TestRoutes.fixedScreen
+
+        router.register(Route(routeSpec))
+        XCTAssertFalse(router.routes.isEmpty)
+
+        router.deregister(routeSpec)
+        XCTAssertFalse(router.routes.isEmpty)
+    }
+
+
+    func test_deregister_otherRouteDoesntGetRemovedFromRoutes() {
+        let router = Router()
+
+        let homeRoute = Route(TestRoutes.home)
+        let pushedRouteOne = Route(TestRoutes.pushedScreenOne)
+        let pushedRouteTwo = Route(TestRoutes.pushedScreenTwo)
+        let fixedRoute = Route(TestRoutes.fixedScreen)
+
+        router.register(homeRoute)
+        router.register(pushedRouteOne)
+        router.register(pushedRouteTwo)
+        router.register(fixedRoute)
+
+        XCTAssertTrue(router.routes.contains(homeRoute))
+        XCTAssertTrue(router.routes.contains(pushedRouteOne))
+        XCTAssertTrue(router.routes.contains(pushedRouteTwo))
+        XCTAssertTrue(router.routes.contains(fixedRoute))
+
+        router.deregister(TestRoutes.pushedScreenTwo)
+
+        XCTAssertTrue(router.routes.contains(homeRoute))
+        XCTAssertTrue(router.routes.contains(pushedRouteOne))
+        XCTAssertFalse(router.routes.contains(pushedRouteTwo))
+        XCTAssertTrue(router.routes.contains(fixedRoute))
+
+    }
+}
+
+// MARK - deregister(fixedRoute: atIndex:) tests
+
+extension RouterTests {
+    func test_deregisterFixedRouteAtIndex_onlyFixedRouteGetsRemovedFromRoutes() {
+        let router = Router()
+
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+
+        let pushedRouteOne = Route(TestRoutes.pushedScreenOne)
+
+        router.register(Route(TestRoutes.home.spec.name, type: .fixed) { _, _, _ in
+            return UINavigationController(rootViewController: UIViewController())
+        })
+        router.register(pushedRouteOne)
+
+        router.updateNavigator()
+
+        XCTAssertNotNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertNotNil(router.route(forEnum: TestRoutes.pushedScreenOne))
+        XCTAssertNotNil(router.navigator?.viewControllers)
+        XCTAssertEqual(router.navigator?.viewControllers?.count, 1)
+
+        router.deregister(fixedRoute: TestRoutes.home, atIndex: 0)
+
+        XCTAssertNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertNotNil(router.route(forEnum: TestRoutes.pushedScreenOne))
+        XCTAssertNotNil(router.navigator?.viewControllers)
+        XCTAssertEqual(router.navigator?.viewControllers?.count, 0)
+    }
+
+    func test_deregisterFixedRouteAtIndex_onlyRemovesRouteWhenIndexIsOutOfBounds() {
+        let router = Router()
+
+        let tabBarController = UITabBarController(nibName: nil, bundle: nil)
+        router.navigator = tabBarController
+
+        router.register(Route(TestRoutes.home.spec.name, type: .fixed) { _, _, _ in
+            return UINavigationController(rootViewController: UIViewController())
+        })
+
+        router.updateNavigator()
+
+        XCTAssertNotNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertEqual(router.navigator?.viewControllers?.count, 1)
+
+        router.deregister(fixedRoute: TestRoutes.home, atIndex: 5)
+
+        XCTAssertNil(router.route(forEnum: TestRoutes.home))
+        XCTAssertEqual(router.navigator?.viewControllers?.count, 1)
+    }
+}
+
 // MARK: - evaluate Tests
 
 extension RouterTests {
@@ -546,21 +723,16 @@ extension RouterTests {
         
         router.register(route)
         router.navigator = UITabBarController(nibName: nil, bundle: nil)
-        
-        var didComplete = false
+
+        let completionExpectation = expectation(description: "Route should capture associated data in \(longTimeout) seconds")
         router.evaluate(["foo"], associatedData: "blah" as AssociatedData) {
             if capturedString == "blah" {
-                didComplete = true
+                completionExpectation.fulfill()
             }
         }
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout) { () -> Bool in
-                return didComplete
-            }
-        } catch {
-            // do nothing
-            XCTFail()
+
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
     }
 }
@@ -648,21 +820,17 @@ extension RouterTests {
             return nil
         }
         router.register(route1)
-        
-        var didComplete = false
+
+        let executionExpectation = expectation(description: "Second variable route should be executed in \(longTimeout) seconds")
         router.evaluateURLString("walmart://foo/1234/5678") {
-            didComplete = didExectuteLastRoute
+            if didExectuteLastRoute {
+                executionExpectation.fulfill()
+            }
         }
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
-                return didComplete
-            })
-        } catch {
-            print("OMG!!!")
+
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
-        
-        XCTAssertTrue(didComplete)
     }
     
     func test_evaluate_redirect() {
@@ -696,21 +864,15 @@ extension RouterTests {
         
         router.register(redirect)
         
-        var didComplete = false
+        let executionExpectation = expectation(description: "Second variable route should be executed in \(longTimeout) seconds")
         router.evaluateURLString("walmart://booya/1234/5678") {
-            didComplete = didExectuteLastRoute
+            if didExectuteLastRoute {
+                executionExpectation.fulfill()
+            }
         }
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
-                return didComplete
-            })
-        } catch {
-            print("OMG!!!")
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
-        
-        XCTAssertTrue(didComplete)
-
     }
 
     func test_evaluate_forced_redirect() {
@@ -735,14 +897,16 @@ extension RouterTests {
                 return nil
         }
         router.register(route1)
-        
-        var didComplete = false
+
+        let completionExpectation = expectation(description: "Route execution should complete in \(longTimeout) seconds")
         let redirect = Route("booya", type: .other) {_, remainingComponents, _ in
             var newComponents = ["foo"]
             newComponents.append(contentsOf: remainingComponents)
             
             router.redirect(routeEnumsFromComponents(newComponents), associatedData: nil, animated: false) {
-                didComplete = didExectuteLastRoute
+                if didExectuteLastRoute {
+                    completionExpectation.fulfill()
+                }
             }
             return nil
         }.variable().variable() // put some dummy vars on here to emulate real-life.
@@ -750,17 +914,10 @@ extension RouterTests {
         router.register(redirect)
         
         router.evaluateURLString("walmart://booya/1234/5678")
-        
-        do {
-            try waitForConditionsWithTimeout(longTimeout, conditionsCheck: { () -> Bool in
-                return didComplete
-            })
-        } catch {
-            print("OMG!!!")
+
+        waitForExpectations(timeout: longTimeout) { (error) in
+            print(error.debugDescription)
         }
-        
-        XCTAssertTrue(didComplete)
-        
     }
 
 // TODO: Duplicated Routes are not allowed. Get an obj-c tryBlock added so we can catch NSException

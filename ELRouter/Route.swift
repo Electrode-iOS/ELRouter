@@ -88,7 +88,7 @@ open class Route: NSObject {
     // MARK: - Adding sub routes
     @discardableResult open func variable(_ action: RouteActionClosure! = nil) -> Route {
         if route(forType: .variable) != nil {
-            let message = "A variable route already exists on \(self.name)!"
+            let message = "A variable route already exists on \(String(describing: self.name))!"
             if isInUnitTest() {
                 exceptionFailure(message)
             } else {
@@ -113,7 +113,7 @@ open class Route: NSObject {
     @discardableResult open func route(_ route: Route) -> Route {
         if route.type == .variable || self.route(forName: route.name!) != nil {
             // throw an error
-            let message = "A variable or route with the same name already exists on \(self.name)!"
+            let message = "A variable or route with the same name already exists on \(String(describing: self.name))!"
             if isInUnitTest() {
                 exceptionFailure(message)
             } else {
