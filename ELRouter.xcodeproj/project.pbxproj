@@ -16,7 +16,7 @@
 		17E105591C2850D900C05CEA /* RouteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E105571C2850D900C05CEA /* RouteTests.swift */; };
 		197B02BD1DFF41BA00301C7E /* ELFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197B02A61DFF419B00301C7E /* ELFoundation.framework */; };
 		197B02BE1DFF41BA00301C7E /* ELLog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 197B02B41DFF41AA00301C7E /* ELLog.framework */; };
-		22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */; };
+		3E4E81A51E8DBDBA00B70453 /* XCTestCase+Exceptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E4E81A41E8DBDBA00B70453 /* XCTestCase+Exceptions.m */; };
 		CA3930DF1BD011E90021CD95 /* ELRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = CA3930DE1BD011E90021CD95 /* ELRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CA3931271BD014A60021CD95 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931261BD014A60021CD95 /* Route.swift */; };
 		CA39312E1BD054EE0021CD95 /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA39312D1BD054EE0021CD95 /* Router.swift */; };
@@ -117,8 +117,8 @@
 		197B029E1DFF419B00301C7E /* ELFoundation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELFoundation.xcodeproj; path = Carthage/Checkouts/ELFoundation/ELFoundation.xcodeproj; sourceTree = "<group>"; };
 		197B02AD1DFF41AA00301C7E /* ELLog.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ELLog.xcodeproj; path = Carthage/Checkouts/ELLog/ELLog.xcodeproj; sourceTree = "<group>"; };
 		22C2FE9D1C6D437A005EB290 /* ELRouterTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ELRouterTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCTestCase+Exceptions.h"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.h"; sourceTree = "<group>"; };
-		22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+Exceptions.m"; path = "../../ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.m"; sourceTree = "<group>"; };
+		3E4E81A31E8DBDBA00B70453 /* XCTestCase+Exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "XCTestCase+Exceptions.h"; path = "../Carthage/Checkouts/ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.h"; sourceTree = "<group>"; };
+		3E4E81A41E8DBDBA00B70453 /* XCTestCase+Exceptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "XCTestCase+Exceptions.m"; path = "../Carthage/Checkouts/ELFoundation/ELFoundation/TestExtensions/XCTestCase+Exceptions.m"; sourceTree = "<group>"; };
 		CA3930DB1BD011E90021CD95 /* ELRouter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ELRouter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3930DE1BD011E90021CD95 /* ELRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ELRouter.h; sourceTree = "<group>"; };
 		CA3930E01BD011E90021CD95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -184,8 +184,8 @@
 		22C2FE961C6D433F005EB290 /* XCTestExceptions */ = {
 			isa = PBXGroup;
 			children = (
-				22C2FE9E1C6D437B005EB290 /* XCTestCase+Exceptions.h */,
-				22C2FE9F1C6D437B005EB290 /* XCTestCase+Exceptions.m */,
+				3E4E81A31E8DBDBA00B70453 /* XCTestCase+Exceptions.h */,
+				3E4E81A41E8DBDBA00B70453 /* XCTestCase+Exceptions.m */,
 			);
 			name = XCTestExceptions;
 			sourceTree = "<group>";
@@ -455,9 +455,9 @@
 				1714F0191C0DFDC70039ED7F /* TabBarControllerTests.swift in Sources */,
 				17D31FEC1C2AEC9C00080F2A /* RoutingTypeTests.swift in Sources */,
 				CAED575F1CC939FC0003E9C9 /* ObjcTypedRouteExecution.m in Sources */,
-				22C2FEA01C6D437B005EB290 /* XCTestCase+Exceptions.m in Sources */,
 				17E105591C2850D900C05CEA /* RouteTests.swift in Sources */,
 				CAED57501CC563C80003E9C9 /* TypedRouteExecution.swift in Sources */,
+				3E4E81A51E8DBDBA00B70453 /* XCTestCase+Exceptions.m in Sources */,
 				CAB204AD1C7F6FD700061469 /* NavigationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
