@@ -172,6 +172,7 @@ open class Route: NSObject {
 
         if let navigator = parentRouter?.navigator {
             if let staticValue = staticValue {
+                 _ = action(variable, remainingComponents, &associatedData)
                 result = staticValue
                 if let vc = staticValue as? UIViewController {
                     parentRouter?.navigator?.selectedViewController = vc
