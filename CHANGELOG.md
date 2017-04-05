@@ -1,3 +1,15 @@
+# [4.2.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.0)
+
+- Pass `associatedData` to `.fixed` routes
+
+# [4.1.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.1.0)
+
+* Added `open func deregister(_ route: RouteEnum)`: Registered routes that doesn't have `.fixed` type can be deregistered. 
+* Added `open func register(fixedRoute route: Route, atIndex index: Int)`: Routes with `.fixed` type can be registered after `navigator` is initialized, allowing incremental changes on existing tab bar content.
+* Added `open func deregister(fixedRoute route: RouteEnum, atIndex index: Int)`: Routes with `.fixed` type can be deregistered after `navigator` is initialized, allowing incremental changes on existing tab bar content.
+* Resolve Xcode 8.3 warnings.
+* Configure Travis CI to install dependencies with Carthage.
+
 # [4.0.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.0.1)
 
 - Make `navigator` and `sharedInstance` properties public
