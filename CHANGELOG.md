@@ -1,3 +1,7 @@
+# [4.2.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.1)
+
+- Add `@discardableResult` to a few more Route APIs
+
 # [4.2.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.0)
 
 - Pass `associatedData` to `.fixed` routes
