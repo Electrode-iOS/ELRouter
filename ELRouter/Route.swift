@@ -102,7 +102,7 @@ open class Route: NSObject {
         return variable
     }
     
-    open func route(_ route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
+    @discardableResult open func route(_ route: RouteEnum, action: RouteActionClosure! = nil) -> Route {
         return self.route(route.spec.name, type: route.spec.type, action: action)
     }
     
@@ -110,7 +110,7 @@ open class Route: NSObject {
      Create a subroute based on an existing Route object.  This effectively copies the existing
      route that is passed in, it does not copy any subroutes though.  Just name/type/action.
      */
-    open func route(_ route: Route) -> Route {
+    @discardableResult open func route(_ route: Route) -> Route {
         if route.type == .variable || self.route(forName: route.name!) != nil {
             // throw an error
             let message = "A variable or route with the same name already exists on \(String(describing: self.name))!"
