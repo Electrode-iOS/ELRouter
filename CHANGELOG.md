@@ -1,3 +1,7 @@
+# [4.2.2](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.2)
+
+-  Use default settings for bitcode
+
 # [4.2.1](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.1)
 
 - Add `@discardableResult` to a few more Route APIs
