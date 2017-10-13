@@ -436,7 +436,7 @@ open class Router: NSObject {
         }
         
         // process routes in the background.
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             var isRedirect = false
             
             for i in 0..<components.count {
