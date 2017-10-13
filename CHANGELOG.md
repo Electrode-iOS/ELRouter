@@ -1,3 +1,7 @@
+# [4.2.3](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.3)
+
+- Change QoS level from `background` to `userInitiated` for the dispatch queue that handles route processing. This fixes an issue that was preventing some route handlers from running properly on cold app starts.
+
 # [4.2.2](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.2)
 
 -  Use default settings for bitcode
