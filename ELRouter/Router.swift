@@ -15,7 +15,7 @@ public typealias RouteCompletion = () -> Void
 @objc
 open class Router: NSObject {
     @objc public static let sharedInstance = Router()
-    public var navigator: Navigator? = nil
+    @objc public var navigator: Navigator? = nil
     
     var routes: [Route] {
         return masterRoute.subRoutes
@@ -227,7 +227,7 @@ open class Router: NSObject {
 
      - parameter url: The URL to evaluate.
     */
-    @discardableResult open func evaluateURL(_ url: URL, associatedData: AssociatedData? = nil, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+    @objc @discardableResult open func evaluateURL(_ url: URL, associatedData: AssociatedData? = nil, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
         guard let components = url.deepLinkComponents else { return false }
         var passedData: AssociatedData = url as AssociatedData
         if let validAssociatedData = associatedData {
