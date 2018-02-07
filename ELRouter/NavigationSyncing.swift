@@ -137,7 +137,7 @@ internal class NavSync: NSObject {
 }
 
 extension UINavigationController {
-    internal func swizzled_pushViewController(_ viewController: UIViewController, animated: Bool) {
+    @objc internal func swizzled_pushViewController(_ viewController: UIViewController, animated: Bool) {
         NavSync.sharedInstance.push(viewController, animated: animated, navController: self, fromRouter: false)
     }
     
@@ -147,12 +147,12 @@ extension UINavigationController {
 }
 
 extension UIViewController {
-    internal func swizzled_viewDidAppear(_ animated: Bool) {
+    @objc internal func swizzled_viewDidAppear(_ animated: Bool) {
         // release whatever lock is present
         NavSync.sharedInstance.appeared(self, animated: animated)
     }
     
-    internal func swizzled_presentViewController(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?) {
+    @objc internal func swizzled_presentViewController(_ viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?) {
         NavSync.sharedInstance.present(viewControllerToPresent, animated: animated, completion: completion, fromController: self, fromRouter: false)
     }
     
