@@ -1,3 +1,7 @@
+# [5.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v5.0.0)
+
+- Migrate to Swift 4
+
 # [4.2.3](https://github.com/Electrode-iOS/ELRouter/releases/tag/v4.2.3)
 
 - Change QoS level from `background` to `userInitiated` for the dispatch queue that handles route processing. This fixes an issue that was preventing some route handlers from running properly on cold app starts.

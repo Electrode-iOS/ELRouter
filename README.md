@@ -7,7 +7,7 @@ ELRouter.framework. A URL router for UIKit.
 
 ## Requirements
 
-ELRouter requires Swift 3, Xcode 8.3, and depends on [`ELFoundation`](https://github.com/Electrode-iOS/ELFoundation).
+ELRouter requires Swift 4, Xcode 9.2, and depends on [`ELFoundation`](https://github.com/Electrode-iOS/ELFoundation).
 
 ## Installation
 
