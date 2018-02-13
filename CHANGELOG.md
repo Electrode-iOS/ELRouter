@@ -1,3 +1,7 @@
+# [5.1.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v5.1.0)
+
+- Add a firehose function to capture route execution
+
 # [5.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v5.0.0)
 
 - Migrate to Swift 4
