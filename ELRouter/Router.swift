@@ -371,6 +371,7 @@ open class Router: NSObject {
 
     // this function is for internal use and testability, DO NOT MAKE IT PUBLIC.
     @discardableResult internal func evaluate(_ components: [String], associatedData: AssociatedData?, animated: Bool = false, completion: RouteCompletion? = nil) -> Bool {
+        eventFirehose?.routerWillEvaluate(components: components, associatedData: associatedData, animated: animated)
         var componentsWereHandled = false
         
         // if we have routes in flight, return false.  We can't do anything

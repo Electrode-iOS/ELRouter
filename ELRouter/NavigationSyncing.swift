@@ -27,6 +27,7 @@ public protocol RouterEventFirehose: class {
     func viewControllerAppeared(_ viewController: UIViewController)
     func viewControllerPresented(_ viewController: UIViewController)
     func viewControllerPushed(_ viewController: UIViewController)
+    func routerWillEvaluate(components: [String], associatedData: AssociatedData?, animated: Bool)
 }
 
 internal class NavSync: NSObject {
