@@ -1,0 +1,10 @@
+module ELRouter {
+    umbrella header "ELRouter.h"
+    
+    export *
+}
+
+module ELRouter.Swift {
+    header "ELRouter-Swift.h"
+    requires objc
+}
