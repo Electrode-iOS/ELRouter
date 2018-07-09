@@ -15,5 +15,5 @@ ELRouter requires Swift 4, Xcode 9.2, and depends on [`ELFoundation`](https://gi
 
 Install by adding `ELRouter.xcodeproj` to your project and configuring your target to link `ELRouter.framework` from `ELRouter` target.
 There are two target that builds `ELRouter.framework`.
-1. `ELRouter`: Creates dynamicly linked `ELRouter.framework.`
-2. `ELRouter_static`: Creates staticly linked `ELRouter.framework`.
+1. `ELRouter`: Creates dynamically linked `ELRouter.framework.`
+2. `ELRouter_static`: Creates statically linked `ELRouter.framework`.
