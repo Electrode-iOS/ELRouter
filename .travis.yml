@@ -4,4 +4,5 @@ osx_image: xcode9.3
 install: 
   - carthage bootstrap --no-build
 script:
-   - xcodebuild -project ELRouter.xcodeproj -scheme ELRouter -sdk iphonesimulator test -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1' CODE_SIGNING_REQUIRED=NO
+   - xcodebuild -project ELRouter.xcodeproj -scheme ELRouter -sdk iphonesimulator clean test -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1' CODE_SIGNING_REQUIRED=NO
+   - xcodebuild -project ELRouter.xcodeproj -scheme ELRouter_static -sdk iphonesimulator clean build -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.1' CODE_SIGNING_REQUIRED=NO
