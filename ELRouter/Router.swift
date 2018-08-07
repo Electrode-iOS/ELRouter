@@ -129,7 +129,7 @@ open class Router: NSObject {
         let existingRoutes = routes(forName: route.spec.name)
         for existingRoute in existingRoutes {
             if existingRoute.type == .fixed {
-                log(.Info, "Use Router.deregister(fixedRoute: atIndex:) to deregister fixed routes")
+                log(.info, "Use Router.deregister(fixedRoute: atIndex:) to deregister fixed routes")
             } else {
                 masterRoute.subRoutes.removeElement(existingRoute)
             }
@@ -147,7 +147,7 @@ open class Router: NSObject {
         let name = route.spec.name
         let routes = self.routes(forName: name).filterByType(.fixed)
         if routes.count > 1 {
-            log(.Info, "Multiple routes detected with .fixed type with name \(name). Only one view controller will be removed from tab bar, at index \(index)")
+            log(.info, "Multiple routes detected with .fixed type with name \(name). Only one view controller will be removed from tab bar, at index \(index)")
         }
 
         for routeToRemove in routes {
@@ -155,7 +155,7 @@ open class Router: NSObject {
         }
 
         guard var viewControllers  = navigator?.viewControllers else {
-            log(.Info, "Navigator's view controllers not initialized")
+            log(.info, "Navigator's view controllers not initialized")
             return
         }
 
@@ -163,7 +163,7 @@ open class Router: NSObject {
             viewControllers.remove(at: index)
             navigator?.viewControllers = viewControllers
         } else {
-            log(.Info, "Given index \(index) out of bounds of navigator's view controllers array.")
+            log(.info, "Given index \(index) out of bounds of navigator's view controllers array.")
         }
     }
 
@@ -177,12 +177,12 @@ open class Router: NSObject {
     ///   - index: Index of `UIViewController` instance to be added to `navigator.viewControllers`. If index is not in bounds of existing view controllers array, it will be appended.
     open func register(fixedRoute route: Route, atIndex index: Int) {
         guard let navigator = navigator else {
-            log(.Info, "Navigator not initialized.")
+            log(.info, "Navigator not initialized.")
             return
         }
 
         guard var viewControllers = navigator.viewControllers else {
-            log(.Info, "Navigator's view controllers not initialized.")
+            log(.info, "Navigator's view controllers not initialized.")
             return
         }
 
@@ -377,7 +377,7 @@ open class Router: NSObject {
         // if we have routes in flight, return false.  We can't do anything
         // until those have finished.
         if processing {
-            log(.Debug, "Already processing route. Aborting.")
+            log(.debug, "Already processing route. Aborting.")
             return false
         }
         
@@ -419,7 +419,7 @@ open class Router: NSObject {
     
     internal func serializedRoute(_ routes: [Route], components: [String], associatedData: AssociatedData?, animated: Bool, completion: RouteCompletion? = nil) {
         if processing {
-            log(.Debug, "Already processing route. Aborting.")
+            log(.debug, "Already processing route. Aborting.")
             return
         }
         
@@ -449,7 +449,7 @@ open class Router: NSObject {
                 // this will wait until that event has finished.
                 Router.lock.lock()
                 
-                log(.Debug, "Processing route: \((route.name ?? variable)!), \(route.type.description)")
+                log(.debug, "Processing route: \((route.name ?? variable)!), \(route.type.description)")
                 
                 var remainingComponents = [String]()
                 if i + 1 < components.count {
@@ -460,11 +460,11 @@ open class Router: NSObject {
                 
                 DispatchQueue.main.sync {
                     let result = route.execute(animated, variable: variable, remainingComponents: remainingComponents, associatedData: &data)
-                    log(.Debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
+                    log(.debug, "Finished route: \((route.name ?? variable)!), \(route.type.description)")
                     if route.type == .redirect {
                         if let redirectComponents = result as? [String] {
                             isRedirect = true
-                            log(.Debug, "Redirecting to: \(redirectComponents.joined(separator: "/"))")
+                            log(.debug, "Redirecting to: \(redirectComponents.joined(separator: "/"))")
                             self.redirect(routeEnumsFromComponents(redirectComponents), associatedData: associatedData, animated: animated, completion: completion)
                         }
                     }

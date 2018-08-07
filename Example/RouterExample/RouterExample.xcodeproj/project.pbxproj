@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CDECDF1211A4C6A009B84E1 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CDECDF0211A4C6A009B84E1 /* Logging.swift */; };
 		CA3931061BD013C80021CD95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931051BD013C80021CD95 /* AppDelegate.swift */; };
 		CA3931081BD013C80021CD95 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931071BD013C80021CD95 /* FirstViewController.swift */; };
 		CA39310A1BD013C80021CD95 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3931091BD013C80021CD95 /* SecondViewController.swift */; };
@@ -19,6 +20,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0CDECDF4211A4C6B009B84E1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3E8CA47920E5848B00CBDA69;
+			remoteInfo = ELRouter_static;
+		};
 		178A38591C03C2D2004EAC2C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CA39311A1BD013DE0021CD95 /* ELRouter.xcodeproj */;
@@ -57,6 +65,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0CDECDF0211A4C6A009B84E1 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		CA3931021BD013C80021CD95 /* RouterExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RouterExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA3931051BD013C80021CD95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA3931071BD013C80021CD95 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +114,7 @@
 				CA3931071BD013C80021CD95 /* FirstViewController.swift */,
 				CA3931091BD013C80021CD95 /* SecondViewController.swift */,
 				CA3931351BD58B510021CD95 /* WhateverViewController.swift */,
+				0CDECDF0211A4C6A009B84E1 /* Logging.swift */,
 				CA39310B1BD013C80021CD95 /* Main.storyboard */,
 				CA39310E1BD013C80021CD95 /* Assets.xcassets */,
 				CA3931101BD013C80021CD95 /* LaunchScreen.storyboard */,
@@ -125,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				CA3931201BD013DE0021CD95 /* ELRouter.framework */,
+				0CDECDF5211A4C6B009B84E1 /* ELRouter.framework */,
 				178A385A1C03C2D2004EAC2C /* ELRouterTests.xctest */,
 			);
 			name = Products;
@@ -191,6 +202,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		0CDECDF5211A4C6B009B84E1 /* ELRouter.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ELRouter.framework;
+			remoteRef = 0CDECDF4211A4C6B009B84E1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		178A385A1C03C2D2004EAC2C /* ELRouterTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -226,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA3931361BD58B510021CD95 /* WhateverViewController.swift in Sources */,
+				0CDECDF1211A4C6A009B84E1 /* Logging.swift in Sources */,
 				CA39310A1BD013C80021CD95 /* SecondViewController.swift in Sources */,
 				CA3931061BD013C80021CD95 /* AppDelegate.swift in Sources */,
 				CA3931081BD013C80021CD95 /* FirstViewController.swift in Sources */,
@@ -349,10 +368,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = RouterExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.RouterExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -360,10 +381,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = RouterExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.theholygrail.RouterExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
