@@ -45,8 +45,8 @@ public enum RoutingType: UInt {
 @objc
 open class Route: NSObject {
     /// The name of the route, ie: "reviews"
-    open let name: String?
-    open let type: RoutingType
+    public let name: String?
+    public let type: RoutingType
 
     open var userInfo = [String: AnyObject]()
     
@@ -59,7 +59,7 @@ open class Route: NSObject {
     open internal(set) var parentRoute: Route?
 
     /// Action block
-    open let action: RouteActionClosure?
+    public let action: RouteActionClosure?
     
     public init(_ route: RouteEnum, parentRoute: Route! = nil, action: RouteActionClosure! = nil) {
         self.name = route.spec.name
