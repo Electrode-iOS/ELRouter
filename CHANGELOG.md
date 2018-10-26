@@ -1,3 +1,7 @@
+# [5.3.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v5.3.0)
+
+- Remove ELLog dependency
+
 # [5.2.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v5.2.0)
 
 - Add a target that builds a static framework for iOS platform.
