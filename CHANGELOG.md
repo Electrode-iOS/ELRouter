@@ -1,3 +1,7 @@
+# [6.0.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v6.0.0)
+
+- Add prefix to logging API
+
 # [5.3.0](https://github.com/Electrode-iOS/ELRouter/releases/tag/v5.3.0)
 
 - Remove ELLog dependency
